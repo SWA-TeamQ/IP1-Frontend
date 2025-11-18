@@ -12,18 +12,6 @@ const searchInput = document.getElementById("searchInput");
 
 const favoritesBtn = document.getElementById("favoritesBtn");
 
-// function debounce(func, wait) {
-//     let timeout;
-//     return function (...args) {
-//         const later = () => {
-//             clearTimeout(timeout);
-//             func(...args);
-//         };
-//         clearTimeout(timeout);
-//         timeout = setTimeout(later, wait);
-//     };
-// }
-
 function toggleFav(id) {
     window.favorites.toggle(id);
 }
