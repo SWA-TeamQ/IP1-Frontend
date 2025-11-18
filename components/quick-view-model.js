@@ -12,7 +12,6 @@ export function openQuickViewModal(productId) {
     if (!product) return;
 
     quickViewTitle.textContent = product.name;
-    // Generate rating stars
     const stars = product.getRatingStars();
 
     quickViewBody.innerHTML = `
@@ -38,7 +37,6 @@ export function openQuickViewModal(productId) {
         product.details.reviewCount || 0
     } reviews)
           </div>
-          
           
           <div class="quick-view-price-row">
             <span class="quick-view-price-current">$${formatPrice(

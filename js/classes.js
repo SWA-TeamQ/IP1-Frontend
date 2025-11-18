@@ -1,13 +1,24 @@
+class ProductDetails {
+    constructor(kwargs) {
+        this.category = kwargs?.category;
+        this.size = kwargs?.size;
+        this.badge = kwargs?.badge;
+        this.rating = kwargs?.rating;
+        this.reviewCount = kwargs?.reviewCount;
+        this.salePrice = kwargs?.salePrice;
+        this.color = kwargs?.color;
+    }
+}
+
 class Product {
     #price;
     constructor(id, name, price, image, description = "", details = {}) {
-        // this.id = Math.random().toString(36).substring(2, 9);
         this.id = id;
         this.name = name;
         this.#price = price;
         this.image = image;
         this.description = description;
-        this.details = details;
+        this.details = new ProductDetails(details);
         this.isFavorite = false;
     }
 

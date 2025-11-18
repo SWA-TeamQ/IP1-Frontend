@@ -1,10 +1,7 @@
 // Main app logic for the demo e-commerce frontend
-import { getProduct, PRODUCTS as products } from "./js/data/products.js";
+import { PRODUCTS as products } from "./js/data/products.js";
 import ProductList from "./components/product-list.js";
-import { formatPrice, escapeHtml } from "./js/lib/utils.js";
 import Toast from "./components/toast.js";
-import CartList from "./components/Cart/cart-list.js";
-import { openCartDrawer } from "./components/Cart/cart-drawer.js";
 import { addToCart, renderCart } from "./components/Cart/CartSystem.js";
 
 // DOM Elements - Updated for professional design
@@ -12,21 +9,20 @@ const productGrid = document.getElementById("productGrid");
 const categoryFilter = document.getElementById("categoryFilter");
 const sortSelect = document.getElementById("sortSelect");
 const searchInput = document.getElementById("searchInput");
-const cartBtn = document.getElementById("cartBtn");
 
 const favoritesBtn = document.getElementById("favoritesBtn");
 
-function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
+// function debounce(func, wait) {
+//     let timeout;
+//     return function (...args) {
+//         const later = () => {
+//             clearTimeout(timeout);
+//             func(...args);
+//         };
+//         clearTimeout(timeout);
+//         timeout = setTimeout(later, wait);
+//     };
+// }
 
 function toggleFav(id) {
     window.favorites.toggle(id);
@@ -50,18 +46,19 @@ function onFilterChange() {
     });
 
     if (sort === "price-asc") {
-        list.sort((a, b) => a.price - b.price);
+        list.sort((a, b) => a.getPrice() - b.getPrice());
     } else if (sort === "price-desc") {
-        list.sort((a, b) => b.price - a.price);
+        list.sort((a, b) => b.getPrice() - a.getPrice());
     } else if (sort === "rating") {
-        list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        list.sort((a, b) => (b.details.rating || 0) - (a.details.rating || 0));
     }
 
     renderProducts(list);
 }
 
 function wireEvents() {
-    searchInput.addEventListener("input", debounce(onFilterChange, 250));
+    
+    searchInput.addEventListener("input", onFilterChange);
     categoryFilter.addEventListener("change", onFilterChange);
     sortSelect.addEventListener("change", onFilterChange);
 
