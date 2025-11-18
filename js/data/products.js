@@ -170,3 +170,7 @@ export const getProduct = (productId) => {
         return product.id == productId;
     });
 };
+
+export const extractProductsCategories = ()=>{
+    return Array.from(new Set(PRODUCTS.map(p=> p.details.category))).sort();
+}

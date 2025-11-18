@@ -1,5 +1,5 @@
 // Main app logic for the demo e-commerce frontend
-import { PRODUCTS as products } from "./js/data/products.js";
+import { extractProductsCategories, PRODUCTS as products } from "./js/data/products.js";
 import ProductList from "./components/product-list.js";
 import Toast from "./components/toast.js";
 import { addToCart, renderCart } from "./components/Cart/CartSystem.js";
@@ -87,9 +87,7 @@ function wireEvents() {
 }
 
 function populateCategoryFilter() {
-    const categories = Array.from(
-        new Set(products.map((p) => p.details.category))
-    ).sort();
+    const categories = extractProductsCategories();
     categories.forEach((cat) => {
         const opt = document.createElement("option");
         opt.value = cat;

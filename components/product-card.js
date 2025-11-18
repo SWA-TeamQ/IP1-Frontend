@@ -6,7 +6,7 @@ export default function ProductCard(product) {
     card.className = "card";
 
     const stars = product.getRatingStars();
-
+    
     // Badge class based on badge text
     const badgeClass = product.details.badge
         ? product.details.badge.toLowerCase()
