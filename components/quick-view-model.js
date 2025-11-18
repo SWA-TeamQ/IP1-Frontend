@@ -1,4 +1,4 @@
-import { PRODUCTS as products, getProduct } from "../js/data/products.js";
+import { getProduct } from "../js/data/products.js";
 import { escapeHtml, formatPrice } from "../js/lib/utils.js";
 
 const quickViewModal = document.getElementById("quickViewModal");
