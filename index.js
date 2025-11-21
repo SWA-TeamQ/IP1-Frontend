@@ -3,6 +3,7 @@ import { extractProductsCategories, PRODUCTS as products } from "./js/data/produ
 import ProductList from "./components/product-list.js";
 import Toast from "./components/toast.js";
 import { addToCart, renderCart } from "./components/Cart/CartSystem.js";
+import "./components/Cart/cart-drawer.js";
 
 // DOM Elements - Updated for professional design
 const productGrid = document.getElementById("productGrid");
@@ -57,7 +58,7 @@ function onFilterChange() {
 }
 
 function wireEvents() {
-    
+
     searchInput.addEventListener("input", onFilterChange);
     categoryFilter.addEventListener("change", onFilterChange);
     sortSelect.addEventListener("change", onFilterChange);

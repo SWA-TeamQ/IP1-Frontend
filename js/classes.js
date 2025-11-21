@@ -92,16 +92,19 @@ class Cart {
         const existingCartItem = this.items.get(product.id);
         if (existingCartItem) {
             existingCartItem.quantity += quantity;
-            this.#total += product.getPrice() * quantity;
+            const price = product.details.salePrice || product.getPrice();
+            this.#total += price * quantity;
         } else {
             this.items.set(product.id, new CartItem(product.id, quantity));
-            this.#total += product.getPrice() * quantity;
+            const price = product.details.salePrice || product.getPrice();
+            this.#total += price * quantity;
         }
         this.save();
     }
 
     remove(product) {
-        this.#total -= product.getPrice() * this.items.get(product.id).quantity;
+        const price = product.details.salePrice || product.getPrice();
+        this.#total -= price * this.items.get(product.id).quantity;
         this.items.delete(product.id);
         this.save();
     }
@@ -117,7 +120,6 @@ class Cart {
             items: [...this.items],
             total: this.#total,
         });
-        console.log(toStore);
         try {
             localStorage.setItem(this.STORAGE_CART, toStore);
         } catch (e) {

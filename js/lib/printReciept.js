@@ -1,42 +1,46 @@
-function onPrintReceipt() {
-    // Prepare printable content in a new window
-    const printWindow = window.open("", "_blank", "width=800,height=600");
-    if (!printWindow) {
-        alert(
-            "Unable to open print window. Please allow popups for this site."
-        );
-        return;
-    }
+import { formatPrice, escapeHtml } from "./utils.js";
+import { TAX } from "../../constants/global-variables.js";
 
-    const date = new Date().toLocaleString();
-    const storeName = "ShopLight";
-    const itemsHtml = cart
-        .map((item) => {
-            const p = products.find((x) => x.id === item.id);
-            if (!p) return "";
-            const unitPrice = p.salePrice || p.price;
-            return `<tr>
+export function onPrintReceipt(cartItems, products) {
+  // Prepare printable content in a new window
+  const printWindow = window.open("", "_blank", "width=800,height=600");
+  if (!printWindow) {
+    alert(
+      "Unable to open print window. Please allow popups for this site."
+    );
+    return;
+  }
+
+  const date = new Date().toLocaleString();
+  const storeName = "ShopLight";
+  const itemsHtml = cartItems
+    .map((item) => {
+      const p = products.find((x) => x.id === item.productId);
+      if (!p) return "";
+      const unitPrice = p.details.salePrice || p.getPrice();
+      return `<tr>
         <td style="padding:6px 8px">${escapeHtml(p.name)}</td>
-        <td style="padding:6px 8px;text-align:center">${item.qty}</td>
+        <td style="padding:6px 8px;text-align:center">${item.quantity}</td>
         <td style="padding:6px 8px;text-align:right">$${formatPrice(
-            unitPrice
-        )}</td>
+        unitPrice
+      )}</td>
         <td style="padding:6px 8px;text-align:right">$${formatPrice(
-            unitPrice * item.qty
-        )}</td>
+        unitPrice * item.quantity
+      )}</td>
       </tr>`;
-        })
-        .join("");
+    })
+    .join("");
 
-    const subtotal = cart.reduce((s, i) => {
-        const p = products.find((x) => x.id === i.id);
-        const unit = p ? p.salePrice || p.price : 0;
-        return s + unit * i.qty;
-    }, 0);
-    const tax = subtotal * 0.08;
-    const total = subtotal + tax;
+  const subtotal = cartItems.reduce((s, i) => {
+    const p = products.find((x) => x.id === i.productId);
+    const unit = p ? p.details.salePrice || p.getPrice() : 0;
+    return s + unit * i.quantity;
+  }, 0);
 
-    const html = `
+  const tax = subtotal * (TAX / 100);
+  const total = subtotal + tax;
+
+  const html = `
       <html>
         <head>
           <title>Receipt - ${storeName}</title>
@@ -62,21 +66,21 @@ function onPrintReceipt() {
           </table>
           <div class="totals">
             <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div class="right">$${formatPrice(
-                subtotal
-            )}</div></div>
-            <div style="display:flex;justify-content:space-between"><div>Tax (8%)</div><div class="right">$${formatPrice(
-                tax
-            )}</div></div>
+    subtotal
+  )}</div></div>
+            <div style="display:flex;justify-content:space-between"><div>Tax (${TAX}%)</div><div class="right">$${formatPrice(
+    tax
+  )}</div></div>
             <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:8px"><div>Total</div><div class="right">$${formatPrice(
-                total
-            )}</div></div>
+    total
+  )}</div></div>
           </div>
           <div style="margin-top:18px">Thank you for shopping with us.</div>
           <script>window.onload = function(){ window.print(); }</script>
         </body>
       </html>
     `;
-    printWindow.document.open();
-    printWindow.document.write(html);
-    printWindow.document.close();
+  printWindow.document.open();
+  printWindow.document.write(html);
+  printWindow.document.close();
 }

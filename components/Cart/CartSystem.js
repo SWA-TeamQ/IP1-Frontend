@@ -3,6 +3,7 @@ import { escapeHtml, formatPrice } from "../../js/lib/utils.js";
 import CartList from "./cart-list.js";
 import Toast from "../toast.js";
 import { TAX } from "../../constants/global-variables.js";
+import { onPrintReceipt } from "../../js/lib/printReciept.js";
 
 const cartBtn = document.getElementById("cartBtn");
 const cartList = document.getElementById("cartList");
@@ -123,7 +124,7 @@ export function renderOrderSummary() {
         const unit = p ? p.details.salePrice || p.getPrice() : 0;
         return s + unit * i.quantity;
     }, 0);
-    const tax = subtotal * TAX;
+    const tax = subtotal * (TAX / 100);
     const total = subtotal + tax;
 
     orderSummary.innerHTML = `
@@ -131,14 +132,14 @@ export function renderOrderSummary() {
         ${lines.join("")}
         <hr>
         <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div>$${formatPrice(
-            subtotal
-        )}</div></div>
-        <div style="display:flex;justify-content:space-between"><div>Tax (8%)</div><div>$${formatPrice(
-            tax
-        )}</div></div>
+        subtotal
+    )}</div></div>
+        <div style="display:flex;justify-content:space-between"><div>Tax (${TAX}%)</div><div>$${formatPrice(
+        tax
+    )}</div></div>
         <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:0.5rem"><div>Total</div><div>$${formatPrice(
-            total
-        )}</div></div>
+        total
+    )}</div></div>
       </div>
     `;
 }
@@ -150,7 +151,6 @@ export function onConfirmPayment() {
     renderOrderSummary();
     // clear cart
     window.shoppingCart.clear();
-    saveCart();
     renderCart();
     closeCheckout();
 }
@@ -160,7 +160,10 @@ export function events() {
     cartClearBtn.addEventListener("click", clearCart);
     closeModal.addEventListener("click", closeCheckout);
     confirmPayment.addEventListener("click", onConfirmPayment);
-    // printReceipt.addEventListener("click", onPrintReceipt);
+    printReceipt.addEventListener("click", () => {
+        const cartItems = Array.from(window.shoppingCart.items.values());
+        onPrintReceipt(cartItems, products);
+    });
 }
 
 events();
