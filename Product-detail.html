@@ -40,6 +40,62 @@
                 </div>
             </div>
         </div>
+        <div class="reviews-section">
+            <div class="review-form-container">
+                <h3 class="form-title">Write a Review</h3>
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label class="form-label">Your Rating</label>
+                        <div class="rating-input">
+                            <input type="radio" id="star5" name="rating" value="5" required>
+                            <label for="star5"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1"><i class="fas fa-star"></i></label>
+                        </div>
+                        <div class="error-message" id="ratingError">Please select a rating</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="username" class="form-label">Your Name</label>
+                        <input type="text" id="username" placeholder="Enter your name" required>
+                        <div class="error-message" id="usernameError">Please enter your name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Your Review</label>
+                        <textarea id="comment" placeholder="Share your experience with this product..." required></textarea>
+                        <div class="error-message" id="commentError">Please enter your review</div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Submit Review</button>
+                </form>
+            </div>
+            
+            <div class="reviews-header">
+                <h3 class="reviews-title">Customer Reviews</h3>
+                <div class="review-rating">
+                    <div class="stars" id="reviewsStars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span id="reviewsAverage">4.7/5</span>
+                </div>
+            </div>
+            
+            <div id="reviewsContainer">
+               
+            </div>
+        </div>
      </div>
+
 </body>
 </html>
