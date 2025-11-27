@@ -4,6 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Detail</title>
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e4edf9 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+         .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .product-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .main-image {
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            position: relative;
+        }
+        
+        .main-image img {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            object-fit: contain;
+        }
+        
+        .product-details {
+            padding: 30px;
+        }
+         
+        .product-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #31495f;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .stars {
+            color: #ff9500;
+            font-size: 1.4rem;
+            margin-right: 15px;
+        }
+        .rating-text {
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .sales-info {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 12px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+       
+        .sales-icon {
+            color: #4CAF50;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .sales-text {
+            font-size: 1.1rem;
+            color: #4CAF50;
+            font-weight: 600;
+        }
+        
+        .price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+        
+        .description {
+            margin: 25px 0;
+            line-height: 1.7;
+            color: #555;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-btn:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+        }
+
+    </style>
 </head>
 <body>
      <div class="container">
@@ -14,20 +158,37 @@
         
         <div class="product-container">
             <div class="main-image">
-                <img src="#" alt="Product Image">
+                <img src="https://wallpapercave.com/wp/wp6128206.jpg" alt="Product Image">
 "            </div>
             
             <div class="product-details">
                 <h2 class="product-title">Product Title</h2>
                  <div class="price">Product Price</div>
+                  <div class="product-rating">
+                    <div class="stars" id="averageRating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="rating-text" id="ratingCount">4.7 (1,248 reviews)</div>
+                </div>
                 
+                <div class="sales-info">
+                    <div class="sales-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="sales-text">Over 15,000 units sold worldwide</div>
+                </div>
+                <div class="price">$249.99</div>
                 <p class="description">
                     Product Description in Detail
                 </p>
                 
                 <div class="controls">
                     <button class="control-btn">
-                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
                     </button>
                 </div>
             </div>
@@ -48,15 +209,15 @@
                         <label class="form-label">Your Rating</label>
                         <div class="rating-input">
                             <input type="radio" id="star5" name="rating" value="5" required>
-                            <label for="star5"><i class="fas fa-star"></i></label>
+                            <label for="star5"><i class="fas fas-star"></i></label>
                             <input type="radio" id="star4" name="rating" value="4">
-                            <label for="star4"><i class="fas fa-star"></i></label>
+                            <label for="star4"><i class="fas fas-star"></i></label>
                             <input type="radio" id="star3" name="rating" value="3">
-                            <label for="star3"><i class="fas fa-star"></i></label>
+                            <label for="star3"><i class="fas fas-star"></i></label>
                             <input type="radio" id="star2" name="rating" value="2">
-                            <label for="star2"><i class="fas fa-star"></i></label>
+                            <label for="star2"><i class="fas fas-star"></i></label>
                             <input type="radio" id="star1" name="rating" value="1">
-                            <label for="star1"><i class="fas fa-star"></i></label>
+                            <label for="star1"><i class="fas fas-star"></i></label>
                         </div>
                         <div class="error-message" id="ratingError">Please select a rating</div>
                     </div>
