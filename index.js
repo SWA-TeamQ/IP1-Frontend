@@ -3,6 +3,7 @@ import { extractProductsCategories, PRODUCTS as products } from "./js/data/produ
 import ProductList from "./components/product-list.js";
 import Toast from "./components/toast.js";
 import { addToCart, renderCart } from "./components/Cart/CartSystem.js";
+import "./components/Cart/cart-drawer.js";
 
 // DOM Elements - Updated for professional design
 const productGrid = document.getElementById("productGrid");
@@ -11,6 +12,18 @@ const sortSelect = document.getElementById("sortSelect");
 const searchInput = document.getElementById("searchInput");
 
 const favoritesBtn = document.getElementById("favoritesBtn");
+
+// function debounce(func, wait) {
+//     let timeout;
+//     return function (...args) {
+//         const later = () => {
+//             clearTimeout(timeout);
+//             func(...args);
+//         };
+//         clearTimeout(timeout);
+//         timeout = setTimeout(later, wait);
+//     };
+// }
 
 function toggleFav(id) {
     window.favorites.toggle(id);
@@ -45,7 +58,7 @@ function onFilterChange() {
 }
 
 function wireEvents() {
-    
+
     searchInput.addEventListener("input", onFilterChange);
     categoryFilter.addEventListener("change", onFilterChange);
     sortSelect.addEventListener("change", onFilterChange);

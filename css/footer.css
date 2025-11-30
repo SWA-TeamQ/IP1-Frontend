@@ -1,0 +1,18 @@
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.site-footer {
+    background-color: var(--color-bg-tertiary);
+    padding: var(--space-8) 0;
+    margin-top: var(--space-8);
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-text {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}

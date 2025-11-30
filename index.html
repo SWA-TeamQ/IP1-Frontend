@@ -3,292 +3,184 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>ShopLight — Modern E-commerce Experience</title>
-        <meta
-            name="description"
-            content="Discover our curated collection of premium products with seamless shopping experience"
-        />
-        <meta http-equiv="X-UA-Compatible" content="IE=7" />
-        <meta name="keywords" content="ecommerce products" />
-
-        <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <title>ShopLight — Home</title>
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
             rel="stylesheet"
-        /> -->
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+        />
+        <link rel="stylesheet" href="https://fonts.google">
         <link rel="stylesheet" href="./css/reset.css" />
+        <link rel="stylesheet" href="index.css" />
+        <link rel="stylesheet" href="./css/base.css" />
+        <link rel="stylesheet" href="./css/header.css" />
+        <link rel="stylesheet" href="./css/hero.css" />
+        <link rel="stylesheet" href="./css/products.css" />
+        <link rel="stylesheet" href="./css/modal.css" />
+        <link rel="stylesheet" href="./css/footer.css" />
+        <link rel="stylesheet" href="./css/responsive.css" />
+        <link rel="stylesheet" href="./css/empty-states.css" />
+        <link rel="stylesheet" href="./css/animations.css" />
+        <link rel="stylesheet" href="./css/cartDrawer.css" />
         <link rel="stylesheet" href="./css/product-card.css" />
+        <link rel="stylesheet" href="./css/quick-view.css" />
         <link rel="stylesheet" href="./css/toast.css" />
         <link rel="stylesheet" href="./css/utils/utils.css" />
-        <link rel="stylesheet" href="./css/quick-view.css" />
-        <link rel="stylesheet" href="./index.css" />
-        <!-- Scripts -->
-        <script src="./index.js" type="module" defer></script>
+        <script src="./js/home.js" type="module" defer></script>
     </head>
     <body>
-        <!-- Header / Navigation -->
         <header class="site-header">
-            <div class="container header-inner">
-                <div class="brand">
-                    <a href="#" class="logo">ShopLight</a>
-                </div>
-
-                <form class="search" role="search" aria-label="Search products">
+            <div class="container header-inner brand">
+                <a href="/" class="logo">ShopLight</a>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="./pages/product.html">Products</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <button class="nav-cart-btn" aria-label="View cart">
                     <svg
-                        class="search-icon"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
                         fill="none"
                         stroke="currentColor"
                         stroke-width="2"
+                        viewBox="0 0 24 24"
                     >
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
-                    </svg>
-                    <input
-                        type="search"
-                        id="searchInput"
-                        placeholder="Search products..."
-                    />
-                </form>
-
-                <div class="header-actions">
-                    <button
-                        id="favoritesBtn"
-                        aria-label="View favorites"
-                        class="icon-btn"
-                        title="Favorites"
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        >
-                            <path
-                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                            ></path>
-                        </svg>
-                    </button>
-                    <button
-                        id="cartBtn"
-                        aria-controls="cartDrawer"
-                        aria-expanded="false"
-                        class="cart-btn"
-                    >
-                        <img
-                            src="../assets/icons/cart.svg"
-                            alt="Cart Icon"
-                            style="color: white"
+                        <circle cx="10" cy="20" r="2" />
+                        <circle cx="18" cy="20" r="2" />
+                        <path
+                            d="M2 2h3l2.68 13.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L21 6H6"
                         />
-                        Cart
-                        <span id="cartCount" class="cart-count">0</span>
-                    </button>
-                </div>
+                    </svg>
+                    <span class="cart-count" id="navCartCount">0</span>
+                </button>
+                <button
+                    class="hamburger"
+                    id="navHamburger"
+                    aria-label="Open navigation"
+                    aria-controls="mainNav"
+                >
+                    <span></span>
+                </button>
             </div>
         </header>
 
-        <!-- Main Content -->
         <main>
-            <!-- Hero Section -->
+            <!-- HERO -->
             <section class="hero">
                 <div class="container hero-grid">
                     <div class="hero-content">
                         <h1>Discover Quality Products for Modern Living</h1>
-                        <p>
+                        <p class="hero-sub">
                             Explore our curated collection of premium items
                             designed to enhance your lifestyle with style,
                             comfort, and functionality.
                         </p>
-                        <a href="#products" class="hero-cta">
-                            <span>Shop Now</span>
-                            <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
+                        <a class="btn hero-cta" href="#featured">Shop Now</a>
                     </div>
 
-                    <div class="spline-wrap" aria-describedby="splineDesc">
-                        <div
-                            id="splinePlaceholder"
+                    <!-- Spline wrapper: lazy-loads the scene only when visible.
+             Replace data-spline-src value with your Spline export URL. -->
+                    <div
+                        class="spline-wrap"
+                        aria-hidden="true"
+                        data-spline-src="https://prod.spline.design/YOUR-SCENE-ID/scene.splinecode/index.html"
+                    >
+                        <img
                             class="spline-placeholder"
-                            data-spline-url="https://prod.spline.design/UWoeqiir20o49Dah/scene.splinecode"
-                        ></div>
-                        <noscript>
-                            <img
-                                src="assets/images/hero-fallback.jpg"
-                                alt="Decorative product scene"
-                            />
-                        </noscript>
-                        <div id="splineDesc" class="sr-only">
-                            Decorative 3D scene showcasing product lifestyle.
-                        </div>
+                            src="./assets/images/image (5).jpg"
+                            alt=""
+                        />
                     </div>
                 </div>
             </section>
 
-            <!-- Products Section -->
-            <section id="products" class="products-section">
-                <div class="container">
-                    <div class="section-header">
-                        <h2 class="section-title">Featured Products</h2>
-                        <div class="filters">
-                            <select
-                                id="categoryFilter"
-                                class="filter-select"
-                                aria-label="Filter by category"
-                            >
-                                <option value="all">All Categories</option>
-                            </select>
-                            <select
-                                id="sortSelect"
-                                class="filter-select"
-                                aria-label="Sort products"
-                            >
-                                <option value="default">Featured</option>
-                                <option value="price-asc">
-                                    Price: Low to High
-                                </option>
-                                <option value="price-desc">
-                                    Price: High to Low
-                                </option>
-                                <option value="rating">Highest Rated</option>
-                            </select>
-                        </div>
-                    </div>
+            <section class="container about-section" id="about">
+                <h2>About ShopLight</h2>
+                <p class="muted">
+                    ShopLight is your destination for premium, handpicked
+                    products that blend style, comfort, and innovation. Our
+                    mission is to deliver a seamless, delightful shopping
+                    experience with a focus on quality, accessibility, and
+                    customer satisfaction.
+                </p>
+                <ul>
+                    <li>Curated collections from top brands and artisans</li>
+                    <li>Commitment to sustainability and ethical sourcing</li>
+                    <li>Dedicated support team for all your needs</li>
+                </ul>
+            </section>
 
-                    <div id="productGrid" class="product-grid" role="list">
-                        <!-- Product cards rendered by index.js -->
-                    </div>
+            <section class="container services-section" id="services">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>
+                        <strong>Curated Products:</strong> Only the best, most
+                        innovative items make it to our store.
+                    </li>
+                    <li>
+                        <strong>Fast & Free Shipping:</strong> Enjoy reliable,
+                        speedy delivery on every order.
+                    </li>
+                    <li>
+                        <strong>Secure Payments:</strong> Shop with confidence
+                        using industry-leading security.
+                    </li>
+                    <li>
+                        <strong>Easy Returns:</strong> Hassle-free returns and
+                        exchanges for peace of mind.
+                    </li>
+                    <li>
+                        <strong>24/7 Support:</strong> Our team is always here
+                        to help you.
+                    </li>
+                </ul>
+            </section>
+
+            <!-- FEATURED PRODUCTS -->
+            <section id="featured" class="container products-section">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Products</h2>
+                    <a href="./pages/product.html" class="filter-select"
+                        >View all products</a
+                    >
+                </div>
+
+                <div id="featuredGrid" class="product-grid" role="list">
+                    <!-- JS injects featured items -->
                 </div>
             </section>
         </main>
 
-        <!-- Cart Drawer -->
-        <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
-            <div class="cart-header">
-                <h3 class="cart-title">Shopping Cart</h3>
-                <button id="closeCart" class="icon-btn" aria-label="Close cart">
-                    <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                    >
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-            <div id="cartList" class="cart-list">
-                <!-- Cart items rendered here -->
-            </div>
-            
-            <div class="cart-footer">
-                <div class="cart-total">
-                    <span class="cart-total-label">Total</span>
-                    <strong id="cartTotal" class="cart-total-amount"
-                        >$0.00</strong
-                    >
-                </div>
-                <div class="cart-actions">
-                    <button id="checkoutBtn" class="btn-checkout">
-                        Proceed to Checkout
-                    </button>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Checkout Modal -->
-        <div id="checkoutModal" class="modal-backdrop" aria-hidden="true">
-            <div class="modal">
-                <div class="modal-header">
-                    <h3 class="modal-title">Checkout</h3>
-                    <button
-                        id="closeModal"
-                        class="modal-close"
-                        aria-label="Close checkout"
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        >
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="orderSummary">
-                        <!-- Order summary injected here -->
-                    </div>
-                    <div class="modal-actions">
-                        <button id="confirmPayment" class="btn btn-primary">
-                            Complete Purchase
-                        </button>
-                        <button id="printReceipt" class="btn btn-secondary">
-                            Download Receipt
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
         <footer class="site-footer">
             <div class="container">
-                <div class="footer-content">
-                    <p class="footer-text">
-                        © <span id="year"></span> ShopLight. All rights
-                        reserved. Built with modern web technologies.
-                    </p>
-                </div>
+                <p class="footer-text">
+                    &copy; <span id="year"></span> ShopLight. All rights
+                    reserved.
+                </p>
             </div>
         </footer>
-
-        <!-- Toast Notifications -->
-        <div class="toast-container" id="toastContainer"></div>
-
-        <!-- Quick View Modal -->
-        <div class="quick-view-modal-backdrop" id="quickViewModal">
-            <div class="quick-view-modal">
-                <div class="quick-view-header">
-                    <h3 class="quick-view-title" id="quickViewTitle"></h3>
-                    <button class="quick-view-close" id="quickViewClose">
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        >
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-                <div class="quick-view-body" id="quickViewBody">
-                    <!-- Quick view content inserted here -->
-                </div>
-            </div>
-        </div>
+        <script>
+            // Responsive navbar hamburger toggle
+            const hamburger = document.getElementById("navHamburger");
+            const nav = document.querySelector(".main-nav");
+            hamburger?.addEventListener("click", () => {
+                nav.classList.toggle("open");
+                hamburger.setAttribute(
+                    "aria-expanded",
+                    nav.classList.contains("open")
+                );
+            });
+            // Close nav on link click (mobile)
+            nav?.querySelectorAll("a").forEach((link) => {
+                link.addEventListener("click", () => {
+                    nav.classList.remove("open");
+                    hamburger.setAttribute("aria-expanded", "false");
+                });
+            });
+        </script>
     </body>
 </html>
