@@ -1,4 +1,11 @@
-// Main app logic for the demo e-commerce frontend
+import { Cart } from "./js/classes/cart.js";
+import { Favorites } from "./js/classes/favorites.js";
+
+window.shoppingCart = new Cart();
+window.shoppingCart.load();
+window.favorites = new Favorites();
+
+
 import { extractProductsCategories, PRODUCTS as products } from "./js/data/products.js";
 import ProductList from "./components/product-list.js";
 import Toast from "./components/toast.js";

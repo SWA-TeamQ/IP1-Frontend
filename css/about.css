@@ -1,6 +1,4 @@
-/* ============================================
-   ABOUT & SERVICES SECTIONS
-   ============================================ */
+/* Home Page Sections */
 
 .about-section,
 .services-section {
@@ -13,6 +11,7 @@
     position: relative;
     z-index: 2;
     transition: none;
+    background: black;
 }
 
 .about-section:hover,

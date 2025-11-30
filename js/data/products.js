@@ -1,10 +1,3 @@
-/*
-  Products data and helpers.
-  - Image paths use "assets/images/..." (project-root relative). Pages adjust as needed.
-  - IDs are strings; matching uses strict ===.
-  - extractProductsCategories uses optional chaining and filters falsy values.
-  - Duplicates removed and stray characters fixed.
-*/
 function getRatingStars(rating) {
     const full = Math.floor(rating);
     const half = rating % 1 >= 0.5 ? 1 : 0;
