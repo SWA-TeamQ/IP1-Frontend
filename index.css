@@ -126,20 +126,78 @@
    BASE STYLES
    ============================================ */
 
+/* ============================================
+   CSS RESET - Cross-Browser Consistency
+   ============================================ */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Remove default list styles */
+ul, ol {
+    list-style: none;
+}
+
+/* Prevent font size inflation */
 html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
     font-size: 100%;
     scroll-behavior: smooth;
 }
 
+/* Set core body defaults */
 body {
+    min-height: 100vh;
+    line-height: var(--line-height-normal);
     font-family: var(--font-family-primary);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-normal);
     color: var(--color-text-primary);
     background-color: var(--color-bg-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Inherit fonts for inputs and buttons */
+input, button, textarea, select {
+    font: inherit;
+    color: inherit;
+}
+
+/* Remove default button styles */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Remove default link styles */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Make images easier to work with */
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+/* Remove default table spacing */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 /* ============================================
@@ -316,6 +374,72 @@ body {
 .cart-count.pop {
     animation: pop 260ms ease-out;
 }
+
+/* Navigation Bar */
+.nav-bar {
+    width: 100%;
+    position: sticky;
+    top: var(--header-height); 
+    z-index: var(--z-sticky);
+}
+
+.nav-list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-2);
+    margin: 0;
+    padding: var(--space-2) var(--space-4);
+    list-style: none;
+    background: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.nav-link {
+    position: relative;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+/* Hover background effect */
+.nav-link:hover {
+    color: var(--color-primary);
+    background-color: rgba(26, 115, 232, 0.08);
+}
+
+/* Animated underline effect */
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 60%;
+}
+
+/* Active state */
+.nav-link.active {
+    color: var(--color-primary);
+    background-color: rgba(26, 115, 232, 0.1);
+}
+
+.nav-link.active::after {
+    width: 60%;
+}
+
 
 /* ============================================
    HERO SECTION
