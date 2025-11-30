@@ -1,176 +1,193 @@
-// Sample product data for the demo app
-// Edit or extend this array to add more products.
-// Images referenced are in assets/images/ (placeholders provided separately).
-// New fields added for premium UI: salePrice (optional), rating, reviewCount, badge
-import { Product } from "../classes.js";
+/*
+  Products data and helpers.
+  - Image paths use "assets/images/..." (project-root relative). Pages adjust as needed.
+  - IDs are strings; matching uses strict ===.
+  - extractProductsCategories uses optional chaining and filters falsy values.
+  - Duplicates removed and stray characters fixed.
+*/
+function getRatingStars(rating) {
+    const full = Math.floor(rating);
+    const half = rating % 1 >= 0.5 ? 1 : 0;
+    const empty = 5 - full - half;
+    return (
+        "★".repeat(full) +
+        (half ? "½" : "") +
+        "☆".repeat(empty)
+    );
+}
 
-const PRODUCTS = [
-    new Product(
-        "1",
-        "Linen Classic Shirt",
-        29.99,
-        "../assets/images/image (1).jpg",
-        "Lightweight linen shirt, breathable and perfect for warm days.",
-        {
-            category: "Clothing",
-            color: "Beige",
-            size: "M",
-            salePrice: 24.99, // 20% off for demo
-            rating: 5,
-            reviewCount: 128,
-            badge: "20% OFF",
-        }
-    ),
-    new Product(
-        "2",
-        "Everyday Sneakers",
-        64.99,
-        "assets/images/product-2.svg",
-        "Comfortable sneakers with a minimalist design.",
-        {
-            category: "Shoes",
-            color: "White",
-            size: "42",
-            salePrice: 59.99, // 8% off for demo
-            rating: 4.2,
-            reviewCount: 89,
-            badge: "BESTSELLER",
-        }
-    ),
-    new Product(
-        "3",
-        "Minimalist Watch",
-        89.0,
-        "assets/images/product-3.svg",
-        "Slim profile watch with leather strap.",
-        {
-            category: "Accessories",
-            color: "Black",
-            size: "One Size",
-            salePrice: 79.99, // 11% off for demo
-            rating: 4.2,
-            reviewCount: 89,
-            badge: "BESTSELLER",
-        }
-    ),
-    new Product(
-        "4",
-        "Cozy Knit Sweater",
-        49.5,
-        "assets/images/product-4.svg",
-        "Warm knit sweater with soft fibers and relaxed fit.",
-        {
-            category: "Clothing",
-            color: "Olive",
-            size: "L",
-            salePrice: 39.99, // 20% off for demo
-            rating: 4.3,
-            reviewCount: 67,
-            badge: "20% OFF",
-        }
-    ),
-    new Product(
-        "5",
-        "Minimalist Watch",
-        89.0,
-        "assets/images/product-3.svg",
-        "Slim profile watch with leather strap.",
-        {
-            category: "Accessories",
-            color: "Black",
-            size: "One Size",
-            salePrice: 79.99, // 11% off for demo
-            rating: 4.8,
-            reviewCount: 256,
-            badge: "NEW",
-        }
-    ),
-    new Product(
-        "6",
-        "Cozy Knit Sweater",
-        49.5,
-        "assets/images/product-4.svg",
-        "Warm knit sweater with soft fibers and relaxed fit.",
-        {
-            category: "Clothing",
-            color: "Olive",
-            size: "L",
-            salePrice: 39.99, // 20% off for demo
-            rating: 4.3,
-            reviewCount: 67,
-            badge: "20% OFF",
-        }
-    ),
-    new Product(
-        "7",
-        "Classic Denim",
-        54.0,
-        "assets/images/product-5.svg",
-        "Durable denim jeans with modern cut.",
-        {
-            category: "Clothing",
-            color: "Blue",
-            size: "32",
-            rating: 4.1,
-            reviewCount: 145,
-            badge: null, // no badge for this one
-        }
-    ),
-    new Product(
-        "8",
-        "Canvas Tote Bag",
-        19.99,
-        "assets/images/product-6.svg",
-        "Sturdy tote for everyday errands.",
-        {
-            category: "Accessories",
-            color: "Natural",
-            size: "One Size",
+export const PRODUCTS = [
+    {
+        id: "p0",
+        name: "Minimalist Watch",
+        description: "Sleek stainless steel watch with leather strap.",
+        price: 129.0,
+        salePrice: null,
+        image: "../assets/images/image (5).jpg",
+        details: {
+            category: "accessories",
             rating: 4.6,
-            reviewCount: 203,
-            badge: "POPULAR",
-        }
-    ),
-    new Product(
-        "9",
-        "Trail Running Shoes",
-        79.99,
-        "assets/images/product-7.svg",
-        "Lightweight trail shoes with extra grip.",
-        {
-            category: "Shoes",
-            color: "Gray",
-            size: "43",
-            rating: 4.4,
-            reviewCount: 112,
-            badge: "NEW",
-        }
-    ),
-    new Product(
-        "10",
-        "Classic Baseball Cap",
-        14.5,
-        "assets/images/product-8.svg",
-        "Simple cap with embroidered logo.",
-        {
-            category: "Accessories",
-            color: "Navy",
-            size: "Adjustable",
-            rating: 4.0,
-            reviewCount: 78,
+            badge: "New",
+            color: "Silver",
+            reviewCount: 120
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
+    {
+        id: "p1",
+        name: "Minimalist Watch",
+        description: "Sleek stainless steel watch with leather strap.",
+        price: 129.0,
+        salePrice: null,
+        image: "assets/images/product-watch.jpg",
+        details: {
+            category: "accessories",
+            rating: 4.6,
+            badge: "New",
+            color: "Silver",
+            reviewCount: 120
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
+    {
+        id: "p2",
+        name: "Cozy Knit Sweater",
+        description: "Comfortable knit sweater in neutral tones.",
+        price: 89.0,
+        salePrice: 69.0,
+        image: "assets/images/product-sweater.jpg",
+        details: {
+            category: "apparel",
+            rating: 4.5,
             badge: null,
-        }
-    ),
+            color: "Beige",
+            reviewCount: 80
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
+    {
+        id: "p3",
+        name: "Noise-Cancelling Headphones",
+        description: "Immersive sound with long battery life.",
+        price: 199.0,
+        salePrice: 179.0,
+        image: "assets/images/product-headphones.jpg",
+        details: {
+            category: "electronics",
+            rating: 4.7,
+            badge: "Sale",
+            color: "Black",
+            reviewCount: 200
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
+    {
+        id: "p4",
+        name: "Ceramic Coffee Mug",
+        description: "Hand-finished mug, 350ml.",
+        price: 18.0,
+        salePrice: null,
+        image: "assets/images/product-mug.jpg",
+        details: {
+            category: "home",
+            rating: 4.3,
+            badge: null,
+            color: "White",
+            reviewCount: 45
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
+    {
+        id: "p5",
+        name: "Running Sneakers",
+        description: "Lightweight, breathable running sneakers.",
+        price: 119.0,
+        salePrice: 99.0,
+        image: "assets/images/product-sneakers.jpg",
+        details: {
+            category: "footwear",
+            rating: 4.4,
+            badge: "Popular",
+            color: "Gray",
+            reviewCount: 60
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
+    {
+        id: "p6",
+        name: "Wooden Desk Lamp",
+        description: "Minimal lamp with dimmable LED.",
+        price: 79.0,
+        salePrice: null,
+        image: "assets/images/product-lamp.jpg",
+        details: {
+            category: "home",
+            rating: 4.2,
+            badge: null,
+            color: "Wood",
+            reviewCount: 30
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
+    {
+        id: "p7",
+        name: "Organic Cotton Tee",
+        description: "Breathable everyday tee.",
+        price: 29.0,
+        salePrice: 24.0,
+        image: "assets/images/product-tee.jpg",
+        details: {
+            category: "apparel",
+            rating: 4.1,
+            badge: null,
+            color: "White",
+            reviewCount: 25
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
+    {
+        id: "p8",
+        name: "Portable Charger",
+        description: "10000mAh USB-C power bank.",
+        price: 39.0,
+        salePrice: 34.0,
+        image: "assets/images/product-powerbank.jpg",
+        details: {
+            category: "electronics",
+            rating: 4.5,
+            badge: "Deal",
+            color: "Black",
+            reviewCount: 90
+        },
+        getRatingStars() { return getRatingStars(this.details.rating); },
+        getPrice() { return this.price; },
+        isFavorite: false,
+    },
 ];
 
-export { PRODUCTS };
 
-export const getProduct = (productId) => {
-    return PRODUCTS.find((product) => {
-        return product.id == productId;
-    });
-};
+export function extractProductsCategories() {
+    return Array.from(
+        new Set(PRODUCTS.map((p) => p.details?.category).filter(Boolean))
+    );
+}
 
-export const extractProductsCategories = ()=>{
-    return Array.from(new Set(PRODUCTS.map(p=> p.details.category))).sort();
+export function getProduct(id) {
+    return PRODUCTS.find((p) => p.id === id);
 }

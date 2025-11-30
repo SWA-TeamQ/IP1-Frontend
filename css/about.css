@@ -1,0 +1,65 @@
+/* ============================================
+   ABOUT & SERVICES SECTIONS
+   ============================================ */
+
+.about-section,
+.services-section {
+    max-width: 900px;
+    margin: 0 auto 48px auto;
+    padding: 48px 0 36px 0;
+    background: linear-gradient(120deg, #fafdff 60%, #eaf6ff 100%);
+    border-radius: 0 0 2.5rem 2.5rem;
+    box-shadow: none;
+    position: relative;
+    z-index: 2;
+    transition: none;
+}
+
+.about-section:hover,
+.services-section:hover {
+    box-shadow: none;
+}
+
+.about-section h2,
+.services-section h2 {
+    font-size: clamp(1.3rem, 2vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #1a73e8 60%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.01em;
+}
+
+.about-section p,
+.services-section p,
+.services-section ul {
+    color: #475569;
+    font-size: 1.08rem;
+    margin-bottom: 0;
+}
+
+.services-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: clamp(16px, 4vw, 48px);
+    flex-wrap: wrap;
+}
+
+.services-section li {
+    background: none;
+    border-radius: 0.75rem;
+    padding: 0 0 0 0;
+    font-weight: 500;
+    color: #1a73e8;
+    box-shadow: none;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+    font-size: 1.08rem;
+}
+.services-section li:hover {
+    background: linear-gradient(90deg, #1a73e8 20%, #10b981 100%);
+    color: #fff;
+}

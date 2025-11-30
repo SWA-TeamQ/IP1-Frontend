@@ -1,0 +1,300 @@
+/* ============================================
+   HEADER & NAVIGATION
+   ============================================ */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(5px);
+    border-bottom: 1px solid var(--color-border-light);
+    height: var(--header-height);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: var(--space-6);
+    padding: 0 2vw;
+    min-height: var(--header-height);
+}
+
+.brand .logo {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
+}
+
+/* Main Navigation */
+.main-nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 8px;
+    z-index: 110;
+}
+.hamburger span,
+.hamburger span:before,
+.hamburger span:after {
+    display: block;
+    background: var(--color-text-primary);
+    height: 3px;
+    width: 28px;
+    border-radius: 2px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
+}
+.hamburger span:before,
+.hamburger span:after {
+    content: "";
+    position: absolute;
+    left: 0;
+}
+.hamburger span:before {
+    top: -9px;
+}
+.hamburger span:after {
+    top: 9px;
+}
+
+/* Responsive Nav */
+@media (max-width: 900px) {
+    .main-nav ul {
+        position: absolute;
+        top: var(--header-height);
+        right: 0;
+        background: rgba(255,255,255,0.98);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        width: 220px;
+        box-shadow: 0 8px 32px rgba(30,115,232,0.08);
+        border-radius: 0 0 1rem 1rem;
+        padding: 16px 0;
+        margin: 0;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-16px);
+        transition: all 0.25s cubic-bezier(.4,0,.2,1);
+        z-index: 109;
+    }
+    .main-nav.open ul {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+    .main-nav li {
+        width: 100%;
+    }
+    .main-nav a,
+    .main-nav .nav-cart-btn {
+        width: 100%;
+        display: block;
+        text-align: left;
+        padding: 14px 24px;
+        border-radius: 0;
+    }
+    .main-nav .nav-cart-btn {
+        margin-top: 8px;
+    }
+    .hamburger {
+        display: inline-block;
+    }
+}
+
+.main-nav li {
+    position: relative;
+}
+
+.main-nav a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    transition: background 0.18s, color 0.18s;
+}
+
+.main-nav a:hover,
+.main-nav a:focus {
+    background: linear-gradient(90deg, #eaf6ff 60%, #fafdff 100%);
+    color: var(--color-primary);
+}
+
+.nav-cart-btn {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: 0 2px 12px rgba(30,115,232,0.10);
+    transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+    margin-left: 18px;
+}
+
+.nav-cart-btn:hover,
+.nav-cart-btn:focus {
+    background: linear-gradient(135deg, #1557b0, #1a73e8);
+    box-shadow: 0 4px 24px rgba(30,115,232,0.18);
+    transform: translateY(-2px) scale(1.06);
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--color-error);
+    color: #fff;
+    font-size: 0.85em;
+    font-weight: 700;
+    border-radius: 999px;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    box-shadow: 0 2px 8px rgba(239,68,68,0.12);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Search Component */
+.search {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.search input[type="search"] {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    padding-left: var(--space-12);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-bg-primary);
+    font-size: var(--font-size-base);
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.search input[type="search"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+/* Use focus-within so the icon (which is before the input) updates correctly */
+.search:focus-within .search-icon {
+    color: var(--color-primary);
+}
+
+.search input[type="search"]::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.icon-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--color-text-secondary);
+}
+
+.icon-btn:hover {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+}
+
+.cart-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-primary-dark)
+    );
+    color: var(--color-text-inverse);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: var(--font-weight-medium);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+}
+
+.cart-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background-color: var(--color-error);
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
