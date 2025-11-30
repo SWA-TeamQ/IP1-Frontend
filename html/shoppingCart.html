@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping cart</title>
+    <!-- <link rel="stylesheet" href="../css/reset.css"> -->
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../css/shoppingCart.css" />
+  </head>
+  <body>
+    <!-- Header / Navigation -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <a href="#" class="logo">ShopLight</a>
+        </div>
+
+        <form class="search" role="search" aria-label="Search products">
+          <svg
+            class="search-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Search products..."
+          />
+        </form>
+
+        <div class="header-actions">
+          <a href="/html/favorites.html"
+            id="favoritesBtn"
+            aria-label="View favorites"
+            class="icon-btn"
+            title="Favorites"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              ></path>
+            </svg>
+          </a>
+          <a href="/html/shoppingCart.html"
+            id="cartBtn"
+            aria-controls="cartDrawer"
+            aria-expanded="false"
+            class="cart-btn"
+          >
+            <img
+              src="../assets/icons/cart.svg"
+              alt="Cart Icon"
+            />
+            Cart
+            <span id="cartCount" class="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+      <ul class="nav-list">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li>
+          <a href="shoppingCart.html" class="nav-link active">Shopping Cart</a>
+        </li>
+        <li><a href="favorites.html" class="nav-link">Favorites</a></li>
+      </ul>
+    </nav>
+
+    <!-- main section -->
+    <main>
+      <!-- Page Header -->
+      <section class="cart-header-section">
+        <div class="container">
+          <h1>Your Shopping Cart</h1>
+        </div>
+      </section>
+
+      <!-- Cart Content -->
+      <section class="cart-section">
+        <div class="container">
+          <div class="cart-layout">
+            <!-- Cart Card -->
+            <div class="cart-card">
+              <div class="cart-card-body">
+                <!-- Empty state (shown when no items) -->
+                <div class="cart-empty" id="cartEmpty">
+                  <div class="empty-icon">
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <circle cx="9" cy="21" r="1"></circle>
+                      <circle cx="20" cy="21" r="1"></circle>
+                      <path
+                        d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                      ></path>
+                    </svg>
+                  </div>
+                  <p>Your cart is empty</p>
+                  <a href="../index.html" class="btn-continue"
+                    >Continue Shopping</a
+                  >
+                </div>
+
+                <!-- Cart items will be rendered here -->
+                <div id="cartItemsList"></div>
+              </div>
+            </div>
+
+            <!-- Summary Card -->
+            <aside class="summary-card">
+              <div class="summary-card-header">
+                <h2>Summary</h2>
+              </div>
+              <div class="summary-card-body">
+                <div class="summary-row">
+                  <span>Subtotal</span>
+                  <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                  <span>Shipping</span>
+                  <span id="shipping">$0.00</span>
+                </div>
+                <div class="summary-row total">
+                  <span>Total</span>
+                  <span id="total">$0.00</span>
+                </div>
+                <button class="btn-checkout">
+                  Checkout (<span id="itemCount">0</span>)
+                </button>
+
+                <div class="buyer-protection">
+                  <h4>Buyer protection</h4>
+                  <p>
+                    Get a full refund if the item is not as described or not
+                    delivered
+                  </p>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!--check-out modal-->>
+      <section>
+        <div id="checkoutModal" class="modal-backdrop" aria-hidden="true">
+          <div class="modal">
+            <div class="modal-header">
+              <h3 class="modal-title">Checkout</h3>
+              <button
+                id="closeModal"
+                class="modal-close"
+                aria-label="Close checkout"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Step 1: Confirm Purchase -->
+              <div id="step1" class="checkout-step">
+                <div id="orderSummary">
+                  <p>Review your order and confirm purchase.</p>
+                </div>
+                <div class="modal-actions">
+                  <button id="confirmPayment" class="btn btn-primary">
+                    Complete Purchase
+                  </button>
+                  <button id="cancelCheckout" class="btn btn-secondary">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 2: Success & Download Receipt -->
+              <div id="step2" class="checkout-step" style="display: none">
+                <div class="success-message">
+                  <svg
+                    width="64"
+                    height="64"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <h3>Purchase Complete!</h3>
+                  <p>Thank you for your order.</p>
+                </div>
+                <div class="modal-actions">
+                  <button id="printReceipt" class="btn btn-primary">
+                    Download Receipt
+                  </button>
+                  <button id="closeCheckout" class="btn btn-secondary">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-content">
+            <p class="footer-text">
+              © <span id="year"></span> ShopLight. All rights reserved. Built
+              with modern web technologies.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="../components/shoppingCart.js"></script>
+  </body>
+</html>
