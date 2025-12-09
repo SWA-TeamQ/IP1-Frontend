@@ -1,0 +1,64 @@
+* Navigation Bar */
+.nav-bar {
+    width: 100%;
+    position: sticky;
+    top: var(--header-height); 
+    z-index: var(--z-sticky);
+}
+
+.nav-list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-2);
+    margin: 0;
+    padding: var(--space-2) var(--space-4);
+    list-style: none;
+    background: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.nav-link {
+    position: relative;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+/* Hover background effect */
+.nav-link:hover {
+    color: var(--color-primary);
+    background-color: rgba(26, 115, 232, 0.08);
+}
+
+/* Animated underline effect */
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 60%;
+}
+
+/* Active state */
+.nav-link.active {
+    color: var(--color-primary);
+    background-color: rgba(26, 115, 232, 0.1);
+}
+
+.nav-link.active::after {
+    width: 60%;
+}
