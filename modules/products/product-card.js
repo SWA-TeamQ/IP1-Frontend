@@ -79,7 +79,7 @@ export default function ProductCard(product) {
           }" aria-label="Add to cart">
             <img class="icon icon-cart" src="${iconCartUrl}" alt="" aria-hidden="true">
           </button>
-          <a class="btn btn-secondary" href="${productHref}">View details</a>
+          <a class="btn btn-secondary" href="${productHref}">View</a>
         </div>
     `;
 

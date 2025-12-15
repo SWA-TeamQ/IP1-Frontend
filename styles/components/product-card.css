@@ -314,7 +314,12 @@
     fill: currentColor;
 }
 
-/* Mobile Card Actions */
+
+.btn-cart-icon {
+    background-color: var(--color-primary);
+}
+
+
 @media (max-width: 768px) {
     .card-actions {
         opacity: 1;
@@ -326,6 +331,3 @@
     }
 }
 
-.btn-cart-icon {
-    background-color: var(--color-primary);
-}
