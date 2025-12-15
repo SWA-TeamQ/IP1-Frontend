@@ -1,35 +1,40 @@
-import { escapeHtml, formatPrice } from "../js/lib/utils.js";
-// import { openQuickViewModal } from "./quick-view-model.js";
+import { escapeHtml, formatPrice } from "../../core/utils/formatters.js";
+
+const iconCartUrl = new URL("../../assets/icons/cart.svg", import.meta.url);
+const iconHeartUrl = new URL("../../assets/icons/heart.svg", import.meta.url);
+const iconSearchUrl = new URL("../../assets/icons/search.svg", import.meta.url);
 
 export default function ProductCard(product) {
     const card = document.createElement("div");
     card.className = "card";
+    card.dataset.productId = product?.id || "";
 
-    const stars = product.getRatingStars();
+    const stars = product.getRatingStars?.() ?? "";
 
-    // Badge class based on badge text
-    const badgeClass = product.details.badge
-        ? product.details.badge.toLowerCase()
+    const badgeClass = product?.details?.badge
+        ? String(product.details.badge).toLowerCase()
         : "";
+
+    const productImageUrl = new URL(`../../${product.image}`, import.meta.url);
 
     card.innerHTML = `
             <div class="card-image-container">
-              <img class="card-image" src="${product.image}" alt="${escapeHtml(
+              <img class="card-image" src="${productImageUrl}" alt="${escapeHtml(
         product.name
     )}" loading="lazy" aria-hidden="true">
               ${
-                  product.details.badge
+                  product?.details?.badge
                       ? `<div class="card-badge ${badgeClass}">${escapeHtml(
                             product.details.badge
                         )}</div>`
                       : ""
               }
-              <button class="quick-view-btn" data-quickview="${
-                  product.id
-              }" aria-label="Quick view ${escapeHtml(
+                <button class="quick-view-btn" data-quickview="${
+                    product.id
+                }" aria-label="Quick view ${escapeHtml(
         product.name
     )}" title="Quick view">
-                <img class="icon icon-search" src="assets/icons/search.svg" alt="Quick view icon" aria-hidden="true">
+                <img class="icon icon-search" src="${iconSearchUrl}" alt="" aria-hidden="true">
               </button>
 
               <button class="btn btn-icon ${
@@ -37,16 +42,18 @@ export default function ProductCard(product) {
               } top-fav" title="Add to favorites" aria-pressed="${
         product.isFavorite
     }" data-fav="${product.id}">
-                <img class="icon icon-heart" src="assets/icons/heart.svg" alt="Favorite">
+                <img class="icon icon-heart" src="${iconHeartUrl}" alt="" aria-hidden="true">
               </button>
             </div>
 
 
             <div class="card-content">
               <div>
-                <h3 class="card-title">${product.name}</h3>
+                <h3 class="card-title">${escapeHtml(product.name)}</h3>
                 <product class="card-subtitle">
-                  ${product.details.category} • ${product.details.color}
+                  ${escapeHtml(product.details?.category || "")} • ${escapeHtml(
+        product.details?.color || ""
+    )}
                 </product> 
               </div>
               <div class="rating">
@@ -59,12 +66,12 @@ export default function ProductCard(product) {
               </div>
               <div class="price-row">
                 <span class="price-current">$${formatPrice(
-                    product.details.salePrice || product.getPrice()
+                    product.details?.salePrice || product.getPrice?.() || 0
                 )}</span>
                 ${
-                    product.details.salePrice
+                    product?.details?.salePrice
                         ? `<span class="price-original">$${formatPrice(
-                              product.getPrice()
+                              product.getPrice?.() || 0
                           )}</span>`
                         : ""
                 }
@@ -73,14 +80,14 @@ export default function ProductCard(product) {
                 <button class="btn btn-cart-icon" data-id="${
                     product.id
                 }" aria-label="Add to cart">
-                  <img class="icon icon-cart" src="assets/icons/cart.svg" alt="Add to cart">
+                  <img class="icon icon-cart" src="${iconCartUrl}" alt="" aria-hidden="true">
                 </button>
                 <button class="btn btn-fav" data-fav="${
                     product.id
                 }" aria-label="Add to favorites" aria-pressed="${
         product.isFavorite
     }">
-                  <img class="icon icon-heart-sm" src="assets/icons/heart.svg" alt="Favorite">
+                  <img class="icon icon-heart-sm" src="${iconHeartUrl}" alt="" aria-hidden="true">
                   <span>${
                       product.isFavorite ? "Favorited" : "Add to favorites"
                   }</span>
@@ -89,34 +96,29 @@ export default function ProductCard(product) {
             </div>
           `;
 
-    // Event Listeners
-    // attach listeners
-    // card.querySelector(".btn-primary").addEventListener("click", () => {
-    //   addToCart(product.id);
-    // });
+    const addBtn = card.querySelector("[data-id]");
+    addBtn?.addEventListener("click", () => {
+        if (typeof window.addToCart === "function") {
+            window.addToCart(product.id);
+        }
+    });
 
     const favBtn = card.querySelector("[data-fav]");
-    if (favBtn) {
-        favBtn.addEventListener("click", () => {
-            if (typeof window.toggleFav === "function") {
-                window.toggleFav(product.id, favBtn);
-                favBtn.classList.toggle("favorited", product.isFavorite);
-                if (typeof window.onFilterChange === "function")
-                    window.onFilterChange();
-            }
-        });
-    }
+    favBtn?.addEventListener("click", () => {
+        if (typeof window.toggleFav === "function") {
+            window.toggleFav(product.id);
+            const isFav = !!product.isFavorite;
+            favBtn.classList.toggle("favorited", isFav);
+            favBtn.setAttribute("aria-pressed", String(isFav));
+        }
+    });
 
     const quickViewBtn = card.querySelector("[data-quickview]");
-    if (quickViewBtn) {
-        quickViewBtn.addEventListener("click", () => {
-            if (typeof window.openQuickViewModal === "function") {
-                window.openQuickViewModal(product.id);
-            } else {
-                alert("Quick view modal is not implemented.");
-            }
-        });
-    }
+    quickViewBtn?.addEventListener("click", () => {
+        if (typeof window.openQuickViewModal === "function") {
+            window.openQuickViewModal(product.id);
+        }
+    });
 
     return card;
 }

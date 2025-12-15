@@ -1,5 +1,7 @@
-*.md
 !README.md
+*.md
 
 *try*
 node_modules/
+build/
+dist/

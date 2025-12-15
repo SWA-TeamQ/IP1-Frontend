@@ -1,12 +1,13 @@
-import { getProduct } from '../data/products.js';
-import { formatPrice, escapeHtml } from '../lib/utils.js';
-import { TAX } from '../../constants/global-variables.js';
-import { onConfirmPayment } from '../../components/Cart/CartSystem.js';
+import { getProduct } from "../products/products.data.js";
+import { formatPrice } from "../../core/utils/formatters.js";
+import { TAX } from "../../constants/global-variables.js";
 
-const orderSummaryEl = document.querySelector('.order-summary');
+export function initCheckoutPage() {
+    const orderSummaryEl = document.querySelector(".order-summary");
+    if (!orderSummaryEl) return;
 
-function renderCheckoutSummary() {
-    const cartItems = Array.from(window.shoppingCart.items.values());
+    const cart = window.shoppingCart;
+    const cartItems = cart ? Array.from(cart.items.values()) : [];
 
     if (!cartItems.length) {
         orderSummaryEl.innerHTML = '<p class="muted">Your cart is empty.</p>';
@@ -21,7 +22,7 @@ function renderCheckoutSummary() {
     const tax = subtotal * (TAX / 100);
     const total = subtotal + tax;
 
-    const summaryHtml = `
+    orderSummaryEl.innerHTML = `
         <h2 class="section-title">Order Summary</h2>
         <div class="summary-row">
             <span>Subtotal</span>
@@ -42,10 +43,11 @@ function renderCheckoutSummary() {
         <button class="btn-checkout">Place Order</button>
     `;
 
-    orderSummaryEl.innerHTML = summaryHtml;
-
-    const placeOrderBtn = orderSummaryEl.querySelector('.btn-checkout');
-    placeOrderBtn.addEventListener('click', onConfirmPayment);
+    const placeOrderBtn = orderSummaryEl.querySelector(".btn-checkout");
+    placeOrderBtn?.addEventListener("click", () => {
+        alert("Payment simulated — thank you for your purchase!");
+        cart?.clear?.();
+        const countEl = document.getElementById("navCartCount");
+        if (countEl && cart) countEl.textContent = String(cart.getTotalQuantity());
+    });
 }
-
-renderCheckoutSummary();

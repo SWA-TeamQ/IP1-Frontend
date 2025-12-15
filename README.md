@@ -49,11 +49,14 @@ Recommended dev workflow
 
 Project structure
 -----------------
-- `index.html` — main entry (hero, product grid, cart, modals)  
-- `assets/` — images and screenshots  
-- `css/` — design tokens and component styles (`style.css`, `reset.css`)  
-- `js/` — product data and app logic (`products.js`, `index.js`)  
-- `docs/` — proposals, changelog, and design notes
+- `index.html` — main entrypoint  
+- `index.css` — single CSS entrypoint (imports core styles + legacy CSS)  
+- `main.js` — app orchestrator loaded by all pages  
+- `assets/` — images and icons  
+- `core/` — shared utilities, libs, and global styles/tokens  
+- `modules/` — feature modules (products, cart, auth, admin)  
+- `pages/` — standalone HTML pages (product, checkout, auth)  
+- `css/` — existing page/component CSS (kept for styling)
 
 Features (current)
 ------------------

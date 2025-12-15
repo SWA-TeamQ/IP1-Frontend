@@ -1,19 +1,13 @@
-import { escapeHtml, formatPrice } from "../js/lib/utils.js";
-import { onConfirmPayment } from "./Cart/CartSystem.js";
-import { addToCart } from "./Cart/CartSystem.js";
+import { escapeHtml, formatPrice } from "../../core/utils/formatters.js";
 
-export default function ProductDetails(product) {
+export default function ProductDetail(product) {
     const details = document.createElement("div");
     details.className = "product-details";
-
-    const imgSrc = product.image.startsWith("assets/")
-        ? "../" + product.image
-        : product.image;
 
     details.innerHTML = `
         <div class="product-details-grid">
           <div>
-            <img src="${imgSrc}" alt="${escapeHtml(
+            <img src="../../${product.image}" alt="${escapeHtml(
         product.name
     )}" class="product-details-image" />
           </div>
@@ -21,9 +15,9 @@ export default function ProductDetails(product) {
             <h1>${escapeHtml(product.name)}</h1>
             <p>${escapeHtml(product.description || "")}</p>
             <p class="price">
-              <strong>$${formatPrice(product.getPrice())}</strong>
+              <strong>$${formatPrice(product.getPrice?.() || 0)}</strong>
               ${
-                  product.details.salePrice
+                  product?.details?.salePrice
                       ? `<span class="sale-price">$${formatPrice(
                             product.details.salePrice
                         )}</span>`
@@ -34,13 +28,15 @@ export default function ProductDetails(product) {
             <button class="btn btn-primary" data-id="${
                 product.id
             }">Add to Cart</button>
-            <a href="./home.html" class="back-link">Back to home</a>
+            <a href="../index.html" class="back-link">Back to home</a>
           </div>
         </div>
     `;
 
-    details.querySelector(".btn-primary").addEventListener("click", () => {
-        addToCart(product.id);
+    details.querySelector(".btn-primary")?.addEventListener("click", () => {
+        if (typeof window.addToCart === "function") {
+            window.addToCart(product.id);
+        }
     });
 
     return details;

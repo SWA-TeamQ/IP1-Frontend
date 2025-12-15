@@ -2,11 +2,7 @@ function getRatingStars(rating) {
     const full = Math.floor(rating);
     const half = rating % 1 >= 0.5 ? 1 : 0;
     const empty = 5 - full - half;
-    return (
-        "★".repeat(full) +
-        (half ? "½" : "") +
-        "☆".repeat(empty)
-    );
+    return "★".repeat(full) + (half ? "½" : "") + "☆".repeat(empty);
 }
 
 export const PRODUCTS = [
@@ -16,16 +12,20 @@ export const PRODUCTS = [
         description: "Sleek stainless steel watch with leather strap.",
         price: 129.0,
         salePrice: null,
-        image: "../assets/images/image (5).jpg",
+        image: "assets/images/image (5).jpg",
         details: {
             category: "accessories",
             rating: 4.6,
             badge: "New",
             color: "Silver",
-            reviewCount: 120
+            reviewCount: 120,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
     {
@@ -40,10 +40,14 @@ export const PRODUCTS = [
             rating: 4.6,
             badge: "New",
             color: "Silver",
-            reviewCount: 120
+            reviewCount: 120,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
     {
@@ -58,10 +62,14 @@ export const PRODUCTS = [
             rating: 4.5,
             badge: null,
             color: "Beige",
-            reviewCount: 80
+            reviewCount: 80,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
     {
@@ -76,10 +84,14 @@ export const PRODUCTS = [
             rating: 4.7,
             badge: "Sale",
             color: "Black",
-            reviewCount: 200
+            reviewCount: 200,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
     {
@@ -94,10 +106,14 @@ export const PRODUCTS = [
             rating: 4.3,
             badge: null,
             color: "White",
-            reviewCount: 45
+            reviewCount: 45,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
     {
@@ -112,10 +128,14 @@ export const PRODUCTS = [
             rating: 4.4,
             badge: "Popular",
             color: "Gray",
-            reviewCount: 60
+            reviewCount: 60,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
     {
@@ -130,10 +150,14 @@ export const PRODUCTS = [
             rating: 4.2,
             badge: null,
             color: "Wood",
-            reviewCount: 30
+            reviewCount: 30,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
     {
@@ -148,10 +172,14 @@ export const PRODUCTS = [
             rating: 4.1,
             badge: null,
             color: "White",
-            reviewCount: 25
+            reviewCount: 25,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
     {
@@ -166,14 +194,17 @@ export const PRODUCTS = [
             rating: 4.5,
             badge: "Deal",
             color: "Black",
-            reviewCount: 90
+            reviewCount: 90,
         },
-        getRatingStars() { return getRatingStars(this.details.rating); },
-        getPrice() { return this.price; },
+        getRatingStars() {
+            return getRatingStars(this.details.rating);
+        },
+        getPrice() {
+            return this.price;
+        },
         isFavorite: false,
     },
 ];
-
 
 export function extractProductsCategories() {
     return Array.from(
