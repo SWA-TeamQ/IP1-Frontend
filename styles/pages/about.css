@@ -3,7 +3,10 @@
 .about-section,
 .services-section {
     padding: 2rem;
-    outline: 2px solid lime;
+    text-align : center;
+    display: flex;
+    flex-direction: column;
+    gap : 1.5rem;
 }
 
 .about-section h2,
