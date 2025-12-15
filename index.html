@@ -18,7 +18,9 @@
                 <nav class="main-nav">
                     <ul>
                         <li><a href="/">Home</a></li>
-                        <li><a href="./pages/product/index.html">Products</a></li>
+                        <li>
+                            <a href="./pages/product/index.html">Products</a>
+                        </li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#services">Services</a></li>
                         <li><a href="#contact">Contact</a></li>
@@ -53,17 +55,26 @@
         </header>
 
         <main>
-            <!-- HERO -->
-            <section class="hero">
+            <!-- HERO (redesigned) -->
+            <section class="hero hero-large">
                 <div class="container hero-grid">
                     <div class="hero-content">
-                        <h1>Discover Quality Products for Modern Living</h1>
+                        <div class="eyebrow">New arrivals • Curated</div>
+                        <h1 class="hero-title">Elevate your everyday — quality goods, thoughtfully chosen.</h1>
                         <p class="hero-sub">
-                            Explore our curated collection of premium items
-                            designed to enhance your lifestyle with style,
-                            comfort, and functionality.
+                            Handpicked products with modern design and reliable performance. Fast shipping, easy returns,
+                            and exceptional support — discover what makes ShopLight different.
                         </p>
-                        <a class="btn hero-cta" href="#featured">Shop Now</a>
+                        <div class="hero-ctas">
+                            <a class="btn hero-cta" href="#featured">Shop featured</a>
+                            <a class="btn btn-outline" href="./pages/product/index.html">Browse all</a>
+                        </div>
+
+                        <ul class="hero-features">
+                            <li><strong>Free shipping</strong> on orders over $50</li>
+                            <li><strong>30-day returns</strong> — no questions asked</li>
+                            <li><strong>Secure checkout</strong> with industry-standard privacy</li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -110,29 +121,62 @@
                 </ul>
             </section>
 
-            <!-- FEATURED PRODUCTS -->
+            <!-- FEATURED PRODUCTS (redesigned) -->
             <section id="featured" class="container products-section">
                 <div class="section-header">
-                    <h2 class="section-title">Featured Products</h2>
-                    <a href="./pages/product/index.html" class="filter-select"
-                        >View all products</a
-                    >
+                    <div>
+                        <h2 class="section-title">Featured Products</h2>
+                        <p class="muted">Our handpicked selection — popular, highly rated, and on sale.</p>
+                    </div>
+                    <div class="section-actions">
+                        <a href="./pages/product/index.html" class="filter-select">View all products</a>
+                    </div>
                 </div>
 
-                <div id="featuredGrid" class="product-grid" role="list">
+                <div id="featuredGrid" class="product-grid featured-grid" role="list" aria-live="polite">
                     <!-- JS injects featured items -->
                 </div>
             </section>
         </main>
 
         <footer class="site-footer">
-            <div class="container">
-                <p class="footer-text">
-                    &copy; <span id="year"></span> ShopLight. All rights
-                    reserved.
-                </p>
+            <div class="container footer-content">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <a class="logo footer-logo" href="/">ShopLight</a>
+                        <p class="muted">Curated modern goods — thoughtful design, ethical sourcing.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Shop</h4>
+                        <ul>
+                            <li><a href="./pages/product/index.html">All products</a></li>
+                            <li><a href="#featured">Featured</a></li>
+                            <li><a href="#services">Services</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="./pages/checkout/checkout.html">Checkout</a></li>
+                            <li><a href="./pages/contact.html">Contact</a></li>
+                            <li><a href="./pages/login/login.html">Sign in</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-newsletter">
+                        <h4>Join our newsletter</h4>
+                        <form class="newsletter-form" action="#" onsubmit="event.preventDefault();">
+                            <input type="email" placeholder="you@example.com" aria-label="Email address" required />
+                            <button class="btn" type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p class="footer-text">&copy; <span id="year"></span> ShopLight. All rights reserved.</p>
+                </div>
             </div>
         </footer>
+
         <script>
             // Responsive navbar hamburger toggle
             const hamburger = document.getElementById("navHamburger");

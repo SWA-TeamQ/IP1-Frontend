@@ -34,7 +34,7 @@ export const PRODUCTS = [
         description: "Sleek stainless steel watch with leather strap.",
         price: 129.0,
         salePrice: null,
-        image: "assets/images/product-watch.jpg",
+        image: "assets/images/image (2).jpg",
         details: {
             category: "accessories",
             rating: 4.6,
@@ -56,7 +56,7 @@ export const PRODUCTS = [
         description: "Comfortable knit sweater in neutral tones.",
         price: 89.0,
         salePrice: 69.0,
-        image: "assets/images/product-sweater.jpg",
+        image: "assets/images/image (3).jpg",
         details: {
             category: "apparel",
             rating: 4.5,
@@ -78,7 +78,7 @@ export const PRODUCTS = [
         description: "Immersive sound with long battery life.",
         price: 199.0,
         salePrice: 179.0,
-        image: "assets/images/product-headphones.jpg",
+        image: "assets/images/image (7).jpg",
         details: {
             category: "electronics",
             rating: 4.7,
@@ -100,7 +100,7 @@ export const PRODUCTS = [
         description: "Hand-finished mug, 350ml.",
         price: 18.0,
         salePrice: null,
-        image: "assets/images/product-mug.jpg",
+        image: "assets/images/image (4).jpg",
         details: {
             category: "home",
             rating: 4.3,
@@ -122,7 +122,7 @@ export const PRODUCTS = [
         description: "Lightweight, breathable running sneakers.",
         price: 119.0,
         salePrice: 99.0,
-        image: "assets/images/product-sneakers.jpg",
+        image: "assets/images/image (8).jpg",
         details: {
             category: "footwear",
             rating: 4.4,
@@ -144,7 +144,7 @@ export const PRODUCTS = [
         description: "Minimal lamp with dimmable LED.",
         price: 79.0,
         salePrice: null,
-        image: "assets/images/product-lamp.jpg",
+        image: "assets/images/image (15).jpg",
         details: {
             category: "home",
             rating: 4.2,
@@ -166,7 +166,7 @@ export const PRODUCTS = [
         description: "Breathable everyday tee.",
         price: 29.0,
         salePrice: 24.0,
-        image: "assets/images/product-tee.jpg",
+        image: "assets/images/image (12).jpg",
         details: {
             category: "apparel",
             rating: 4.1,
@@ -188,7 +188,7 @@ export const PRODUCTS = [
         description: "10000mAh USB-C power bank.",
         price: 39.0,
         salePrice: 34.0,
-        image: "assets/images/product-powerbank.jpg",
+        image: "assets/images/image (13).jpg",
         details: {
             category: "electronics",
             rating: 4.5,

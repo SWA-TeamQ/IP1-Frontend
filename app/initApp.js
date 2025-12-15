@@ -1,4 +1,4 @@
-import { setText } from "../core/utils/dom.js";
+import { setText } from "../utils/dom.js";
 import { initCart } from "../modules/cart/cart.store.js";
 import { initFavorites } from "../modules/products/favorites.store.js";
 import { PRODUCTS, getProduct } from "../modules/products/products.data.js";

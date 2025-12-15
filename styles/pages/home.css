@@ -165,19 +165,7 @@
     gap: var(--space-6, 1.5rem);
 }
 
-/* Card spacing override for featured display */
-.product-grid .card {
-    border-radius: 14px;
-    overflow: hidden;
-    transition: transform 160ms ease, box-shadow 160ms ease;
-    background: #fff;
-    box-shadow: 0 8px 24px rgba(10, 20, 30, 0.06);
-}
-
-.product-grid .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 48px rgba(10, 20, 30, 0.08);
-}
+/* Cards are styled by styles/components/product-card.css */
 
 /* Footer */
 .site-footer {

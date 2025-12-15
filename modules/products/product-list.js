@@ -1,9 +1,9 @@
 import ProductCard from "./product-card.js";
 
 export default function ProductList(products) {
-    const children = document.createDocumentFragment();
+    const fragment = document.createDocumentFragment();
     for (const product of products || []) {
-        children.appendChild(ProductCard(product));
+        fragment.appendChild(ProductCard(product));
     }
-    return children;
+    return fragment;
 }
