@@ -1,6 +1,6 @@
 import { getProduct } from "../products/products.data.js";
-import { formatPrice } from "../../core/utils/formatters.js";
-import { TAX } from "../../constants/global-variables.js";
+import { formatPrice } from "../../utils/formatters.js";
+import { TAX } from "./cart.constants.js";
 
 export function initCheckoutPage() {
     const orderSummaryEl = document.querySelector(".order-summary");
@@ -48,6 +48,7 @@ export function initCheckoutPage() {
         alert("Payment simulated — thank you for your purchase!");
         cart?.clear?.();
         const countEl = document.getElementById("navCartCount");
-        if (countEl && cart) countEl.textContent = String(cart.getTotalQuantity());
+        if (countEl && cart)
+            countEl.textContent = String(cart.getTotalQuantity());
     });
 }

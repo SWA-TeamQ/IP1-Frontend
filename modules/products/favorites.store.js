@@ -1,4 +1,4 @@
-import { storageGetJson, storageSetJson } from "../../core/utils/storage.js";
+import { storageGetJson, storageSetJson } from "../../utils/storage.js";
 
 const STORAGE_FAVS = "shop_favs_v1";
 
@@ -8,10 +8,9 @@ export function initFavorites() {
     const favorites = {
         items: stored,
         toggle(productId) {
-            if (stored.has(productId)){
+            if (stored.has(productId)) {
                 stored.delete(productId);
-            }
-            else {
+            } else {
                 stored.add(productId);
             }
 

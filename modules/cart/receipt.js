@@ -1,10 +1,12 @@
-import { escapeHtml, formatPrice } from "../../core/utils/formatters.js";
-import { TAX } from "../../constants/global-variables.js";
+import { escapeHtml, formatPrice } from "../../utils/formatters.js";
+import { TAX } from "./cart.constants.js";
 
 export function onPrintReceipt(cartItems, products) {
     const printWindow = window.open("", "_blank", "width=800,height=600");
     if (!printWindow) {
-        alert("Unable to open print window. Please allow popups for this site.");
+        alert(
+            "Unable to open print window. Please allow popups for this site."
+        );
         return;
     }
 
@@ -19,7 +21,9 @@ export function onPrintReceipt(cartItems, products) {
             return `<tr>
         <td style="padding:6px 8px">${escapeHtml(p.name)}</td>
         <td style="padding:6px 8px;text-align:center">${item.quantity}</td>
-        <td style="padding:6px 8px;text-align:right">$${formatPrice(unitPrice)}</td>
+        <td style="padding:6px 8px;text-align:right">$${formatPrice(
+            unitPrice
+        )}</td>
         <td style="padding:6px 8px;text-align:right">$${formatPrice(
             unitPrice * item.quantity
         )}</td>
@@ -65,8 +69,8 @@ export function onPrintReceipt(cartItems, products) {
                 subtotal
             )}</div></div>
             <div style="display:flex;justify-content:space-between"><div>Tax (${TAX}%)</div><div class="right">$${formatPrice(
-                tax
-            )}</div></div>
+        tax
+    )}</div></div>
             <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:8px"><div>Total</div><div class="right">$${formatPrice(
                 total
             )}</div></div>

@@ -1,4 +1,4 @@
-import { storageGetJson, storageSetJson } from "../../core/utils/storage.js";
+import { storageGetJson, storageSetJson } from "../../utils/storage.js";
 
 class CartItem {
     constructor(productId, quantity) {

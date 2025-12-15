@@ -3,20 +3,13 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>ShopLight — Product</title>
-        <link rel="stylesheet" href="../index.css" />
+        <title>ShopLight — Products</title>
+        <meta http-equiv="refresh" content="0; url=./product/index.html" />
     </head>
     <body>
-        <header class="site-header">
-            <div class="container header-inner">
-                <a href="../index.html" class="logo">ShopLight</a>
-            </div>
-        </header>
-
-        <main class="container">
-            <div id="productRoot"></div>
-        </main>
-
-        <script type="module" src="../main.js"></script>
+        <script>
+            // Preserve query string (e.g. ?id=p1)
+            location.replace("./product/index.html" + location.search);
+        </script>
     </body>
 </html>

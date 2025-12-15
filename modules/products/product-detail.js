@@ -1,4 +1,4 @@
-import { escapeHtml, formatPrice } from "../../core/utils/formatters.js";
+import { escapeHtml, formatPrice } from "../../utils/formatters.js";
 
 export default function ProductDetail(product) {
     const details = document.createElement("div");

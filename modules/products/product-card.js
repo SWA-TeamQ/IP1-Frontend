@@ -1,8 +1,7 @@
-import { escapeHtml, formatPrice } from "../../core/utils/formatters.js";
+import { escapeHtml, formatPrice } from "../../utils/formatters.js";
 
 const iconCartUrl = new URL("../../assets/icons/cart.svg", import.meta.url);
 const iconHeartUrl = new URL("../../assets/icons/heart.svg", import.meta.url);
-const iconSearchUrl = new URL("../../assets/icons/search.svg", import.meta.url);
 
 export default function ProductCard(product) {
     const card = document.createElement("div");
@@ -29,14 +28,6 @@ export default function ProductCard(product) {
                         )}</div>`
                       : ""
               }
-                <button class="quick-view-btn" data-quickview="${
-                    product.id
-                }" aria-label="Quick view ${escapeHtml(
-        product.name
-    )}" title="Quick view">
-                <img class="icon icon-search" src="${iconSearchUrl}" alt="" aria-hidden="true">
-              </button>
-
               <button class="btn btn-icon ${
                   product.isFavorite ? "favorited" : ""
               } top-fav" title="Add to favorites" aria-pressed="${
@@ -110,13 +101,6 @@ export default function ProductCard(product) {
             const isFav = !!product.isFavorite;
             favBtn.classList.toggle("favorited", isFav);
             favBtn.setAttribute("aria-pressed", String(isFav));
-        }
-    });
-
-    const quickViewBtn = card.querySelector("[data-quickview]");
-    quickViewBtn?.addEventListener("click", () => {
-        if (typeof window.openQuickViewModal === "function") {
-            window.openQuickViewModal(product.id);
         }
     });
 
