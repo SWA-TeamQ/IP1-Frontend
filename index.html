@@ -27,20 +27,7 @@
                     </ul>
                 </nav>
                 <button class="nav-cart-btn" aria-label="View cart">
-                    <svg
-                        width="24"
-                        height="24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                    >
-                        <circle cx="10" cy="20" r="2" />
-                        <circle cx="18" cy="20" r="2" />
-                        <path
-                            d="M2 2h3l2.68 13.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L21 6H6"
-                        />
-                    </svg>
+                    <img src="./assets/icons/cart.svg" alt="Cart" />
                     <span class="cart-count" id="navCartCount">0</span>
                 </button>
                 <button
@@ -55,25 +42,44 @@
         </header>
 
         <main>
-            <!-- HERO (redesigned) -->
             <section class="hero hero-large">
                 <div class="container hero-grid">
                     <div class="hero-content">
                         <div class="eyebrow">New arrivals • Curated</div>
-                        <h1 class="hero-title">Elevate your everyday — quality goods, thoughtfully chosen.</h1>
+                        <h1 class="hero-title">
+                            Elevate your everyday — quality goods, thoughtfully
+                            chosen.
+                        </h1>
                         <p class="hero-sub">
-                            Handpicked products with modern design and reliable performance. Fast shipping, easy returns,
-                            and exceptional support — discover what makes ShopLight different.
+                            Handpicked products with modern design and reliable
+                            performance. Fast shipping, easy returns, and
+                            exceptional support — discover what makes ShopLight
+                            different.
                         </p>
                         <div class="hero-ctas">
-                            <a class="btn hero-cta" href="#featured">Shop featured</a>
-                            <a class="btn btn-outline" href="./pages/product/index.html">Browse all</a>
+                            <a class="btn hero-cta" href="#featured"
+                                >Shop featured</a
+                            >
+                            <a
+                                class="btn btn-outline"
+                                href="./pages/product/index.html"
+                                >Browse all</a
+                            >
                         </div>
 
                         <ul class="hero-features">
-                            <li><strong>Free shipping</strong> on orders over $50</li>
-                            <li><strong>30-day returns</strong> — no questions asked</li>
-                            <li><strong>Secure checkout</strong> with industry-standard privacy</li>
+                            <li>
+                                <strong>Free shipping</strong> on orders over
+                                $50
+                            </li>
+                            <li>
+                                <strong>30-day returns</strong> — no questions
+                                asked
+                            </li>
+                            <li>
+                                <strong>Secure checkout</strong> with
+                                industry-standard privacy
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -126,14 +132,26 @@
                 <div class="section-header">
                     <div>
                         <h2 class="section-title">Featured Products</h2>
-                        <p class="muted">Our handpicked selection — popular, highly rated, and on sale.</p>
+                        <p class="muted">
+                            Our handpicked selection — popular, highly rated,
+                            and on sale.
+                        </p>
                     </div>
                     <div class="section-actions">
-                        <a href="./pages/product/index.html" class="filter-select">View all products</a>
+                        <a
+                            href="./pages/product/index.html"
+                            class="filter-select"
+                            >View all products</a
+                        >
                     </div>
                 </div>
 
-                <div id="featuredGrid" class="product-grid featured-grid" role="list" aria-live="polite">
+                <div
+                    id="featuredGrid"
+                    class="product-grid featured-grid"
+                    role="list"
+                    aria-live="polite"
+                >
                     <!-- JS injects featured items -->
                 </div>
             </section>
@@ -144,12 +162,19 @@
                 <div class="footer-grid">
                     <div class="footer-brand">
                         <a class="logo footer-logo" href="/">ShopLight</a>
-                        <p class="muted">Curated modern goods — thoughtful design, ethical sourcing.</p>
+                        <p class="muted">
+                            Curated modern goods — thoughtful design, ethical
+                            sourcing.
+                        </p>
                     </div>
                     <div class="footer-links">
                         <h4>Shop</h4>
                         <ul>
-                            <li><a href="./pages/product/index.html">All products</a></li>
+                            <li>
+                                <a href="./pages/product/index.html"
+                                    >All products</a
+                                >
+                            </li>
                             <li><a href="#featured">Featured</a></li>
                             <li><a href="#services">Services</a></li>
                         </ul>
@@ -157,22 +182,40 @@
                     <div class="footer-links">
                         <h4>Support</h4>
                         <ul>
-                            <li><a href="./pages/checkout/checkout.html">Checkout</a></li>
+                            <li>
+                                <a href="./pages/checkout/checkout.html"
+                                    >Checkout</a
+                                >
+                            </li>
                             <li><a href="./pages/contact.html">Contact</a></li>
-                            <li><a href="./pages/login/login.html">Sign in</a></li>
+                            <li>
+                                <a href="./pages/login/login.html">Sign in</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="footer-newsletter">
                         <h4>Join our newsletter</h4>
-                        <form class="newsletter-form" action="#" onsubmit="event.preventDefault();">
-                            <input type="email" placeholder="you@example.com" aria-label="Email address" required />
+                        <form
+                            class="newsletter-form"
+                            action="#"
+                            onsubmit="event.preventDefault();"
+                        >
+                            <input
+                                type="email"
+                                placeholder="you@example.com"
+                                aria-label="Email address"
+                                required
+                            />
                             <button class="btn" type="submit">Subscribe</button>
                         </form>
                     </div>
                 </div>
 
                 <div class="footer-bottom">
-                    <p class="footer-text">&copy; <span id="year"></span> ShopLight. All rights reserved.</p>
+                    <p class="footer-text">
+                        &copy; <span id="year"></span> ShopLight. All rights
+                        reserved.
+                    </p>
                 </div>
             </div>
         </footer>

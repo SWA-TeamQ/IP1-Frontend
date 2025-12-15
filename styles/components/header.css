@@ -176,7 +176,6 @@
   box-shadow: 0 8px 24px rgba(26,115,232,0.08);
 }
 
-/* Icon button style (used for other small actions) */
 .icon-btn {
   display: inline-flex;
   align-items: center;
@@ -189,6 +188,22 @@
   cursor: pointer;
   color: var(--color-text-secondary, #556677);
 }
+
+
+.nav-cart-btn{
+  display: flex;
+
+  img {
+    color : white;
+    fill:  white;
+    width : 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+
 
 /* Hamburger button (mobile) */
 .hamburger {
