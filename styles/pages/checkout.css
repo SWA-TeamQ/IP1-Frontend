@@ -1,4 +1,4 @@
-body {
+body.checkout-page {
     background-color: var(--color-bg-secondary);
     padding-bottom: 4rem;
 }
