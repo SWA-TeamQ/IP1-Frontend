@@ -65,6 +65,22 @@
 .hero-ctas {
     display: flex;
     gap : 2rem;
+    justify-content: center;
+    .btn{
+        font-size: 1.1rem;
+        padding: 14px 32px;
+        width : fit-content;
+        &.btn-outline{
+            border: 2px solid transparent;
+            color: var(--color-bg-primary);
+            background: var(--color-text-primary);
+            &:hover{
+                background: var(--color-bg-primary);
+                color: var(--color-text-primary);
+                border: 2px solid var(--color-text-primary);
+            }
+        }
+    }
 }
 
 
