@@ -1,4 +1,5 @@
 import { storageGetJson, storageSetJson } from "../../utils/storage.js";
+import { getProduct } from "../products/products.data.js";
 
 class CartItem {
     constructor(productId, quantity) {
@@ -19,7 +20,7 @@ class Cart {
 
     add(product, quantity = 1) {
         const existingCartItem = this.items.get(product.id);
-        const unit = product?.details?.salePrice || product.getPrice?.() || 0;
+        const unitPrice = product?.details?.salePrice || product.getPrice?.() || 0;
 
         if (existingCartItem) {
             existingCartItem.quantity += quantity;
@@ -27,15 +28,15 @@ class Cart {
             this.items.set(product.id, new CartItem(product.id, quantity));
         }
 
-        this.#total += unit * quantity;
+        this.#total += unitPrice * quantity;
         this.save();
     }
 
     remove(product) {
         const item = this.items.get(product.id);
         if (!item) return;
-        const unit = product?.details?.salePrice || product.getPrice?.() || 0;
-        this.#total -= unit * item.quantity;
+        const unitPrice = product?.details?.salePrice || product.getPrice?.() || 0;
+        this.#total -= unitPrice * item.quantity;
         this.items.delete(product.id);
         this.save();
     }
@@ -83,9 +84,9 @@ export function initCart() {
     window.shoppingCart = cart;
 
     window.addToCart = async (productId) => {
-        const { getProduct } = await import("../products/products.data.js");
         const product = getProduct(productId);
         if (!product) return;
+        
         cart.add(product);
         const navCartCount = document.getElementById("navCartCount");
         if (navCartCount)
