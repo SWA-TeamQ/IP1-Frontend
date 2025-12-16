@@ -3,7 +3,7 @@ export function $(selector, root = document) {
 }
 
 export function $$(selector, root = document) {
-    return Array.from(root.querySelectorAll(selector));
+    return [...root.querySelectorAll(selector)];
 }
 
 export function setText(el, text) {
