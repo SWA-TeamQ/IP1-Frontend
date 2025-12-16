@@ -104,7 +104,7 @@ function calculateTotals(productIds, cart) {
     const item = cart.get(productId);
     const product = getProduct(productId);
     if (item && product) {
-      const price = product.salePrice || product.price;
+      const price = product.salePrice || product.getPrice();
       subtotal += price * item.quantity;
       totalItems += item.quantity;
     }
@@ -198,7 +198,7 @@ function renderCartItems() {
       return;
     }
 
-    const price = product.details.salePrice ?? product.price ?? 0;
+    const price = product.details.salePrice ?? product.getPrice() ?? 0;
     const color = product.details.color;
     const size = product.details.size;
     const badge = product.details.badge;
@@ -323,7 +323,7 @@ function renderOrderSummary() {
   const lines = cartItems.map((item) => {
     const product = PRODUCTS.find((p) => p.id == item.productId);
     if (!product) return ""; // skip if product missing
-    const unit = product.details?.salePrice ?? product.price ?? 0;
+    const unit = product.details?.salePrice ?? product.getPrice() ?? 0;
     const lineTotal = unit * item.quantity;
     return `
       <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
@@ -336,7 +336,7 @@ function renderOrderSummary() {
   const subtotal = cartItems.reduce((sum, item) => {
     const product = PRODUCTS.find((p) => p.id == item.productId);
     if (!product) return sum;
-    const unit = product.details?.salePrice ?? product.price ?? 0;
+    const unit = product.details?.salePrice ?? product.getPrice() ?? 0;
     return sum + unit * item.quantity;
   }, 0);
 
@@ -372,7 +372,7 @@ export function onPrintReceipt(cartItems) {
     .map((item) => {
       const p = PRODUCTS.find((x) => x.id === item.productId);
       if (!p) return "";
-      const unitPrice = p.details?.salePrice ?? p.price ?? 0;
+      const unitPrice = p.details?.salePrice ?? p.getPrice() ?? 0;
       return `<tr>
         <td style="padding:6px 8px">${escapeHtml(p.name)}</td>
         <td style="padding:6px 8px;text-align:center">${item.quantity}</td>
@@ -384,7 +384,7 @@ export function onPrintReceipt(cartItems) {
 
   const subtotal = cartItems.reduce((s, i) => {
     const p = PRODUCTS.find((x) => x.id === i.productId);
-    const unit = p ? p.details?.salePrice ?? p.price ?? 0 : 0;
+    const unit = p ? p.details?.salePrice ?? p.getPrice() ?? 0 : 0;
     return s + unit * i.quantity;
   }, 0);
 
