@@ -4,7 +4,7 @@ import { TAX } from "./cart.constants.js";
 
 export function initCheckoutPage() {
     const orderSummaryEl = document.querySelector(".order-summary");
-    if (!orderSummaryEl) return;
+    if(!orderSummaryEl) return;
 
     const cart = window.shoppingCart;
     const cartItems = cart ? Array.from(cart.items.values()) : [];
@@ -47,8 +47,8 @@ export function initCheckoutPage() {
     placeOrderBtn?.addEventListener("click", () => {
         alert("Payment simulated — thank you for your purchase!");
         cart?.clear?.();
-        const countEl = document.getElementById("navCartCount");
-        if (countEl && cart)
-            countEl.textContent = String(cart.getTotalQuantity());
+        const navCartCount = document.getElementById("navCartCount");
+        if (navCartCount && cart)
+            navCartCount.textContent = String(cart.getTotalQuantity());
     });
 }

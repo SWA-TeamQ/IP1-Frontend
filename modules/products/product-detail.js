@@ -4,14 +4,14 @@ export default function ProductDetail(product) {
     const details = document.createElement("div");
     details.className = "product-details";
 
-  const imageUrl = (String(product.image || "").startsWith("/") ? product.image : "/" + String(product.image || ""));
-  const ratingStars = product.getRatingStars?.() ?? "";
-  const rating = product?.details?.rating || 0;
-  const reviews = product?.details?.reviewCount || 0;
-  const category = product?.details?.category || "—";
-  const color = product?.details?.color || "—";
-  const current = product?.details?.salePrice || product.getPrice?.() || 0;
-  const original = product.getPrice?.() || 0;
+    const imageUrl = product?.image || "";
+    const ratingStars = product?.getRatingStars?.() ?? "";
+    const rating = product?.details?.rating || 0;
+    const reviews = product?.details?.reviewCount || 0;
+    const category = product?.details?.category || "—";
+    const color = product?.details?.color || "—";
+    const current = product?.details?.salePrice || product.getPrice?.() || 0;
+    const original = product.getPrice?.() || 0;
 
     details.innerHTML = `
         <div class="product-details-grid">
@@ -31,7 +31,9 @@ export default function ProductDetail(product) {
                 <span class="pill" aria-label="Rating ${escapeHtml(
                     String(rating)
                 )} out of 5">${ratingStars}</span>
-                <span class="pill">${Number(reviews).toLocaleString()} reviews</span>
+                <span class="pill">${Number(
+                    reviews
+                ).toLocaleString()} reviews</span>
                 <span class="pill">${escapeHtml(category)}</span>
                 <span class="pill">Color: ${escapeHtml(color)}</span>
               </div>
@@ -41,15 +43,21 @@ export default function ProductDetail(product) {
               <span class="current">$${formatPrice(current)}</span>
               ${
                   product?.details?.salePrice
-                      ? `<span class="original">$${formatPrice(original)}</span>`
+                      ? `<span class="original">$${formatPrice(
+                            original
+                        )}</span>`
                       : ""
               }
             </div>
 
-            <p class="product-details-desc">${escapeHtml(product.description || "")}</p>
+            <p class="product-details-desc">${escapeHtml(
+                product.description || ""
+            )}</p>
 
             <div class="product-details-actions">
-              <button class="btn btn-primary" data-id="${escapeHtml(product.id)}">
+              <button class="btn btn-primary" data-id="${escapeHtml(
+                  product.id
+              )}">
                 Add to cart
               </button>
               <button
@@ -57,7 +65,9 @@ export default function ProductDetail(product) {
                 data-fav="${escapeHtml(product.id)}"
                 aria-pressed="${product.isFavorite}"
               >
-                <span>${product.isFavorite ? "Favorited" : "Add to favorites"}</span>
+                <span>${
+                    product.isFavorite ? "Favorited" : "Add to favorites"
+                }</span>
               </button>
             </div>
 
@@ -86,20 +96,19 @@ export default function ProductDetail(product) {
     `;
 
     details.querySelector("[data-id]")?.addEventListener("click", () => {
-        if (typeof window.addToCart === "function") {
-            window.addToCart(product.id);
-        }
+        window.addToCart(product.id);
     });
 
     const favBtn = details.querySelector("[data-fav]");
     favBtn?.addEventListener("click", () => {
-      if (typeof window.toggleFav === "function") {
-        window.toggleFav(product.id);
-        const isFav = !!product.isFavorite;
-        favBtn.setAttribute("aria-pressed", String(isFav));
-        const label = favBtn.querySelector("span");
-        if (label) label.textContent = isFav ? "Favorited" : "Add to favorites";
-      }
+        if (typeof window.toggleFav === "function") {
+            window.toggleFav(product.id);
+            const isFav = !!product.isFavorite;
+            favBtn.setAttribute("aria-pressed", String(isFav));
+            const label = favBtn.querySelector("span");
+            if (label)
+                label.textContent = isFav ? "Favorited" : "Add to favorites";
+        }
     });
 
     return details;

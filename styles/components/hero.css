@@ -46,8 +46,8 @@
     letter-spacing: -0.035em;
     text-shadow: 0 6px 32px rgba(30,115,232,0.13);
     background: linear-gradient(90deg, #1a73e8 60%, #10b981 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
     filter: drop-shadow(0 2px 12px rgba(16,185,129,0.08));
     text-align: left;
 }
