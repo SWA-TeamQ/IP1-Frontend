@@ -5,6 +5,6 @@ export function formatPrice(n) {
 export function escapeHtml(s) {
     if (s === null || s === undefined) return "";
     return String(s).replace(/[&<>"']/g, function (m) {
-        return { "&": "&", "<": "<", ">": ">", '"': '"', "'": "&#39;" }[m];
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
     });
 }
