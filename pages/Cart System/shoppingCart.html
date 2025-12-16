@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart</title>
+
+    <!-- Global styles -->
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="./ShoppingCart.css" />
+  </head>
+
+  <body>
+    <!-- Header / Navigation -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <a href="../index.html" class="logo">ShopLight</a>
+        </div>
+
+        <form class="search" role="search" aria-label="Search products">
+          <input type="search" placeholder="Search products..." />
+        </form>
+
+        <div class="header-actions">
+          <a
+            href="favorites.html"
+            aria-label="View favorites"
+            class="icon-btn"
+            title="Favorites"
+          >
+            ❤️
+          </a>
+
+          <a href="shoppingCart.html" class="cart-btn">
+            Cart
+            <span id="navCartCount" class="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="cart-header-section">
+      <div class="container">
+        <h1>Your Shopping Cart</h1>
+      </div>
+    </section>
+
+    <!-- Cart Content -->
+    <section class="cart-section">
+      <div class="container">
+        <div class="cart-layout">
+          <!-- Cart Items -->
+          <div class="cart-card">
+            <div class="cart-card-body">
+              <!-- Empty state -->
+              <div class="cart-empty" id="cartEmpty">
+                <p>Your cart is empty</p>
+                <a href="../index.html" class="btn-continue">
+                  Continue Shopping
+                </a>
+              </div>
+
+              <!-- Items rendered here -->
+              <div id="cartItemsList"></div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <aside class="summary-card">
+            <div class="summary-card-header">
+              <h2>Summary</h2>
+            </div>
+            <div class="summary-card-body order-summary">
+              <!-- checkout.js injects content here -->
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Checkout</h3>
+          <button id="closeModal" class="modal-close">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <div id="orderSummary"></div>
+
+          <div class="modal-actions">
+            <button id="confirmPayment" class="btn btn-primary">
+              Complete Purchase
+            </button>
+            <button id="printReceipt" class="btn btn-secondary">
+              Download Receipt
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> ShopLight. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- ✅ FIXED SCRIPT INTEGRATION -->
+    <script type="module">
+      import { initCart } from "../modules/cart/cart.store.js";
+      import { initCheckoutPage } from "../modules/cart/checkout.js";
+      import { onPrintReceipt } from "../modules/cart/receipt.js";
+      import { products } from "../modules/products/products.data.js";
+
+      // Initialize cart
+      const cart = initCart();
+
+      // Initialize checkout summary
+      initCheckoutPage();
+
+      // Receipt button
+      const printBtn = document.getElementById("printReceipt");
+      printBtn?.addEventListener("click", () => {
+        const items = Array.from(cart.items.values());
+        onPrintReceipt(items, products);
+      });
+
+      // Footer year
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
