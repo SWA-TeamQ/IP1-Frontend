@@ -1,10 +1,16 @@
 import { getProduct } from "../js/data/products.js";
 import { escapeHtml, formatPrice } from "../js/lib/utils.js";
+import { addToCart } from "./Cart/CartSystem.js";
 
 const quickViewModal = document.getElementById("quickViewModal");
 const quickViewTitle = document.getElementById("quickViewTitle");
 const quickViewBody = document.getElementById("quickViewBody");
 const quickViewClose = document.getElementById("quickViewClose");
+
+// Check if product is in cart
+function isInCart(productId) {
+    return window.shoppingCart && window.shoppingCart.items.has(productId);
+}
 
 // Quick view modal
 export function openQuickViewModal(productId) {
@@ -13,6 +19,7 @@ export function openQuickViewModal(productId) {
 
     quickViewTitle.textContent = product.name;
     const stars = product.getRatingStars();
+    const inCart = isInCart(productId);
 
     quickViewBody.innerHTML = `
       <div class="quick-view-content">
@@ -37,7 +44,7 @@ export function openQuickViewModal(productId) {
         product.details.reviewCount || 0
     } reviews)
           </div>
-          
+
           <div class="quick-view-price-row">
             <span class="quick-view-price-current">$${formatPrice(
                 product.details.salePrice || product.getPrice()
@@ -59,11 +66,33 @@ export function openQuickViewModal(productId) {
             }" onclick="toggleFav('${productId}', this)">
               ${product.isFavorite ? "♥" : "♡"}
             </button>
-            <button class="btn quick-view-add-btn" onclick="addToCart('${productId}')">Add to Cart</button>
+            <button class="btn quick-view-add-btn ${inCart ? "added" : ""}" data-product-id="${productId}">
+              ${inCart ? "✓ Added" : "Add to Cart"}
+            </button>
           </div>
         </div>
       </div>
     `;
+
+    // Attach event listener for add to cart button
+    const addBtn = quickViewBody.querySelector(".quick-view-add-btn");
+    addBtn.addEventListener("click", () => {
+        if (!isInCart(productId)) {
+            addToCart(productId);
+            addBtn.textContent = "✓ Added";
+            addBtn.classList.add("added");
+
+            // Also update the product card button on the main page
+            const productCard = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+            if (productCard) {
+                const cardBtn = productCard.querySelector(".btn-primary");
+                if (cardBtn) {
+                    cardBtn.textContent = "✓ Added";
+                    cardBtn.classList.add("added");
+                }
+            }
+        }
+    });
 
     quickViewModal.style.display = "";
     quickViewModal.classList.add("active");

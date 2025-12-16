@@ -2,7 +2,8 @@
 import { extractProductsCategories, PRODUCTS as products } from "./js/data/products.js";
 import ProductList from "./components/product-list.js";
 import Toast from "./components/toast.js";
-import { addToCart, renderCart } from "./components/Cart/CartSystem.js";
+import { addToCart, renderCart, closeCheckout } from "./components/Cart/CartSystem.js";
+import { closeQuickViewModal } from "./components/quick-view-model.js";
 import "./components/Cart/cart-drawer.js";
 
 // DOM Elements - Updated for professional design
@@ -12,6 +13,7 @@ const sortSelect = document.getElementById("sortSelect");
 const searchInput = document.getElementById("searchInput");
 
 const favoritesBtn = document.getElementById("favoritesBtn");
+const checkoutModal = document.getElementById("checkoutModal");
 
 // function debounce(func, wait) {
 //     let timeout;
@@ -74,9 +76,9 @@ function wireEvents() {
     });
 
     // close modal on overlay click
-    checkoutModal.addEventListener("click", (e) => {
-        if (e.target === checkoutModal) closeCheckout();
-    });
+    // checkoutModal.addEventListener("click", (e) => {
+    //     if (e.target === checkoutModal) closeCheckout();
+    // });
 
     // keyboard accessibility
     document.addEventListener("keydown", (e) => {
@@ -104,7 +106,7 @@ function renderProducts(products_list) {
         productGrid.innerHTML = '<p class="muted">No products found.</p>';
         return;
     }
-    productGrid.appendChild(ProductList(products_list));
+    productGrid.appendChild(ProductList(products_list, onFilterChange));
 }
 
 // Initialize the app

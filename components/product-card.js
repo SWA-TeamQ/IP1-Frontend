@@ -1,11 +1,18 @@
 import { escapeHtml, formatPrice } from "../js/lib/utils.js";
 import { openQuickViewModal } from "./quick-view-model.js";
+import { addToCart } from "./Cart/CartSystem.js";
 
-export default function ProductCard(product) {
+// Check if product is in cart
+function isInCart(productId) {
+  return window.shoppingCart.items.has(productId);
+}
+
+export default function ProductCard(product, onFilterChange) {
   const card = document.createElement("div");
   card.className = "card";
 
   const stars = product.getRatingStars();
+  const inCart = isInCart(product.id);
 
   // Badge class based on badge text
   const badgeClass = product.details.badge
@@ -46,9 +53,9 @@ export default function ProductCard(product) {
             <div class="card-content">
               <div>
                 <h3 class="card-title">${product.name}</h3>
-                <product class="card-subtitle">
+                <p class="card-subtitle">
                   ${product.details.category} • ${product.details.color}
-                </product> 
+                </p>
               </div>
               <div class="rating">
                 <span class="stars" aria-label="Rating: ${product?.details?.rating || 0
@@ -68,27 +75,31 @@ export default function ProductCard(product) {
     }
               </div>
               <div class="card-actions">
-                <button class="btn btn-primary" data-id="${product.id}">
-                  Add to cart
+                <button class="btn btn-primary add-to-cart-btn ${inCart ? 'added' : ''}" data-id="${product.id}">
+                  ${inCart ? '✓ Added' : 'Add to cart'}
                 </button>
-                
-                
-                
               </div>
             </div>
           `;
 
-  // Event Listeners
-  // attach listeners
-  card.querySelector(".btn-primary").addEventListener("click", () => {
-    addToCart(product.id);
+  // DOM references
+  const addToCartBtn = card.querySelector(".add-to-cart-btn");
+
+  // Add to Cart click
+  addToCartBtn.addEventListener("click", () => {
+    if (!isInCart(product.id)) {
+      addToCart(product.id);
+      addToCartBtn.textContent = "✓ Added";
+      addToCartBtn.classList.add("added");
+    }
   });
 
   const favBtn = card.querySelector("[data-fav]");
   favBtn.addEventListener("click", () => {
-    toggleFav(product.id, favBtn);
+    window.favorites.toggle(product.id);
+    product.isFavorite = !product.isFavorite;
     favBtn.classList.toggle("favorited", product.isFavorite);
-    onFilterChange();
+    if (onFilterChange) onFilterChange();
   });
 
   const quickViewBtn = card.querySelector("[data-quickview]");

@@ -267,6 +267,16 @@
   fill: currentColor;
 }
 
+/* Added to Cart Button State */
+.btn-primary.added {
+  background: linear-gradient(135deg, var(--color-success), #059669);
+  cursor: default;
+}
+
+.btn-primary.added:hover {
+  transform: none;
+}
+
 /* Mobile Card Actions */
 @media (max-width: 768px) {
   .card-actions {

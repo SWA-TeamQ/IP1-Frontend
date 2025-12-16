@@ -2,8 +2,9 @@ import { PRODUCTS as products, getProduct } from "../../js/data/products.js";
 import { escapeHtml, formatPrice } from "../../js/lib/utils.js";
 import CartList from "./cart-list.js";
 import Toast from "../toast.js";
-import { TAX } from "../../constants/global-variables.js";
-import { onPrintReceipt } from "../../js/lib/printReciept.js";
+// import { onPrintReceipt } from "../../js/lib/printReciept.js";
+
+
 
 const cartBtn = document.getElementById("cartBtn");
 const cartList = document.getElementById("cartList");
@@ -31,11 +32,15 @@ export function addToCart(productId) {
 }
 
 export function renderCart() {
+    if (!cartList) {
+        updateCartCount();
+        return;
+    }
     cartList.innerHTML = "";
 
     if (!window.shoppingCart.items.size) {
         cartList.innerHTML = '<p class="muted">Your cart is empty.</p>';
-        cartTotalEl.textContent = "$0.00";
+        if (cartTotalEl) cartTotalEl.textContent = "$0.00";
         return;
     }
     const arrayOfItems = Array.from(window.shoppingCart.items.values());
@@ -46,7 +51,7 @@ export function renderCart() {
         removeFromCart
     );
     cartList.appendChild(cartListObj.element);
-    cartTotalEl.textContent = `$${formatPrice(cartListObj.total)}`;
+    if (cartTotalEl) cartTotalEl.textContent = `$${formatPrice(cartListObj.total)}`;
     updateCartCount();
 }
 
@@ -63,26 +68,30 @@ export function removeFromCart(productId) {
 
 export function updateCartCount() {
     const count = window.shoppingCart.getTotalQuantity();
-    cartCountEl.textContent = String(count);
+    if (cartCountEl) cartCountEl.textContent = String(count);
 
     // one-shot pop animation to indicate update (CSS .cart-count.pop)
     try {
-        cartCountEl.classList.remove("pop");
-        // force reflow
-        // eslint-disable-next-line no-unused-expressions
-        void cartCountEl.offsetWidth;
-        cartCountEl.classList.add("pop");
+        if (cartCountEl) {
+            cartCountEl.classList.remove("pop");
+            // force reflow
+            // eslint-disable-next-line no-unused-expressions
+            void cartCountEl.offsetWidth;
+            cartCountEl.classList.add("pop");
+        }
     } catch (e) {
         // element may not exist or animation not supported — ignore
     }
-    cartBtn.animate(
-        [
-            { transform: "scale(1)" },
-            { transform: "scale(1.06)" },
-            { transform: "scale(1)" },
-        ],
-        { duration: 220 }
-    );
+    if (cartBtn && cartBtn.animate) {
+        cartBtn.animate(
+            [
+                { transform: "scale(1)" },
+                { transform: "scale(1.06)" },
+                { transform: "scale(1)" },
+            ],
+            { duration: 220 }
+        );
+    }
 }
 
 export function clearCart() {
@@ -102,47 +111,42 @@ export function openCheckout() {
 
 export function closeCheckout() {
     checkoutModal.setAttribute("aria-hidden", "true");
+    checkoutModal.classList.remove("active");
 }
 
-export function renderOrderSummary() {
-    const cartItems = Array.from(window.shoppingCart.items.values());
-    console.log("cart items", cartItems);
+// export function renderOrderSummary() {
+//   const cart = getCart();
+//   const cartItems = Array.from(cart.values());
+//   if (!orderSummary) return;
 
-    const lines = cartItems.map((item) => {
-        const product = getProduct(item.productId);
-        const unit = product.details.salePrice || product.getPrice();
-        const lineTotal = unit * item.quantity;
-        return `
-        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
-          <div>${escapeHtml(product.name)} x ${item.quantity}</div>
-          <div><strong>$${formatPrice(lineTotal)}</strong></div>
-        </div>
-      `;
-    });
-    const subtotal = cartItems.reduce((s, i) => {
-        const p = getProduct(i.productId);
-        const unit = p ? p.details.salePrice || p.getPrice() : 0;
-        return s + unit * i.quantity;
-    }, 0);
-    const tax = subtotal * (TAX / 100);
-    const total = subtotal + tax;
+// const lines = cartItems.map(item => {
+//   const product = products.find(p => p.id == item.productId);
+//   if (!product) return '';
+//   const unit = product.details?.salePrice ?? product.price ?? 0;
+//   const lineTotal = unit * item.quantity;
+//   return `<div>...</div>`;
+// });
 
-    orderSummary.innerHTML = `
-      <div>
-        ${lines.join("")}
-        <hr>
-        <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div>$${formatPrice(
-        subtotal
-    )}</div></div>
-        <div style="display:flex;justify-content:space-between"><div>Tax (${TAX}%)</div><div>$${formatPrice(
-        tax
-    )}</div></div>
-        <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:0.5rem"><div>Total</div><div>$${formatPrice(
-        total
-    )}</div></div>
-      </div>
-    `;
-}
+
+//   const subtotal = cartItems.reduce((sum, item) => {
+//     const product = products.find((p) => p.id == item.productId);
+//     const unit = product ? product.details.salePrice || product.price : 0;
+//     return sum + unit * item.quantity;
+//   }, 0);
+
+//   const shipping = subtotal > 0 ? SHIPPING_COST : 0;
+//   const total = subtotal + shipping;
+
+//   orderSummary.innerHTML = `
+//     ${lines.join("")}
+//     <hr>
+//     <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div>$${subtotal.toFixed(2)}</div></div>
+//     <div style="display:flex;justify-content:space-between"><div>Shipping</div><div>$${shipping.toFixed(2)}</div></div>
+//     <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:0.5rem"><div>Total</div><div>$${total.toFixed(2)}</div></div>
+//   `;
+// }
+
+
 
 export function onConfirmPayment() {
     // simple simulated payment flow
@@ -156,11 +160,11 @@ export function onConfirmPayment() {
 }
 
 export function events() {
-    checkoutBtn.addEventListener("click", openCheckout);
-    cartClearBtn.addEventListener("click", clearCart);
-    closeModal.addEventListener("click", closeCheckout);
-    confirmPayment.addEventListener("click", onConfirmPayment);
-    printReceipt.addEventListener("click", () => {
+    if (checkoutBtn) checkoutBtn.addEventListener("click", openCheckout);
+    if (cartClearBtn) cartClearBtn.addEventListener("click", clearCart);
+    if (closeModal) closeModal.addEventListener("click", closeCheckout);
+    if (confirmPayment) confirmPayment.addEventListener("click", onConfirmPayment);
+    if (printReceipt) printReceipt.addEventListener("click", () => {
         const cartItems = Array.from(window.shoppingCart.items.values());
         onPrintReceipt(cartItems, products);
     });

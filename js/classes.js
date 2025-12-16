@@ -90,11 +90,7 @@ class Cart {
 
     add(product, quantity = 1) {
         const existingCartItem = this.items.get(product.id);
-        if (existingCartItem) {
-            existingCartItem.quantity += quantity;
-            const price = product.details.salePrice || product.getPrice();
-            this.#total += price * quantity;
-        } else {
+        if (!existingCartItem) {
             this.items.set(product.id, new CartItem(product.id, quantity));
             const price = product.details.salePrice || product.getPrice();
             this.#total += price * quantity;
