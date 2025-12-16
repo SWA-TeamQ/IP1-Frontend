@@ -1,4 +1,2 @@
-// Cart/checkout related constants.
-
 // Tax percentage used in checkout/receipt calculations.
-export const TAX = 14;
+export const TAX = 15;
