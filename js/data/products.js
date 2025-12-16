@@ -9,7 +9,7 @@ const PRODUCTS = [
         "1",
         "Linen Classic Shirt",
         29.99,
-        "../assets/images/image (1).jpg",
+        "/assets/images/image (1).jpg",
         "Lightweight linen shirt, breathable and perfect for warm days.",
         {
             category: "Clothing",
@@ -25,7 +25,7 @@ const PRODUCTS = [
         "2",
         "Everyday Sneakers",
         64.99,
-        "assets/images/product-2.svg",
+        "/assets/images/product-2.svg",
         "Comfortable sneakers with a minimalist design.",
         {
             category: "Shoes",
@@ -41,7 +41,7 @@ const PRODUCTS = [
         "3",
         "Minimalist Watch",
         89.0,
-        "assets/images/product-3.svg",
+        "/assets/images/product-3.svg",
         "Slim profile watch with leather strap.",
         {
             category: "Accessories",
@@ -57,7 +57,7 @@ const PRODUCTS = [
         "4",
         "Cozy Knit Sweater",
         49.5,
-        "assets/images/product-4.svg",
+        "/assets/images/product-4.svg",
         "Warm knit sweater with soft fibers and relaxed fit.",
         {
             category: "Clothing",
@@ -73,7 +73,7 @@ const PRODUCTS = [
         "5",
         "Minimalist Watch",
         89.0,
-        "assets/images/product-3.svg",
+        "/assets/images/product-3.svg",
         "Slim profile watch with leather strap.",
         {
             category: "Accessories",
@@ -89,7 +89,7 @@ const PRODUCTS = [
         "6",
         "Cozy Knit Sweater",
         49.5,
-        "assets/images/product-4.svg",
+        "/assets/images/product-4.svg",
         "Warm knit sweater with soft fibers and relaxed fit.",
         {
             category: "Clothing",
@@ -105,7 +105,7 @@ const PRODUCTS = [
         "7",
         "Classic Denim",
         54.0,
-        "assets/images/product-5.svg",
+        "/assets/images/product-5.svg",
         "Durable denim jeans with modern cut.",
         {
             category: "Clothing",
@@ -120,7 +120,7 @@ const PRODUCTS = [
         "8",
         "Canvas Tote Bag",
         19.99,
-        "assets/images/product-6.svg",
+        "/assets/images/product-6.svg",
         "Sturdy tote for everyday errands.",
         {
             category: "Accessories",
@@ -135,7 +135,7 @@ const PRODUCTS = [
         "9",
         "Trail Running Shoes",
         79.99,
-        "assets/images/product-7.svg",
+        "/assets/images/product-7.svg",
         "Lightweight trail shoes with extra grip.",
         {
             category: "Shoes",
@@ -150,7 +150,7 @@ const PRODUCTS = [
         "10",
         "Classic Baseball Cap",
         14.5,
-        "assets/images/product-8.svg",
+        "/assets/images/product-8.svg",
         "Simple cap with embroidered logo.",
         {
             category: "Accessories",
