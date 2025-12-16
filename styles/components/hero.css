@@ -65,6 +65,7 @@
 .hero-ctas {
     display: flex;
     gap : 2rem;
+
 }
 
 
@@ -112,4 +113,15 @@
 .hero-cta:focus {
     transform: translateY(-4px);
     box-shadow: 0 14px 36px rgba(26, 115, 232, 0.22);
+}
+.btn.btn-outline{
+    background: #000;
+    border: 2px solid transparent;
+    color: #fff;
+}
+
+.btn.btn-outline:hover{
+    background: #7c7777;
+    border: 2px solid #fff;
+    transform: translateY(-4px);
 }
