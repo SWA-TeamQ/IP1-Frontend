@@ -209,6 +209,16 @@
   box-shadow: var(--shadow-lg);
 }
 
+.quick-view-add-btn.added {
+  background: linear-gradient(135deg, var(--color-success), #059669);
+  cursor: default;
+  opacity: 0.9;
+}
+
+.quick-view-add-btn.added:hover {
+  transform: none;
+}
+
 @media (max-width: 768px) {
   .quick-view-content {
     grid-template-columns: 1fr;
