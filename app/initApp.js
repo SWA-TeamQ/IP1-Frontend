@@ -1,13 +1,16 @@
 import { setText } from "../utils/dom.js";
 import { initCart } from "../modules/cart/cart.store.js";
 import { initFavorites } from "../modules/products/favorites.store.js";
-import { PRODUCTS, getProduct } from "../modules/products/products.data.js";
+import { PRODUCTS, getProduct, getProducts } from "../modules/products/products.data.js";
 
-export function initApp() {
+export async function initApp() {
     setText(document.getElementById("year"), new Date().getFullYear());
 
     // Global stores
     const favorites = initFavorites();
+
+    // Ensure products are loaded so we can sync favorites with product objects.
+    await getProducts();
     for (const p of PRODUCTS) {
         p.isFavorite = favorites?.has?.(p.id) ?? false;
     }
