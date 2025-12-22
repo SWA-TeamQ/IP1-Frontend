@@ -4,7 +4,8 @@ export default function ProductDetail(product) {
     const details = document.createElement("div");
     details.className = "product-details";
 
-    const imageUrl = `../../${product?.image}` || "";
+    const imageUrl = product?.image || "";
+
     const ratingStars = product?.getRatingStars?.() ?? "";
     const rating = product?.details?.rating || 0;
     const reviews = product?.details?.reviewCount || 0;

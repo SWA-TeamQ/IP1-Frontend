@@ -13,7 +13,9 @@ export default function ProductCard(product) {
 
     const iconCartUrl = "/assets/icons/cart.svg";
     const iconHeartUrl = "/assets/icons/heart.svg";
-    const productImageUrl = (String(product.image || "").startsWith("/") ? product.image : "/" + String(product.image || ""));
+    // Used the image URL as provided by the product data. cause API images are absolute URLs (https://...)
+    
+    const productImageUrl = product?.image ? String(product.image) : "";
     const productHref = `/pages/product-detail/index.html?id=${encodeURIComponent(product.id)}`;
 
     card.innerHTML = `
