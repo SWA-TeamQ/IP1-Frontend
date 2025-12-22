@@ -16,8 +16,8 @@ initApp().then(() => {
     initProductsPage();
   }
 
-  // Product detail page
-  if (document.querySelector(".product-details")) {
+  // Product detail page (detect by root container id)
+  if (document.getElementById("productDetailRoot")) {
     initProductDetailPage();
   }
 

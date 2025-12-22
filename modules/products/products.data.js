@@ -1,7 +1,7 @@
 import { fetchProducts, fetchProductById } from "./products.api.js";
 import { mapApiProduct } from "./products.mapper.js";
 
-// Export a mutable array so existing code can import `PRODUCTS` synchronously.
+// Exported a mutable array so existing code can import `PRODUCTS` synchronously.
 // `getProducts()` will populate this array when the API is fetched.
 export const PRODUCTS = [];
 
