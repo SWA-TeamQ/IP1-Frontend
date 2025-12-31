@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="../styles/pages/register.css">
 </head>
 <body>
-
-<div class="auth-page">
+<div class="auth-page-wrapper">
     <div class="auth-card">
 
         <div class="brand">
@@ -26,34 +25,28 @@
         <form id="registerForm" novalidate>
             <div class="form-group">
                 <label for="fullNameInput">Full Name</label>
-                <input id="fullNameInput" class="form-input" required 
-                       autocomplete="name" aria-describedby="name-error">
+                <input id="fullNameInput" class="form-input" required autocomplete="name">
             </div>
 
             <div class="form-group">
                 <label for="emailInput">Email</label>
-                <input id="emailInput" type="email" class="form-input" required 
-                       autocomplete="email" aria-describedby="email-error">
+                <input id="emailInput" type="email" class="form-input" required autocomplete="email">
             </div>
 
             <div class="form-group">
                 <label for="phoneInput">Phone Number</label>
-                <input id="phoneInput" type="tel" class="form-input" 
-                       placeholder="+251911000000" required 
-                       autocomplete="tel" aria-describedby="phone-error">
+                <input id="phoneInput" type="tel" class="form-input" placeholder="+251911000000" required autocomplete="tel">
             </div>
 
             <div class="form-group">
                 <label for="passwordInput">Password</label>
-                <input id="passwordInput" type="password" class="form-input" required 
-                       autocomplete="new-password" aria-describedby="password-error password-hint">
-                <small id="password-hint" class="hint">Min 8 chars, uppercase, lowercase & number</small>
+                <input id="passwordInput" type="password" class="form-input" required autocomplete="new-password">
+                <small class="hint">Min 8 chars, uppercase, lowercase & number</small>
             </div>
 
             <div class="form-group">
                 <label for="confirmPasswordInput">Confirm Password</label>
-                <input id="confirmPasswordInput" type="password" class="form-input" required 
-                       autocomplete="new-password" aria-describedby="confirm-error">
+                <input id="confirmPasswordInput" type="password" class="form-input" required autocomplete="new-password">
             </div>
 
             <button type="submit" class="btn-primary">Create Account</button>

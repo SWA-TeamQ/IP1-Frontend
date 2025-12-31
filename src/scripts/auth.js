@@ -15,7 +15,6 @@ function saveUsers(users) {
 }
 
 function hashPassword(password) {
-    // Simple hash for demo - NOT for production
     return btoa(password) + '_' + password.length;
 }
 
@@ -44,7 +43,6 @@ function isStrongPassword(password) {
    REGISTER
 ================================ */
 const registerForm = document.getElementById("registerForm");
-
 if (registerForm) {
     const fullNameInput = document.getElementById("fullNameInput");
     const emailInput = document.getElementById("emailInput");
@@ -53,7 +51,6 @@ if (registerForm) {
     const confirmPasswordInput = document.getElementById("confirmPasswordInput");
     const messageBox = document.getElementById("registerMessage");
 
-    // Added: Real-time validation
     const validateEmail = () => {
         if (emailInput.value && !isValidEmail(emailInput.value)) {
             emailInput.classList.add("error");
@@ -71,26 +68,17 @@ if (registerForm) {
         }
     };
 
-    // Add real-time listeners
     emailInput.addEventListener("blur", validateEmail);
     passwordInput.addEventListener("blur", validatePasswordStrength);
 
-    registerForm.addEventListener("submit", async function (e) {
-            e.preventDefault();
+    registerForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const submitButton = registerForm.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.textContent = "Creating Account...";
+        submitButton.disabled = true;
 
-            // Added: Loading state
-            const submitButton = registerForm.querySelector('button[type="submit"]');
-            const originalText = submitButton.textContent;
-            submitButton.textContent = "Creating Account...";
-            submitButton.disabled = true;
-
-        clearErrors([
-            fullNameInput,
-            emailInput,
-            phoneInput,
-            passwordInput,
-            confirmPasswordInput
-        ]);
+        clearErrors([fullNameInput, emailInput, phoneInput, passwordInput, confirmPasswordInput]);
 
         const fullName = fullNameInput.value.trim();
         const email = emailInput.value.trim();
@@ -123,7 +111,6 @@ if (registerForm) {
         }
 
         const users = getUsers();
-
         if (users.some(u => u.email === email)) {
             showMessage(messageBox, "Email already registered.", "error");
             submitButton.textContent = originalText;
@@ -131,24 +118,12 @@ if (registerForm) {
             return;
         }
 
-        users.push({
-            fullName,
-            email,
-            phone,
-            password: hashPassword(password)
-        });
-
+        users.push({ fullName, email, phone, password: hashPassword(password) });
         saveUsers(users);
 
-        showMessage(
-            messageBox,
-            "Account created successfully. Redirecting to login...",
-            "success"
-        );
+        showMessage(messageBox, "Account created successfully. Redirecting to login...", "success");
 
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 1500);
+        setTimeout(() => window.location.href = "login.html", 1500);
     });
 }
 
@@ -156,7 +131,6 @@ if (registerForm) {
    LOGIN
 ================================ */
 const loginForm = document.getElementById("loginForm");
-
 if (loginForm) {
     const loginEmail = document.getElementById("loginEmail");
     const loginPassword = document.getElementById("loginPassword");
@@ -169,9 +143,7 @@ if (loginForm) {
         const password = loginPassword.value;
 
         const users = getUsers();
-        const user = users.find(
-            u => u.email === email && u.password === hashPassword(password)
-        );
+        const user = users.find(u => u.email === email && u.password === hashPassword(password));
 
         if (!user) {
             showMessage(messageBox, "Invalid email or password.", "error");
@@ -179,12 +151,9 @@ if (loginForm) {
         }
 
         localStorage.setItem("loggedInUser", JSON.stringify(user));
-
         showMessage(messageBox, "Login successful. Redirecting...", "success");
 
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 1500);
+        setTimeout(() => window.location.href = "index.html", 1500);
     });
 }
 
@@ -192,7 +161,6 @@ if (loginForm) {
    FORGOT PASSWORD
 ================================ */
 const forgotForm = document.getElementById("forgotForm");
-
 if (forgotForm) {
     const resetEmail = document.getElementById("resetEmail");
     const newPassword = document.getElementById("newPassword");
@@ -225,14 +193,12 @@ if (forgotForm) {
 
         showMessage(messageBox, "Password updated successfully.", "success");
 
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 1500);
+        setTimeout(() => window.location.href = "login.html", 1500);
     });
 }
 
 /* ===============================
-   GOOGLE LOGIN (UI SIMULATION)
+   GOOGLE LOGIN SIMULATION
 ================================ */
 function simulateGoogleLogin() {
     const box = document.getElementById("loginMessage");
@@ -245,10 +211,7 @@ function simulateGoogleLogin() {
     };
 
     localStorage.setItem("loggedInUser", JSON.stringify(googleUser));
-
     showMessage(box, "Signed in with Google. Redirecting...", "success");
 
-    setTimeout(() => {
-        window.location.href = "index.html";
-    }, 1500);
+    setTimeout(() => window.location.href = "index.html", 1500);
 }
