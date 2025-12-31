@@ -30,7 +30,7 @@ export function renderNavbar() {
     </header>`;
 }
 
-export const insertNavBar = (target = document.body) => {
+export const insertNavbar = (target = document.body) => {
     console.log("Inserting navbar", target);
     if (!target) return;
     target.insertAdjacentHTML("afterbegin", renderNavbar());

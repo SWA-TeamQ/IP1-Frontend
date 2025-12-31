@@ -1,10 +1,11 @@
+import { $ } from "/src/utils/dom.js";
 import { fetchProduct } from "../products/product.api.js";
 import { formatPrice } from "/src/utils/formatters.js";
 import { TAX } from "./cart.constants.js";
 import { getPrice } from "../products/product.helpers.js";
 
 export function initCheckoutPage() {
-    const orderSummaryEl = $(".order-summary");
+    const orderSummaryEl = document.querySelector(".order-summary");
     if (!orderSummaryEl) return;
 
     const cart = window.shoppingCart;

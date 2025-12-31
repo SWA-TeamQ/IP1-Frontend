@@ -20,7 +20,7 @@ export default function ProductCard(product) {
         ? String(product.details.badge).toLowerCase()
         : "";
 
-    
+    console.log(product)
     const productImageUrl = product.images[0] ?? "";
 
     const productHref = `/pages/product-detail/index.html?id=${encodeURIComponent(

@@ -1,4 +1,5 @@
 export function $(selector, root = document) {
+    console.log("Selecting", selector, "in", root);
     return root.querySelector(selector);
 }
 

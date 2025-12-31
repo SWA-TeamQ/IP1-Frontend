@@ -1,5 +1,5 @@
-import { fetchProduct } from "../../modules/products/product.api.js";
-import ProductDetail from "../../modules/products/product-detail.js";
+import { fetchProduct } from "../modules/products/product.api.js";
+import ProductDetail from "../modules/products/product-detail.js";
 
 export async function initProductDetailPage() {
     const root = document.getElementById("productDetailRoot");
