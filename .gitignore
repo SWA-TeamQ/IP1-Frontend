@@ -5,3 +5,12 @@
 node_modules/
 build/
 dist/
+.vscode/
+.DS_Store
+
+.env
+*.log
+coverage/
+*.test.js
+*.spec.js
+.idea/
