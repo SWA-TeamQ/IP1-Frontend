@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../styles/pages/admin.css" />
+</head>
+<body>
+
+<script>
+    const role = localStorage.getItem("role");
+    if (role !== "admin") {
+        window.location.href = "../pages/login.html";
+    }
+</script>
+
+<header>
+    <h1>Admin Dashboard</h1>
+    <button id="logoutBtn">Logout</button>
+</header>
+
+<section class="form-section">
+    <h2>Add / Update Product</h2>
+
+    <form id="productForm">
+        <input type="hidden" id="productId" />
+
+        <input type="text" id="name" placeholder="Product Name" required />
+        <input type="text" id="description" placeholder="Description" required />
+        <input type="number" id="price" placeholder="Price" required />
+        <input type="text" id="category" placeholder="Category" required />
+        <input type="text" id="image" placeholder="Image URL" required />
+
+        <button type="submit">Save Product</button>
+    </form>
+</section>
+
+<section>
+    <h2>Products</h2>
+    <div id="productsList"></div>
+</section>
+
+<script type="module" src="../scripts/admin.js"></script>
+</body>
+</html>
