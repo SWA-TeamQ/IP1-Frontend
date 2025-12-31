@@ -153,7 +153,7 @@ if (loginForm) {
         localStorage.setItem("loggedInUser", JSON.stringify(user));
         showMessage(messageBox, "Login successful. Redirecting...", "success");
 
-        setTimeout(() => window.location.href = "../index.html", 1500);
+        setTimeout(() => window.location.href = "index.html", 1500);
     });
 }
 
@@ -170,8 +170,6 @@ if (forgotForm) {
     forgotForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        console.log("Forgot password form submitted");
-
         if (!isStrongPassword(newPassword.value)) {
             showMessage(messageBox, "Password does not meet requirements.", "error");
             return;
@@ -183,11 +181,7 @@ if (forgotForm) {
         }
 
         const users = getUsers();
-        console.log("Users found:", users);
-        console.log("Looking for email:", resetEmail.value.trim());
-        
         const index = users.findIndex(u => u.email === resetEmail.value.trim());
-        console.log("User index found:", index);
 
         if (index === -1) {
             showMessage(messageBox, "No account found with this email.", "error");
