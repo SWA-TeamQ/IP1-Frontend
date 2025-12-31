@@ -1,0 +1,220 @@
+{
+    "products": [
+        {
+            "id": "prod_p0",
+            "name": "Minimalist Watch",
+            "description": "Sleek stainless steel watch with leather strap.",
+            "pricing": {
+                "price": 129.0,
+                "salePrice": null
+            },
+            "category": "accessories",
+            "attributes": {
+                "color": "Silver"
+            },
+            "metrics": {
+                "rating": 4.6,
+                "reviewCount": 120
+            },
+            "badges": ["NEW"],
+            "images": [
+                {
+                    "url": "/assets/images/image-5.jpg",
+                    "alt": "Minimalist Watch"
+                }
+            ]
+        },
+        {
+            "id": "prod_p1",
+            "name": "Minimalist Watch",
+            "description": "Sleek stainless steel watch with leather strap.",
+            "pricing": {
+                "price": 129.0,
+                "salePrice": null
+            },
+            "category": "accessories",
+            "attributes": {
+                "color": "Silver"
+            },
+            "metrics": {
+                "rating": 4.6,
+                "reviewCount": 120
+            },
+            "badges": ["NEW"],
+            "images": [
+                {
+                    "url": "/assets/images/image-2.jpg",
+                    "alt": "Minimalist Watch"
+                }
+            ]
+        },
+        {
+            "id": "prod_p2",
+            "name": "Cozy Knit Sweater",
+            "description": "Comfortable knit sweater in neutral tones.",
+            "pricing": {
+                "price": 89.0,
+                "salePrice": 69.0
+            },
+            "category": "apparel",
+            "attributes": {
+                "color": "Beige"
+            },
+            "metrics": {
+                "rating": 4.5,
+                "reviewCount": 80
+            },
+            "badges": [],
+            "images": [
+                {
+                    "url": "/assets/images/image-3.jpg",
+                    "alt": "Cozy Knit Sweater"
+                }
+            ]
+        },
+        {
+            "id": "prod_p3",
+            "name": "Noise-Cancelling Headphones",
+            "description": "Immersive sound with long battery life.",
+            "pricing": {
+                "price": 199.0,
+                "salePrice": 179.0
+            },
+            "category": "electronics",
+            "attributes": {
+                "color": "Black"
+            },
+            "metrics": {
+                "rating": 4.7,
+                "reviewCount": 200
+            },
+            "badges": ["SALE"],
+            "images": [
+                {
+                    "url": "/assets/images/image-7.jpg",
+                    "alt": "Noise-Cancelling Headphones"
+                }
+            ]
+        },
+        {
+            "id": "prod_p4",
+            "name": "Ceramic Coffee Mug",
+            "description": "Hand-finished mug, 350ml.",
+            "pricing": {
+                "price": 18.0,
+                "salePrice": null
+            },
+            "category": "home",
+            "attributes": {
+                "color": "White"
+            },
+            "metrics": {
+                "rating": 4.3,
+                "reviewCount": 45
+            },
+            "badges": [],
+            "images": [
+                {
+                    "url": "/assets/images/image-4.jpg",
+                    "alt": "Ceramic Coffee Mug"
+                }
+            ]
+        },
+        {
+            "id": "prod_p5",
+            "name": "Running Sneakers",
+            "description": "Lightweight, breathable running sneakers.",
+            "pricing": {
+                "price": 119.0,
+                "salePrice": 99.0
+            },
+            "category": "footwear",
+            "attributes": {
+                "color": "Gray"
+            },
+            "metrics": {
+                "rating": 4.4,
+                "reviewCount": 60
+            },
+            "badges": ["POPULAR"],
+            "images": [
+                {
+                    "url": "/assets/images/image-8.jpg",
+                    "alt": "Running Sneakers"
+                }
+            ]
+        },
+        {
+            "id": "prod_p6",
+            "name": "Wooden Desk Lamp",
+            "description": "Minimal lamp with dimmable LED.",
+            "pricing": {
+                "price": 79.0,
+                "salePrice": null
+            },
+            "category": "home",
+            "attributes": {
+                "color": "Wood"
+            },
+            "metrics": {
+                "rating": 4.2,
+                "reviewCount": 30
+            },
+            "badges": [],
+            "images": [
+                {
+                    "url": "/assets/images/image-15.jpg",
+                    "alt": "Wooden Desk Lamp"
+                }
+            ]
+        },
+        {
+            "id": "prod_p7",
+            "name": "Organic Cotton Tee",
+            "description": "Breathable everyday tee.",
+            "pricing": {
+                "price": 29.0,
+                "salePrice": 24.0
+            },
+            "category": "apparel",
+            "attributes": {
+                "color": "White"
+            },
+            "metrics": {
+                "rating": 4.1,
+                "reviewCount": 25
+            },
+            "badges": [],
+            "images": [
+                {
+                    "url": "/assets/images/image-12.jpg",
+                    "alt": "Organic Cotton Tee"
+                }
+            ]
+        },
+        {
+            "id": "prod_p8",
+            "name": "Portable Charger",
+            "description": "10000mAh USB-C power bank.",
+            "pricing": {
+                "price": 39.0,
+                "salePrice": 34.0
+            },
+            "category": "electronics",
+            "attributes": {
+                "color": "Black"
+            },
+            "metrics": {
+                "rating": 4.5,
+                "reviewCount": 90
+            },
+            "badges": ["DEAL"],
+            "images": [
+                {
+                    "url": "/assets/images/image-13.jpg",
+                    "alt": "Portable Charger"
+                }
+            ]
+        }
+    ]
+}
