@@ -4,9 +4,6 @@ import { initFavorites } from "/src/modules/products/favorites.store.js";
 import { fetchProducts, fetchProduct } from "/src/modules/products/product.api.js";
 
 export async function initApp() {
-    const yearEl = $("#year");
-    setText(yearEl, new Date().getFullYear());
-
     // Global stores
     const favorites = initFavorites();
     const products = await fetchProducts();
