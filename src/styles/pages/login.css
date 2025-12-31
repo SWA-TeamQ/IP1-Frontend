@@ -136,6 +136,23 @@ label {
     background: var(--primary-hover);
 }
 
+.btn-secondary {
+    width: 100%;
+    padding: 0.8rem;
+    background: transparent;
+    color: var(--primary);
+    font-weight: 600;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--primary);
+    color: white;
+}
+
 /* DIVIDER */
 .divider {
     display: flex;
