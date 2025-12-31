@@ -12,7 +12,7 @@ export async function initProductDetailPage() {
         root.innerHTML = `
             <div class="product-detail-shell">
               <p class="muted">Missing product id.</p>
-              <a class="btn btn-secondary" href="../product/index.html">Back to products</a>
+              <a class="btn btn-secondary" href="/src/pages/product.html">Back to products</a>
             </div>
         `;
         return;
@@ -23,7 +23,7 @@ export async function initProductDetailPage() {
         root.innerHTML = `
             <div class="product-detail-shell">
               <p class="muted">Product not found.</p>
-              <a class="btn btn-secondary" href="../product/index.html">Back to products</a>
+              <a class="btn btn-secondary" href="/src/pages/product.html">Back to products</a>
             </div>
         `;
         return;

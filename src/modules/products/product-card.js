@@ -1,118 +1,88 @@
-import {
-    getRatingStars,
-    getPrice,
-} from "/src/modules/products/product.helpers.js";
-import { $ } from "/src/utils/dom.js";
-import { escapeHtml, formatPrice } from "/src/utils/formatters.js";
+import { getFavorites } from "../products/favorites.store.js";
+import { escapeHtml, formatPrice } from "../../utils/formatters.js";
 
-const ICON_CART_URL = "/src/assets/icons/cart.svg";
-const ICON_HEART_URL = "/src/assets/icons/heart.svg";
+export default function ProductCard(product, onFav) {
+    const div = document.createElement("div");
+    div.className = "card";
 
-export default function ProductCard(product) {
-    if (!product) return;
+    const safeProduct = product ?? {};
+    const favs = getFavorites();
+    const isFav = (Array.isArray(favs) ? favs : []).includes(safeProduct.id);
 
-    // 1. Raw Data Extraction & Calculations
-    const productId = product.id || "";
-    const isFavorite = !!product.isFavorite;
-    const ratingValue = product.details?.rating || 0;
-    const reviewCount = product.details?.reviewCount || 0;
-    const rawCurrentPrice = getPrice(product) || 0;
-    const rawOriginalPrice = product.price || 0;
-    const hasSale = !!product.salePrice;
+    const resolveSrc = (src) => {
+        if (!src) return "";
+        // absolute / remote
+        if (/^(https?:)?\/\//.test(src) || src.startsWith("/")) return src;
+        // project-relative
+        if (src.startsWith("src/")) return `/${src}`;
+        return `/src/${src}`;
+    };
+    const rawImg = safeProduct?.images?.[0] ?? safeProduct?.image ?? "";
+    const imgSrc = resolveSrc(rawImg);
 
-    // 2. Formatting and Escaping (View Model)
-    const escapedName = escapeHtml(product.name || "");
-    const escapedId = escapeHtml(productId);
-    const escapedCategory = escapeHtml(product.details?.category || "");
-    const escapedColor = escapeHtml(product.details?.color || "");
-    const productImageUrl = product.images?.[0] ?? "";
-    const ratingStarsHtml = getRatingStars(product) ?? "";
+    const id = safeProduct?.id ?? "";
+    const name = escapeHtml(safeProduct?.name ?? "");
+    const desc = escapeHtml(safeProduct?.description ?? "");
+    const category = escapeHtml(safeProduct?.details?.category ?? "");
 
-    const formattedReviewCount = reviewCount.toLocaleString();
-    const formattedCurrentPrice = formatPrice(rawCurrentPrice);
-    const formattedOriginalPrice = formatPrice(rawOriginalPrice);
+    const priceCurrent =
+        safeProduct?.details?.salePrice ??
+        safeProduct?.salePrice ??
+        safeProduct?.price ??
+        0;
+    const priceOriginal = safeProduct?.price ?? priceCurrent;
+    const hasSale =
+        Number(safeProduct?.salePrice ?? safeProduct?.details?.salePrice) > 0 &&
+        Number(priceOriginal) > Number(priceCurrent);
 
-    const productHref = `/src/pages/product-detail.html?id=${encodeURIComponent(
-        productId
-    )}`;
+    const href = id ? `/src/pages/product-detail.html?id=${encodeURIComponent(id)}` : "#";
 
-    // Badge Logic
-    const badgeText = product?.details?.badge
-        ? String(product.details.badge)
-        : "";
-    const badgeClass = badgeText.toLowerCase();
-    const escapedBadge = escapeHtml(badgeText);
-    const badgeHtml = badgeText
-        ? `<div class="card-badge ${badgeClass}">${escapedBadge}</div>`
-        : "";
+    div.innerHTML = `
+        <div class="card-image-container">
+          <a class="card-link" href="${href}" aria-label="${name}">
+            <img class="card-image" src="${imgSrc}" alt="${name}" loading="lazy" />
+          </a>
+          <button class="btn btn-icon top-fav ${isFav ? "favorited" : ""}" type="button" aria-label="Favorite">
+            <img class="icon icon-heart" src="/src/assets/icons/heart.svg" alt="" />
+          </button>
+          ${category ? `<span class="card-badge">${category}</span>` : ""}
+        </div>
 
-    // Favorite Button State
-    const favClass = isFavorite ? "favorited" : "";
-    const ariaPressed = String(isFavorite);
+        <div class="card-content">
+          <h3 class="card-title">${name}</h3>
+          <p class="card-subtitle">${desc}</p>
 
-    // Sale Price Logic
-    const originalPriceHtml = hasSale
-        ? `<span class="price-original"><delete>$${formattedOriginalPrice}</delete></span>`
-        : "";
-
-    // 3. Clean Template
-    const card = document.createElement("div");
-    card.className = "card";
-    card.dataset.productId = productId;
-
-    card.innerHTML = `
-        <a class="card-link" href="${productHref}" aria-label="View details for ${escapedName}">
-          <div class="card-image-container">
-            <img class="card-image" src="${productImageUrl}" alt="${escapedName}" loading="lazy">
-            ${badgeHtml}
+          <div class="price-row">
+            <span class="price-current">$${formatPrice(priceCurrent)}</span>
+            ${hasSale ? `<span class="price-original">$${formatPrice(priceOriginal)}</span>` : ""}
           </div>
-
-          <div class="card-content">
-            <div>
-              <h3 class="card-title">${escapedName}</h3>
-              <p class="card-subtitle">
-                ${escapedCategory} • ${escapedColor}
-              </p>
-            </div>
-            <div class="rating">
-              <span class="stars" aria-label="Rating: ${ratingValue} out of 5 stars">${ratingStarsHtml}</span>
-              <span class="rating-count">(${formattedReviewCount})</span>
-            </div>
-            <div class="price-row">
-              <span class="price-current">$${formattedCurrentPrice}</span>
-              ${originalPriceHtml}
-            </div>
-          </div>
-        </a>
-
-        <button class="btn btn-icon ${favClass} top-fav" title="Add to favorites" aria-label="Add to favorites" aria-pressed="${ariaPressed}" data-fav="${escapedId}">
-          <img class="icon icon-heart" src="${ICON_HEART_URL}" alt="" aria-hidden="true">
-        </button>
+        </div>
 
         <div class="card-actions">
-          <button class="btn btn-cart-icon" data-id="${escapedId}" aria-label="Add to cart">
-            <img class="icon icon-cart" src="${ICON_CART_URL}" alt="" aria-hidden="true">
+          <a class="btn btn-secondary" href="${href}">View</a>
+          <button class="btn btn-cart-icon" type="button" aria-label="Add to cart">
+            <img class="icon icon-cart" src="/src/assets/icons/cart.svg" alt="" />
           </button>
-          <a class="btn btn-secondary" href="${productHref}">View</a>
         </div>
     `;
 
-    // Event Listeners
-    card.querySelector("[data-id]")?.addEventListener("click", () => {
-        if (typeof window.addToCart === "function") {
-            window.addToCart(productId);
-        }
+    // Favorite toggle (uses existing callback chain: ProductList -> product.api -> refresh)
+    const favBtn = div.querySelector(".top-fav");
+    if (favBtn && typeof onFav === "function") {
+        favBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onFav();
+        });
+    }
+
+    // Cart
+    const cartBtn = div.querySelector(".btn-cart-icon");
+    cartBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof window.addToCart === "function" && id) window.addToCart(id);
     });
 
-    const favBtn = $("[data-fav]", card);
-    favBtn?.addEventListener("click", () => {
-        if (typeof window.toggleFav === "function") {
-            window.toggleFav(productId);
-            const currentFavStatus = !!product.isFavorite;
-            favBtn.classList.toggle("favorited", currentFavStatus);
-            favBtn.setAttribute("aria-pressed", String(currentFavStatus));
-        }
-    });
-
-    return card;
+    return div;
 }

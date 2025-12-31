@@ -117,7 +117,7 @@ export const PRODUCTS = [
         description: "Breathable everyday tee.",
         price: 29.0,
         salePrice: 24.0,
-        image: "assets/images/image (12).jpg",
+        images: ["/src/assets/images/image (12).jpg"],
         details: {
             category: "apparel",
             rating: 4.1,
@@ -133,7 +133,7 @@ export const PRODUCTS = [
         description: "10000mAh USB-C power bank.",
         price: 39.0,
         salePrice: 34.0,
-        image: "assets/images/image (13).jpg",
+        images: ["/src/assets/images/image (13).jpg"],
         details: {
             category: "electronics",
             rating: 4.5,
@@ -144,3 +144,5 @@ export const PRODUCTS = [
         isFavorite: false,
     },
 ];
+
+

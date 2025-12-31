@@ -1,29 +1,34 @@
-import { storageGetJson, storageSetJson } from "/src/utils/storage.js";
+const KEY = "favorites";
 
-const STORAGE_FAVS = "shop_favs_v1";
+export const getFavorites = () => {
+    try {
+        const raw = localStorage.getItem(KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return [];
+    }
+};
 
-export function initFavorites() {
-    const stored_favorites = new Set(storageGetJson(STORAGE_FAVS, []));
+export const saveFavorites = (list) =>
+    localStorage.setItem(KEY, JSON.stringify(list));
 
-    const favorites = {
-        items: stored_favorites,
-        // toggles (insert or delete) from the favorites set
-        toggle(productId) {
-            if (stored_favorites.has(productId)) {
-                stored_favorites.delete(productId);
-            } else {
-                stored_favorites.add(productId);
-            }
+// Used by `src/scripts/initApp.js` (do not remove).
+// Provides a small store-like interface for favorites while persisting to localStorage.
+export const initFavorites = () => {
+    const set = new Set(getFavorites());
 
-            storageSetJson(STORAGE_FAVS, Array.from(stored_favorites));
+    const persist = () => saveFavorites(Array.from(set));
+
+    return {
+        has: (id) => set.has(id),
+        toggle: (id) => {
+            if (!id) return false;
+            if (set.has(id)) set.delete(id);
+            else set.add(id);
+            persist();
+            return set.has(id);
         },
-        // checks if a productId is in the favorites set
-        has(productId) {
-            return stored_favorites.has(productId);
-        },
+        list: () => Array.from(set),
     };
-
-    window.favorites = favorites;
-
-    return favorites;
-}
+};
