@@ -14,10 +14,12 @@ export function renderNavbar() {
             <li><a href="/src/index.html#contact">Contact</a></li>
           </ul>
         </nav>
-        <button class="nav-cart-btn" aria-label="View cart">
-          <img src="/src/assets/icons/cart.svg" alt="Cart" />
-          <span class="cart-count" id="navCartCount">0</span>
-        </button>
+        <a href"/src/pages/checkout.html">
+        <button class="nav-cart-btn">
+                <img src="/src/assets/icons/cart.svg" alt="Cart" />
+                <span class="cart-count" id="navCartCount">0</span>
+                </button>
+                </a>
         <button
           class="hamburger"
           id="navHamburger"

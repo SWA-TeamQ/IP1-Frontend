@@ -29,7 +29,7 @@ export default function ProductCard(product) {
     const formattedCurrentPrice = formatPrice(rawCurrentPrice);
     const formattedOriginalPrice = formatPrice(rawOriginalPrice);
     
-    const productHref = `/pages/product-detail/index.html?id=${encodeURIComponent(productId)}`;
+    const productHref = `/src/pages/product-detail.html?id=${encodeURIComponent(productId)}`;
 
     // Badge Logic
     const badgeText = product?.details?.badge ? String(product.details.badge) : "";

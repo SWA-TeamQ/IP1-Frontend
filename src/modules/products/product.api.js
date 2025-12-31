@@ -1,6 +1,6 @@
-import { PRODUCTS_API_ENDPOINT } from "./product.constants.js";
 import { PRODUCTS } from "./products.data.js";
 
+const PRODUCTS_API_ENDPOINT = "http://localhost:3000/products";
 let products = [];
 
 function normalizeProduct(p) {
@@ -44,7 +44,8 @@ export const createProduct = async (data) => {
     try {
         const res = await fetch(PRODUCTS_API_ENDPOINT, {
             method: "POST",
-            body: newProduct,
+            body: JSON.stringify(newProduct),
+            headers: { "Content-Type": "application/json" },
         });
         if (!res.ok) {
             throw new Error("Failed to create a product");
@@ -56,9 +57,9 @@ export const createProduct = async (data) => {
     }
 };
 
-export const deleteProduct = (id) => {
+export const deleteProduct = async (id) => {
     try {
-        const res = fetch(PRODUCTS_API_ENDPOINT + "/" + id, {
+        const res = await fetch(PRODUCTS_API_ENDPOINT + "/" + id, {
             method: "DELETE",
         });
         if (!res.ok) {
@@ -70,11 +71,12 @@ export const deleteProduct = (id) => {
     }
 };
 
-export const updateProduct = (id, data) => {
+export const updateProduct = async (id, data) => {
     try {
-        const res = fetch(PRODUCTS_API_ENDPOINT + "/" + id, {
+        const res = await fetch(PRODUCTS_API_ENDPOINT + "/" + id, {
             method: "PUT",
-            body: data,
+            body: JSON.stringify(data),
+            headers: { "Content-Type": "application/json" },
         });
         if (!res.ok) {
             throw new Error("Couldn't update the product");
