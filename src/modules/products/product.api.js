@@ -33,8 +33,60 @@ export const fetchProducts = async (fresh = false) => {
     return products;
 };
 
-export const fetchProduct = (id) => {
+export const fetchProduct = async (id) => {
+    await fetchProducts();
     return products.find((p) => p.id === id);
+};
+
+export const createProduct = async (data) => {
+    const newProduct = normalizeProduct(data);
+
+    try {
+        const res = await fetch(PRODUCTS_API_ENDPOINT, {
+            method: "POST",
+            body: newProduct,
+        });
+        if (!res.ok) {
+            throw new Error("Failed to create a product");
+        }
+        products.unshift(newProduct);
+        return newProduct;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const deleteProduct = (id) => {
+    try {
+        const res = fetch(PRODUCTS_API_ENDPOINT + "/" + id, {
+            method: "DELETE",
+        });
+        if (!res.ok) {
+            throw new Error("Couldn't delete the product");
+        }
+        products = products.filter((p) => p.id !== id);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const updateProduct = (id, data) => {
+    try {
+        const res = fetch(PRODUCTS_API_ENDPOINT + "/" + id, {
+            method: "PUT",
+            body: data,
+        });
+        if (!res.ok) {
+            throw new Error("Couldn't update the product");
+        }
+        const index = products.findIndex((p) => p.id === id);
+        if (index !== -1) {
+            const oldProduct = products[index];
+            products[index] = { ...oldProduct, ...data };
+        }
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 export const searchProducts = (value) => {
@@ -45,7 +97,6 @@ export const searchProducts = (value) => {
             p.description.toLowerCase().includes(val)
     );
 };
-
 
 export const getCategories = () => {
     const categories = new Set();
