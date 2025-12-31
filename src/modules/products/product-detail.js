@@ -9,12 +9,19 @@ export default function ProductDetail(product) {
     const reviews = product?.details?.reviewCount || 0;
     const category = product?.details?.category || "—";
     const color = product?.details?.color || "—";
-    const current = product?.details?.salePrice || product.getPrice?.() || 0;
-    const original = product.getPrice?.() || 0;
+    const current =
+        product?.details?.salePrice ?? product?.salePrice ?? product?.price ?? 0;
+    const original = product?.price ?? current;
     const isFavorite = !!product.isFavorite;
 
     // 2. Formatting and Escaping (Logic moved to top)
-    const imageUrl = product?.image || "";
+    const resolveSrc = (src) => {
+        if (!src) return "";
+        if (/^(https?:)?\/\//.test(src) || src.startsWith("/")) return src;
+        if (src.startsWith("src/")) return `/${src}`;
+        return `/src/${src}`;
+    };
+    const imageUrl = resolveSrc(product?.images?.[0] ?? product?.image ?? "");
     const escapedName = escapeHtml(product.name || "");
     const ratingStars = product?.getRatingStars?.() ?? "";
     const escapedRating = escapeHtml(String(rating));
@@ -94,7 +101,7 @@ export default function ProductDetail(product) {
               </div>
             </div>
 
-            <a href="../product/index.html" class="filter-select">Back to products</a>
+            <a href="/src/pages/product.html" class="filter-select">Back to products</a>
           </div>
         </div>
     `;

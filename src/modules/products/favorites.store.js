@@ -1,29 +1,27 @@
-import { storageGetJson, storageSetJson } from "/src/utils/storage.js";
+import { storageGetJson, storageSetJson} from "/src/utils/storage.js";
+const KEY = "favorites";
 
-const STORAGE_FAVS = "shop_favs_v1";
+export const getFavorites = () => {
+    return storageGetJson(KEY, []);
+};
 
-export function initFavorites() {
-    const stored_favorites = new Set(storageGetJson(STORAGE_FAVS, []));
-
-    const favorites = {
-        items: stored_favorites,
-        // toggles (insert or delete) from the favorites set
-        toggle(productId) {
-            if (stored_favorites.has(productId)) {
-                stored_favorites.delete(productId);
-            } else {
-                stored_favorites.add(productId);
-            }
-
-            storageSetJson(STORAGE_FAVS, Array.from(stored_favorites));
-        },
-        // checks if a productId is in the favorites set
-        has(productId) {
-            return stored_favorites.has(productId);
-        },
-    };
-
-    window.favorites = favorites;
-
-    return favorites;
+export const saveFavorites = (list)=>{
+    storageSetJson(KEY, list);
 }
+
+export const initFavorites = () => {
+    const set = new Set(getFavorites());
+    const persist = () => saveFavorites(Array.from(set));
+
+    return {
+        has: (id) => set.has(id),
+        toggle: (id) => {
+            if (!id) return false;
+            if (set.has(id)) set.delete(id);
+            else set.add(id);
+            persist();
+            return set.has(id);
+        },
+        list: () => Array.from(set),
+    };
+};

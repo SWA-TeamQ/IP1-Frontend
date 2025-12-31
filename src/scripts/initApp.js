@@ -14,9 +14,9 @@ export async function initApp() {
     }
 
     // Keep favorites toggles in sync with product objects.
-    window.toggleFav = (productId) => {
+    window.toggleFav = async (productId) => {
         favorites?.toggle?.(productId);
-        const p = fetchProduct(productId);
+        const p = await fetchProduct(productId);
         if (p) p.isFavorite = favorites?.has?.(p.id) ?? false;
     };
 

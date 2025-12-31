@@ -87,7 +87,7 @@ export function initCart() {
     window.shoppingCart = cart;
 
     window.addToCart = async (productId) => {
-        const product = fetchProduct(productId);
+        const product = await fetchProduct(productId);
         if (!product) return;
 
         cart.add(product);
