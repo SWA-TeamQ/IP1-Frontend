@@ -19,6 +19,7 @@ export const fetchProducts = async (fresh = false) => {
 
     try {
         const res = await fetch(PRODUCTS_API_ENDPOINT);
+        await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate loading delay
         if (!res.ok) {
             throw new Error(`HTTP ${res.status}`);
         }
