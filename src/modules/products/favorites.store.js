@@ -13,11 +13,9 @@ export const getFavorites = () => {
 export const saveFavorites = (list) =>
     localStorage.setItem(KEY, JSON.stringify(list));
 
-// Used by `src/scripts/initApp.js` (do not remove).
-// Provides a small store-like interface for favorites while persisting to localStorage.
+// Used by `src/scripts/initApp.js`.
 export const initFavorites = () => {
     const set = new Set(getFavorites());
-
     const persist = () => saveFavorites(Array.from(set));
 
     return {
