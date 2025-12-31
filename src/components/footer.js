@@ -37,7 +37,7 @@ export function renderFooter() {
         </div>
         <div class="footer-bottom">
           <p class="footer-text">
-            &copy; <span id="year"></span> ShopLight. All rights reserved.
+            &copy; <span id="year">${String(new Date().getFullYear())}</span> ShopLight. All rights reserved.
           </p>
         </div>
       </div>
@@ -47,8 +47,4 @@ export function renderFooter() {
 export function insertFooter(target = document.body) {
     if (!target) return;
     target.insertAdjacentHTML("beforeend", renderFooter());
-    const yearEl = $("#year", target);
-    if (yearEl) {
-        yearEl.textContent = String(new Date().getFullYear());
-    }
 }

@@ -1,4 +1,4 @@
-import { escapeHtml, formatPrice } from "../../utils/formatters.js";
+import { escapeHtml, formatPrice } from "/src/utils/formatters.js";
 import { TAX } from "./cart.constants.js";
 
 export function onPrintReceipt(cartItems, products) {

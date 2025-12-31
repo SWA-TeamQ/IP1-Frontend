@@ -1,4 +1,7 @@
-import { getRatingStars, getPrice } from "/src/modules/products/product.helpers.js";
+import {
+    getRatingStars,
+    getPrice,
+} from "/src/modules/products/product.helpers.js";
 import { $ } from "/src/utils/dom.js";
 import { escapeHtml, formatPrice } from "/src/utils/formatters.js";
 
@@ -11,11 +14,11 @@ export default function ProductCard(product) {
     // 1. Raw Data Extraction & Calculations
     const productId = product.id || "";
     const isFavorite = !!product.isFavorite;
-    const ratingValue = product?.details?.rating || 0;
-    const reviewCount = product?.details?.reviewCount || 0;
+    const ratingValue = product.details?.rating || 0;
+    const reviewCount = product.details?.reviewCount || 0;
     const rawCurrentPrice = getPrice(product) || 0;
     const rawOriginalPrice = product.price || 0;
-    const hasSale = !!product?.details?.salePrice;
+    const hasSale = !!product.salePrice;
 
     // 2. Formatting and Escaping (View Model)
     const escapedName = escapeHtml(product.name || "");
@@ -24,19 +27,23 @@ export default function ProductCard(product) {
     const escapedColor = escapeHtml(product.details?.color || "");
     const productImageUrl = product.images?.[0] ?? "";
     const ratingStarsHtml = getRatingStars(product) ?? "";
-    
+
     const formattedReviewCount = reviewCount.toLocaleString();
     const formattedCurrentPrice = formatPrice(rawCurrentPrice);
     const formattedOriginalPrice = formatPrice(rawOriginalPrice);
-    
-    const productHref = `/src/pages/product-detail.html?id=${encodeURIComponent(productId)}`;
+
+    const productHref = `/src/pages/product-detail.html?id=${encodeURIComponent(
+        productId
+    )}`;
 
     // Badge Logic
-    const badgeText = product?.details?.badge ? String(product.details.badge) : "";
+    const badgeText = product?.details?.badge
+        ? String(product.details.badge)
+        : "";
     const badgeClass = badgeText.toLowerCase();
     const escapedBadge = escapeHtml(badgeText);
-    const badgeHtml = badgeText 
-        ? `<div class="card-badge ${badgeClass}">${escapedBadge}</div>` 
+    const badgeHtml = badgeText
+        ? `<div class="card-badge ${badgeClass}">${escapedBadge}</div>`
         : "";
 
     // Favorite Button State
@@ -44,8 +51,8 @@ export default function ProductCard(product) {
     const ariaPressed = String(isFavorite);
 
     // Sale Price Logic
-    const originalPriceHtml = hasSale 
-        ? `<span class="price-original">$${formattedOriginalPrice}</span>` 
+    const originalPriceHtml = hasSale
+        ? `<span class="price-original"><delete>$${formattedOriginalPrice}</delete></span>`
         : "";
 
     // 3. Clean Template
