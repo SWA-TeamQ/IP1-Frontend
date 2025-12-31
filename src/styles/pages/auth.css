@@ -1,9 +1,14 @@
 /* Shared Auth Page Styles */
-
 .auth-page {
     width: 100%;
-    max-width: 600px;
-    perspective: 1000px;
+    margin : auto;
+    font-family: var(--font-family-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-main);
+    padding: 1rem;
 }
 
 .auth-card {
