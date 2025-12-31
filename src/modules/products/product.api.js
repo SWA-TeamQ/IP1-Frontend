@@ -34,28 +34,14 @@ export const fetchProducts = async (fresh = false) => {
     if (products.length > 0 && !fresh) return products;
 
     try {
-        lastFetchError = null;
-        lastFetchAttempts = [];
-
-        let lastErr = null;
-        for (const endpoint of PRODUCTS_API_ENDPOINTS) {
-            try {
-                const res = await fetch(endpoint);
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const fetchedProducts = await res.json();
-                products = fetchedProducts.map(normalizeProduct);
-                lastFetchSource = endpoint;
-                return products;
-            } catch (e) {
-                lastErr = e;
-                lastFetchAttempts.push({
-                    endpoint,
-                    message: e?.message ? String(e.message) : String(e),
-                });
-            }
+        const res = await fetch(PRODUCTS_API_ENDPOINT);
+        await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate loading delay
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
         }
 
-        throw lastErr ?? new Error("No endpoints available");
+        const fetchedProducts = await res.json();
+        products = fetchedProducts.map(normalizeProduct);
     } catch (err) {
         // Fallback to local data if API isn't reachable (common during frontend-only dev).
         console.warn("fetchProducts failed, using local fallback:", err);
