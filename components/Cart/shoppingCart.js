@@ -1,4 +1,6 @@
 import { PRODUCTS, getProduct, getProducts } from "../../modules/products/products.data.js";
+import { fetchProductById } from "../../modules/products/products.api.js";
+import { mapApiProduct } from "../../modules/products/products.mapper.js";
 import { escapeHtml, formatPrice } from "../../js/lib/utils.js";
 import {
   changeCartQuantity,
@@ -6,6 +8,7 @@ import {
   clearCart,
   updateCartCount,
 } from "./CartSystem.js";
+import { initCart } from "../../modules/cart/cart.store.js";
 
 const SHIPPING_COST = 5.99;
 const productsReady = getProducts();
@@ -55,6 +58,7 @@ let selectedItems = new Set();
 // SELECTION FUNCTIONS
 // ============================================
 function toggleSelectAll() {
+  if (!selectAllCheckbox) return;
   const cart = getcart();
   const checkboxes = document.querySelectorAll(".cart-item-checkbox");
 
@@ -147,16 +151,40 @@ function removeAllItems() {
   }
 }
 
-removeAllBtn.addEventListener("click", removeAllItems);
+if (removeAllBtn) removeAllBtn.addEventListener("click", removeAllItems);
 if (selectAllCheckbox)
   selectAllCheckbox.addEventListener("change", toggleSelectAll);
 if (removeSelectedBtn)
   removeSelectedBtn.addEventListener("click", removeSelectedItems);
 
+async function ensureProductsForCart(cartItems) {
+  const missingIds = cartItems
+    .map((item) => String(item.productId))
+    .filter((id) => !getProduct(id));
+
+  if (!missingIds.length) return;
+
+  const fetched = await Promise.allSettled(
+    missingIds.map(async (id) => {
+      const apiProduct = await fetchProductById(id);
+      return mapApiProduct(apiProduct);
+    })
+  );
+
+  fetched.forEach((res) => {
+    if (res.status === "fulfilled" && res.value) {
+      const existing = getProduct(res.value.id);
+      if (!existing) {
+        PRODUCTS.push(res.value);
+      }
+    }
+  });
+}
+
 // ============================================
 // RENDER CART ITEMS
 // ============================================
-function renderCartItems() {
+async function renderCartItems() {
   const cart = getcart();
   cartItemsList.innerHTML = "";
 
@@ -169,6 +197,8 @@ function renderCartItems() {
 
   cartEmpty.style.display = "none";
   cartItemsList.style.display = "block";
+
+  await ensureProductsForCart(cart.items);
 
   let subtotal = 0;
   let totalItems = 0;
@@ -415,37 +445,44 @@ export function onPrintReceipt(cartItems) {
 // CHECKOUT MODAL
 // ============================================
 function closeModal() {
+  if (!checkoutModal) return;
   checkoutModal.classList.remove("active");
   checkoutModal.setAttribute("aria-hidden", "true");
   setTimeout(() => {
-    step1.style.display = "block";
-    step2.style.display = "none";
+    if (step1 && step2) {
+      step1.style.display = "block";
+      step2.style.display = "none";
+    }
   }, 300);
 }
 
-checkoutBtn.addEventListener("click", () => {
-  const cart = getcart();
-  if (!cart.size) {
-    alert("Your cart is empty!");
-    return;
-  }
-  window.location.href = "/pages/checkout/checkout.html";
-});
+if (checkoutBtn)
+  checkoutBtn.addEventListener("click", () => {
+    const cart = getcart();
+    if (!cart.size) {
+      alert("Your cart is empty!");
+      return;
+    }
+    window.location.href = "/pages/checkout/checkout.html";
+  });
 
-closeModalBtn.addEventListener("click", closeModal);
-cancelCheckoutBtn.addEventListener("click", closeModal);
+if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+if (cancelCheckoutBtn) cancelCheckoutBtn.addEventListener("click", closeModal);
 
 let lastOrderItems = [];
 
-confirmPaymentBtn.addEventListener("click", () => {
-  const cart = getcart();
-  lastOrderItems = cart.items.map((i) => ({ ...i }));
+if (confirmPaymentBtn)
+  confirmPaymentBtn.addEventListener("click", () => {
+    const cart = getcart();
+    lastOrderItems = cart.items.map((i) => ({ ...i }));
 
-  step1.style.display = "none";
-  step2.style.display = "block";
+    if (step1 && step2) {
+      step1.style.display = "none";
+      step2.style.display = "block";
+    }
 
-  refreshCartFromStorage();
-});
+    refreshCartFromStorage();
+  });
 
 
 if (printReceiptBtn) {
@@ -463,21 +500,23 @@ if (printReceiptBtn) {
 }
 
 
-closeCheckoutBtn.addEventListener("click", closeModal);
+if (closeCheckoutBtn) closeCheckoutBtn.addEventListener("click", closeModal);
 
-checkoutModal.addEventListener("click", (e) => {
-  if (e.target === checkoutModal) {
-    closeModal();
-  }
-});
+if (checkoutModal) {
+  checkoutModal.addEventListener("click", (e) => {
+    if (e.target === checkoutModal) {
+      closeModal();
+    }
+  });
+}
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && checkoutModal.classList.contains("active")) {
+  if (e.key === "Escape" && checkoutModal?.classList.contains("active")) {
     closeModal();
   }
 });
 
-function refreshCartFromStorage() {
+async function refreshCartFromStorage() {
   if (window.shoppingCart?.load) {
     window.shoppingCart.load();
   }
@@ -489,7 +528,7 @@ function refreshCartFromStorage() {
     )
   );
 
-  renderCartItems();
+  await renderCartItems();
   updateSelectionUI();
   updateCartCount();
 }
@@ -507,8 +546,10 @@ window.addEventListener("storage", (event) => {
 // ============================================
 // INIT
 // ============================================
-function init() {
-  productsReady.then(() => refreshCartFromStorage());
+async function init() {
+  await initCart();
+  await productsReady;
+  await refreshCartFromStorage();
 }
 
 init();

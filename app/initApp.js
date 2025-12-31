@@ -22,5 +22,5 @@ export async function initApp() {
         if (p) p.isFavorite = favorites?.has?.(p.id) ?? false;
     };
 
-    initCart();
+    await initCart();
 }

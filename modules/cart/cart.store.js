@@ -84,12 +84,14 @@ class Cart {
     }
 }
 
-export function initCart() {
-    getProducts();
+export async function initCart() {
+    await getProducts();
+
     const cart = new Cart();
     window.shoppingCart = cart;
 
     window.addToCart = async (productId) => {
+        await getProducts();
         const product = getProduct(productId);
         if (!product) return;
         

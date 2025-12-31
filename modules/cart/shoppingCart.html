@@ -4,61 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping cart</title>
-    <!-- <link rel="stylesheet" href="../css/reset.css"> -->
     <link rel="stylesheet" href="../../index.css" />
-    <link rel="stylesheet" href="../../css/shoppingCart.css" />
+    <link rel="stylesheet" href="../../styles/components/footer.css" />
+    <link rel="stylesheet" href="../../styles/components/shoppingCart.css" />
+    <link rel="stylesheet" href="../../styles/components/toast.css" />
   </head>
-  <body>
+  <body class="cart-page">
     <!-- Header / Navigation -->
     <header class="site-header">
       <div class="container header-inner">
         <div class="brand">
-          <a href="#" class="logo">ShopLight</a>
+          <a href="../../index.html" class="logo">ShopLight</a>
         </div>
 
-        <form class="search" role="search" aria-label="Search products">
-          <svg
-            class="search-icon"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-          <input
-            type="search"
-            id="searchInput"
-            placeholder="Search products..."
-          />
-        </form>
-
         <div class="header-actions">
+          <!-- Cart Button -->
           <a
-            href="/html/favorites.html"
-            id="favoritesBtn"
-            aria-label="View favorites"
-            class="icon-btn"
-            title="Favorites"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-              ></path>
-            </svg>
-          </a>
-          <a
-            href="/components/Cart/shoppingCart.html"
+            href="../../components/Cart/shoppingCart.html"
             id="cartBtn"
             aria-controls="cartDrawer"
             aria-expanded="false"
@@ -76,10 +38,6 @@
     <nav class="nav-bar">
       <ul class="nav-list">
         <li><a href="../../index.html" class="nav-link">Home</a></li>
-        <!-- <li>
-          <a href="shoppingCart.html" class="nav-link active">Shopping Cart</a>
-        </li>
-        <li><a href="favorites.html" class="nav-link">Favorites</a></li> -->
       </ul>
     </nav>
 
@@ -256,19 +214,64 @@
         </div>
       </section>
 
-      <!-- Footer -->
       <footer class="site-footer">
-        <div class="container">
-          <div class="footer-content">
+        <div class="container footer-content">
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <a class="logo footer-logo" href="/">ShopLight</a>
+              <p class="muted">
+                Curated modern goods — thoughtful design, ethical sourcing.
+              </p>
+            </div>
+            <div class="footer-links">
+              <h4>Shop</h4>
+              <ul>
+                <li>
+                  <a href="./pages/product/index.html">All products</a>
+                </li>
+                <li><a href="#featured">Featured</a></li>
+                <li><a href="#services">Services</a></li>
+              </ul>
+            </div>
+            <div class="footer-links">
+              <h4>Support</h4>
+              <ul>
+                <li>
+                  <a href="./pages/checkout/checkout.html">Checkout</a>
+                </li>
+                <li><a href="./pages/contact.html">Contact</a></li>
+                <li>
+                  <a href="./pages/login/login.html">Sign in</a>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-newsletter">
+              <h4>Join our newsletter</h4>
+              <form
+                class="newsletter-form"
+                action="#"
+                onsubmit="event.preventDefault();"
+              >
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  aria-label="Email address"
+                  required
+                />
+                <button class="btn" type="submit">Subscribe</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
             <p class="footer-text">
-              © <span id="year"></span> ShopLight. All rights reserved. Built
-              with modern web technologies.
+              &copy; <span id="year"></span> ShopLight. All rights reserved.
             </p>
           </div>
         </div>
       </footer>
     </main>
 
-    <script type="module" src="./shoppingCart.js"></script>
+    <script type="module" src="../../components/Cart/shoppingCart.js"></script>
   </body>
 </html>

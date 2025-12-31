@@ -127,7 +127,7 @@ function renderProducts(products_list) {
 // Initialize the app
 async function init() {
     // Ensure cart store and products are ready before rendering
-    initCart();
+    await initCart();
     await getProducts();
     await populateCategoryFilter();
     renderProducts(PRODUCTS);

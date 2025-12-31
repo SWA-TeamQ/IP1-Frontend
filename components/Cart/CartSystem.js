@@ -4,6 +4,8 @@ import CartList from "./cart-list.js";
 import Toast from "../toast.js";
 import { onPrintReceipt } from "../../js/lib/printReciept.js";
 
+const productsReady = getProducts();
+
 
 
 const cartBtn = document.getElementById("cartBtn");
@@ -19,15 +21,13 @@ const confirmPayment = document.getElementById("confirmPayment");
 
 const printReceipt = document.getElementById("printReceipt");
 
-const productsReady = getProducts();
-
 // Cart functions
 export async function addToCart(productId) {
     await productsReady;
     const product = getProduct(productId);
     if (!product) return;
     shoppingCart.add(product);
-    await renderCart();
+    renderCart();
     // visual affordance
     Toast(
         `Added ${getProduct(productId)?.name || "Product"} to cart!`,
@@ -116,9 +116,7 @@ export function openCheckout() {
         return;
     }
     renderOrderSummary();
-    if (checkoutModal) {
-        checkoutModal.setAttribute("aria-hidden", "false");
-    }
+    if (checkoutModal) checkoutModal.setAttribute("aria-hidden", "false");
 }
 
 export function closeCheckout() {
@@ -127,46 +125,37 @@ export function closeCheckout() {
     checkoutModal.classList.remove("active");
 }
 
-export function renderOrderSummary() {
-        if (!orderSummary) return;
-        const cartItems = Array.from(window.shoppingCart.items.values());
+// export function renderOrderSummary() {
+//   const cart = getCart();
+//   const cartItems = Array.from(cart.values());
+//   if (!orderSummary) return;
 
-        const lines = cartItems.map((item) => {
-                const product = getProduct(item.productId);
-                if (!product) return "";
-                const unit = product.details?.salePrice ?? product.getPrice?.() ?? product.price ?? 0;
-                const lineTotal = unit * item.quantity;
-                return `
-            <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
-                <div>${escapeHtml(product.name)} x ${item.quantity}</div>
-                <div><strong>$${formatPrice(lineTotal)}</strong></div>
-            </div>
-        `;
-        });
+// const lines = cartItems.map(item => {
+//   const product = products.find(p => p.id == item.productId);
+//   if (!product) return '';
+//   const unit = product.details?.salePrice ?? product.price ?? 0;
+//   const lineTotal = unit * item.quantity;
+//   return `<div>...</div>`;
+// });
 
-        const subtotal = cartItems.reduce((sum, item) => {
-                const product = getProduct(item.productId);
-                const unit = product ? product.details?.salePrice ?? product.getPrice?.() ?? product.price ?? 0 : 0;
-                return sum + unit * item.quantity;
-        }, 0);
 
-        const shipping = subtotal > 0 ? 5.99 : 0;
-        const total = subtotal + shipping;
+//   const subtotal = cartItems.reduce((sum, item) => {
+//     const product = products.find((p) => p.id == item.productId);
+//     const unit = product ? product.details.salePrice || product.price : 0;
+//     return sum + unit * item.quantity;
+//   }, 0);
 
-        orderSummary.innerHTML = `
-        ${lines.join("")}
-        <hr>
-        <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div>$${formatPrice(
-                subtotal
-        )}</div></div>
-        <div style="display:flex;justify-content:space-between"><div>Shipping</div><div>$${formatPrice(
-                shipping
-        )}</div></div>
-        <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:0.5rem"><div>Total</div><div>$${formatPrice(
-                total
-        )}</div></div>
-    `;
-}
+//   const shipping = subtotal > 0 ? SHIPPING_COST : 0;
+//   const total = subtotal + shipping;
+
+//   orderSummary.innerHTML = `
+//     ${lines.join("")}
+//     <hr>
+//     <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div>$${subtotal.toFixed(2)}</div></div>
+//     <div style="display:flex;justify-content:space-between"><div>Shipping</div><div>$${shipping.toFixed(2)}</div></div>
+//     <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:0.5rem"><div>Total</div><div>$${total.toFixed(2)}</div></div>
+//   `;
+// }
 
 
 

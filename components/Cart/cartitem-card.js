@@ -7,10 +7,7 @@ export default function CartItemCard(
     removeFromCart
 ) {
     if (!product) {
-        return {
-            element: document.createElement("div"),
-            total: 0,
-        };
+        return { element: document.createElement("div"), total: 0 };
     }
 
     const unit = product.details?.salePrice || product.getPrice?.() || product.price || 0;
