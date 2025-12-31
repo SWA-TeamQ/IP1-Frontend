@@ -1,16 +1,11 @@
-import { $, setText } from "/src/utils/dom.js";
 import { initCart } from "/src/modules/cart/cart.store.js";
 import { initFavorites } from "../modules/products/favorites.store.js";
-import { fetchProducts, fetchProduct } from "/src/api/product.api.js";
-import { insertNavBar } from "../components/navbar.js";
+import {
+    fetchProducts,
+    fetchProduct,
+} from "../modules/products/product.api.js";
 
 export async function initApp() {
-    insertNavBar();
-    const yearEl = $("#year");
-    console.log("i hate your")
-    setText(yearEl, new Date().getFullYear());
-    
-    
     // Global stores
     const favorites = initFavorites();
     const products = await fetchProducts();

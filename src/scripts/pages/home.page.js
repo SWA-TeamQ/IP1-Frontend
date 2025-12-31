@@ -1,5 +1,5 @@
-import { fetchProducts } from "/src/api/product.api.js";
-import ProductList from "../../components/product-list.js";
+import { fetchProducts } from "../../modules/products/product.api.js";
+import ProductList from "../../modules/products/product-list.js";
 
 export async function initHomePage() {
     const grid = document.getElementById("featuredGrid");

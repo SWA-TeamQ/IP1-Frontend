@@ -1,5 +1,5 @@
 import { storageGetJson, storageSetJson } from "/src/utils/storage.js";
-import { fetchProduct } from "/src/api/product.api.js";
+import { fetchProduct } from "../products/product.api.js";
 import { getPrice } from "../products/product.helpers.js";
 
 class CartItem {

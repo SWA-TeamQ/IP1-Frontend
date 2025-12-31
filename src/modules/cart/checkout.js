@@ -1,4 +1,4 @@
-import { fetchProduct } from "/src/api/product.api.js";
+import { fetchProduct } from "../products/product.api.js";
 import { formatPrice } from "/src/utils/formatters.js";
 import { TAX } from "./cart.constants.js";
 import { getPrice } from "../products/product.helpers.js";
