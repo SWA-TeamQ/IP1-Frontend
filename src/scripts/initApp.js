@@ -1,10 +1,11 @@
-import { setText } from "../utils/dom.js";
-import { initCart } from "../modules/cart/cart.store.js";
+import { $, setText } from "/src/utils/dom.js";
+import { initCart } from "/src/modules/cart/cart.store.js";
 import { initFavorites } from "../modules/products/favorites.store.js";
-import { fetchProducts, getProduct } from "/src/modules/products/product.api.js";
-import { insertNavBar } from "/src/components/navbar.js";
+import { fetchProducts, fetchProduct } from "/src/api/product.api.js";
+import { insertNavBar } from "../components/navbar.js";
 
 export async function initApp() {
+    insertNavBar();
     const yearEl = $("#year");
     console.log("i hate your")
     setText(yearEl, new Date().getFullYear());
@@ -22,7 +23,7 @@ export async function initApp() {
     // Keep favorites toggles in sync with product objects.
     window.toggleFav = (productId) => {
         favorites?.toggle?.(productId);
-        const p = getProduct(productId);
+        const p = fetchProduct(productId);
         if (p) p.isFavorite = favorites?.has?.(p.id) ?? false;
     };
 

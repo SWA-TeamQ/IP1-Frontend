@@ -1,29 +1,28 @@
+import { getRatingStars } from "/src/modules/products/product.helpers.js";
 import { $ } from "/src/utils/dom.js";
 import { escapeHtml, formatPrice } from "/src/utils/formatters.js";
 
-const CardHeader = ()=>{
+const ICON_CART_URL = "/assets/icons/cart.svg";
+const ICON_HEART_URL = "/assets/icons/heart.svg";
 
-}
+const CardHeader = () => {};
 
 export default function ProductCard(product) {
-    if(!product) return;
+    if (!product) return;
 
     const card = document.createElement("div");
     card.className = "card";
     card.dataset.productId = product.id || "";
 
-    const stars = product.getRatingStars() ?? "";
+    const stars = getRatingStars(product) ?? "";
 
     const badgeClass = product?.details?.badge
         ? String(product.details.badge).toLowerCase()
         : "";
 
-    const iconCartUrl = "/assets/icons/cart.svg";
-    const iconHeartUrl = "/assets/icons/heart.svg";
+    
+    const productImageUrl = product.images[0] ?? "";
 
-    const productImageUrl = String(product.image || "").startsWith("/")
-        ? product.image
-        : "/" + String(product.image || "");
     const productHref = `/pages/product-detail/index.html?id=${encodeURIComponent(
         product.id
     )}`;
@@ -82,14 +81,14 @@ export default function ProductCard(product) {
         } top-fav" title="Add to favorites" aria-label="Add to favorites" aria-pressed="${
         product.isFavorite
     }" data-fav="${product.id}">
-          <img class="icon icon-heart" src="${iconHeartUrl}" alt="" aria-hidden="true">
+          <img class="icon icon-heart" src="${ICON_HEART_URL}" alt="" aria-hidden="true">
         </button>
 
         <div class="card-actions">
           <button class="btn btn-cart-icon" data-id="${
               product.id
           }" aria-label="Add to cart">
-            <img class="icon icon-cart" src="${iconCartUrl}" alt="" aria-hidden="true">
+            <img class="icon icon-cart" src="${ICON_CART_URL}" alt="" aria-hidden="true">
           </button>
           <a class="btn btn-secondary" href="${productHref}">View</a>
         </div>

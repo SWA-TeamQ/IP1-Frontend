@@ -1,7 +1,7 @@
-import { getProduct } from "../../modules/products/products.data.js";
+import { fetchProduct } from "/src/api/product.api.js";
 import ProductDetail from "../../modules/products/product-detail.js";
 
-export function initProductDetailPage() {
+export async function initProductDetailPage() {
     const root = document.getElementById("productDetailRoot");
     if (!root) return;
 
@@ -18,7 +18,7 @@ export function initProductDetailPage() {
         return;
     }
 
-    const product = getProduct(id);
+    const product = await fetchProduct(id);
     if (!product) {
         root.innerHTML = `
             <div class="product-detail-shell">

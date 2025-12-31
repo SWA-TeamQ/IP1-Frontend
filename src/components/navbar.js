@@ -31,7 +31,7 @@ export function renderNavbar() {
 }
 
 export const insertNavBar = (target = document.body) => {
-    console.log({target}, "bella");
+    console.log("Inserting navbar", target);
     if (!target) return;
     target.insertAdjacentHTML("afterbegin", renderNavbar());
 

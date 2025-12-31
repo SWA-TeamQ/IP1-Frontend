@@ -1,5 +1,6 @@
-import { storageGetJson, storageSetJson } from "../../src/utils/storage.js";
-import { getProduct } from "../products/products.data.js";
+import { storageGetJson, storageSetJson } from "/src/utils/storage.js";
+import { fetchProduct } from "/src/api/product.api.js";
+import { getPrice } from "../products/product.helpers.js";
 
 class CartItem {
     constructor(productId, quantity) {
@@ -36,8 +37,8 @@ class Cart {
     remove(product) {
         const item = this.items.get(product.id);
         if (!item) return;
-        const unitPrice =
-            product?.details?.salePrice || product.getPrice?.() || 0;
+        const unitPrice = getPrice(product);
+
         this.#total -= unitPrice * item.quantity;
         this.items.delete(product.id);
         this.save();
@@ -86,7 +87,7 @@ export function initCart() {
     window.shoppingCart = cart;
 
     window.addToCart = async (productId) => {
-        const product = getProduct(productId);
+        const product = fetchProduct(productId);
         if (!product) return;
 
         cart.add(product);

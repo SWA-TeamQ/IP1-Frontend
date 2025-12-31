@@ -1,4 +1,5 @@
-import { PRODUCTS_API_ENDPOINT } from "./product.constants.js";
+import { PRODUCTS_API_ENDPOINT } from "/src/constants/product.constants.js";
+
 let products = [];
 
 export const fetchProducts = async (fresh = false) => {

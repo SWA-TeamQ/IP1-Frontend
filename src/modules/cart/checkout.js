@@ -1,4 +1,4 @@
-import { getProduct } from "/src/products/products.data.js";
+import { fetchProduct } from "/src/api/product.api.js";
 import { formatPrice } from "/src/utils/formatters.js";
 import { TAX } from "./cart.constants.js";
 import { getPrice } from "../products/product.helpers.js";
@@ -15,8 +15,8 @@ export function initCheckoutPage() {
         return;
     }
 
-    const subtotal = cartItems.reduce((sum, item) => {
-        const p = getProduct(item.productId);
+    const subtotal = cartItems.reduce(async (sum, item) => {
+        const p = await fetchProduct(item.productId);
         const unitPrice = p ? getPrice(p) : 0;
         return sum + unitPrice * item.quantity;
     }, 0);

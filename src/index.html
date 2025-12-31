@@ -8,8 +8,7 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
         />
-        <link rel="stylesheet" href="index.css" />
-        <script src="./main.js" type="module" defer></script>
+        <link rel="stylesheet" href="./index.css" />
     </head>
     <body>
         <script type="module">
@@ -87,7 +86,6 @@
                 </ul>
             </section>
 
-
             <section id="featured" class="container products-section">
                 <div class="section-header">
                     <div>
@@ -116,68 +114,11 @@
             </section>
         </main>
 
-        <footer class="site-footer">
-            <div class="container footer-content">
-                <div class="footer-grid">
-                    <div class="footer-brand">
-                        <a class="logo footer-logo" href="/">ShopLight</a>
-                        <p class="muted">
-                            Curated modern goods — thoughtful design, ethical
-                            sourcing.
-                        </p>
-                    </div>
-                    <div class="footer-links">
-                        <h4>Shop</h4>
-                        <ul>
-                            <li>
-                                <a href="./pages/product/index.html"
-                                    >All products</a
-                                >
-                            </li>
-                            <li><a href="#featured">Featured</a></li>
-                            <li><a href="#services">Services</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-links">
-                        <h4>Support</h4>
-                        <ul>
-                            <li>
-                                <a href="./pages/checkout/checkout.html"
-                                    >Checkout</a
-                                >
-                            </li>
-                            <li><a href="./pages/contact.html">Contact</a></li>
-                            <li>
-                                <a href="./pages/login/login.html">Sign in</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="footer-newsletter">
-                        <h4>Join our newsletter</h4>
-                        <form
-                            class="newsletter-form"
-                            action="#"
-                            onsubmit="event.preventDefault();"
-                        >
-                            <input
-                                type="email"
-                                placeholder="you@example.com"
-                                aria-label="Email address"
-                                required
-                            />
-                            <button class="btn" type="submit">Subscribe</button>
-                        </form>
-                    </div>
-                </div>
+        <script type="module">
+            import { insertFooter } from "/src/components/footer.js";
+            insertFooter();
+        </script>
 
-                <div class="footer-bottom">
-                    <p class="footer-text">
-                        &copy; <span id="year"></span> ShopLight. All rights
-                        reserved.
-                    </p>
-                </div>
-            </div>
-        </footer>
-
+        <script src="./main.js" type="module" defer></script>
     </body>
 </html>
