@@ -2,112 +2,108 @@ import { getRatingStars } from "/src/modules/products/product.helpers.js";
 import { $ } from "/src/utils/dom.js";
 import { escapeHtml, formatPrice } from "/src/utils/formatters.js";
 
-const ICON_CART_URL = "/assets/icons/cart.svg";
-const ICON_HEART_URL = "/assets/icons/heart.svg";
-
-const CardHeader = () => {};
+const ICON_CART_URL = "src/assets/icons/cart.svg";
+const ICON_HEART_URL = "src/assets/icons/heart.svg";
 
 export default function ProductCard(product) {
     if (!product) return;
 
-    const card = document.createElement("div");
-    card.className = "card";
-    card.dataset.productId = product.id || "";
+    // 1. Raw Data Extraction & Calculations
+    const productId = product.id || "";
+    const isFavorite = !!product.isFavorite;
+    const ratingValue = product?.details?.rating || 0;
+    const reviewCount = product?.details?.reviewCount || 0;
+    const rawCurrentPrice = product.details?.salePrice || product.getPrice?.() || 0;
+    const rawOriginalPrice = product.getPrice?.() || 0;
+    const hasSale = !!product?.details?.salePrice;
 
-    const stars = getRatingStars(product) ?? "";
+    // 2. Formatting and Escaping (View Model)
+    const escapedName = escapeHtml(product.name || "");
+    const escapedId = escapeHtml(productId);
+    const escapedCategory = escapeHtml(product.details?.category || "");
+    const escapedColor = escapeHtml(product.details?.color || "");
+    const productImageUrl = product.images?.[0] ?? "";
+    const ratingStarsHtml = getRatingStars(product) ?? "";
+    
+    const formattedReviewCount = reviewCount.toLocaleString();
+    const formattedCurrentPrice = formatPrice(rawCurrentPrice);
+    const formattedOriginalPrice = formatPrice(rawOriginalPrice);
+    
+    const productHref = `/pages/product-detail/index.html?id=${encodeURIComponent(productId)}`;
 
-    const badgeClass = product?.details?.badge
-        ? String(product.details.badge).toLowerCase()
+    // Badge Logic
+    const badgeText = product?.details?.badge ? String(product.details.badge) : "";
+    const badgeClass = badgeText.toLowerCase();
+    const escapedBadge = escapeHtml(badgeText);
+    const badgeHtml = badgeText 
+        ? `<div class="card-badge ${badgeClass}">${escapedBadge}</div>` 
         : "";
 
-    console.log(product)
-    const productImageUrl = product.images[0] ?? "";
+    // Favorite Button State
+    const favClass = isFavorite ? "favorited" : "";
+    const ariaPressed = String(isFavorite);
 
-    const productHref = `/pages/product-detail/index.html?id=${encodeURIComponent(
-        product.id
-    )}`;
+    // Sale Price Logic
+    const originalPriceHtml = hasSale 
+        ? `<span class="price-original">$${formattedOriginalPrice}</span>` 
+        : "";
+
+    // 3. Clean Template
+    const card = document.createElement("div");
+    card.className = "card";
+    card.dataset.productId = productId;
 
     card.innerHTML = `
-        <a class="card-link" href="${productHref}" aria-label="View details for ${escapeHtml(
-        product.name
-    )}">
+        <a class="card-link" href="${productHref}" aria-label="View details for ${escapedName}">
           <div class="card-image-container">
-            <img class="card-image" src="${productImageUrl}" alt="${escapeHtml(
-        product.name
-    )}" loading="lazy">
-            ${
-                product?.details?.badge
-                    ? `<div class="card-badge ${badgeClass}">${escapeHtml(
-                          product.details.badge
-                      )}</div>`
-                    : ""
-            }
+            <img class="card-image" src="${productImageUrl}" alt="${escapedName}" loading="lazy">
+            ${badgeHtml}
           </div>
 
           <div class="card-content">
             <div>
-              <h3 class="card-title">${escapeHtml(product.name)}</h3>
+              <h3 class="card-title">${escapedName}</h3>
               <p class="card-subtitle">
-                ${escapeHtml(product.details?.category || "")} • ${escapeHtml(
-        product.details?.color || ""
-    )}
+                ${escapedCategory} • ${escapedColor}
               </p>
             </div>
             <div class="rating">
-              <span class="stars" aria-label="Rating: ${
-                  product?.details?.rating || 0
-              } out of 5 stars">${stars}</span>
-              <span class="rating-count">(${(
-                  product?.details?.reviewCount || 0
-              ).toLocaleString()})</span>
+              <span class="stars" aria-label="Rating: ${ratingValue} out of 5 stars">${ratingStarsHtml}</span>
+              <span class="rating-count">(${formattedReviewCount})</span>
             </div>
             <div class="price-row">
-              <span class="price-current">$${formatPrice(
-                  product.details?.salePrice || product.getPrice?.() || 0
-              )}</span>
-              ${
-                  product?.details?.salePrice
-                      ? `<span class="price-original">$${formatPrice(
-                            product.getPrice?.() || 0
-                        )}</span>`
-                      : ""
-              }
+              <span class="price-current">$${formattedCurrentPrice}</span>
+              ${originalPriceHtml}
             </div>
           </div>
         </a>
 
-        <button class="btn btn-icon ${
-            product.isFavorite ? "favorited" : ""
-        } top-fav" title="Add to favorites" aria-label="Add to favorites" aria-pressed="${
-        product.isFavorite
-    }" data-fav="${product.id}">
+        <button class="btn btn-icon ${favClass} top-fav" title="Add to favorites" aria-label="Add to favorites" aria-pressed="${ariaPressed}" data-fav="${escapedId}">
           <img class="icon icon-heart" src="${ICON_HEART_URL}" alt="" aria-hidden="true">
         </button>
 
         <div class="card-actions">
-          <button class="btn btn-cart-icon" data-id="${
-              product.id
-          }" aria-label="Add to cart">
+          <button class="btn btn-cart-icon" data-id="${escapedId}" aria-label="Add to cart">
             <img class="icon icon-cart" src="${ICON_CART_URL}" alt="" aria-hidden="true">
           </button>
           <a class="btn btn-secondary" href="${productHref}">View</a>
         </div>
     `;
 
-    const addBtn = card.querySelector("[data-id]");
-    addBtn?.addEventListener("click", () => {
+    // Event Listeners
+    card.querySelector("[data-id]")?.addEventListener("click", () => {
         if (typeof window.addToCart === "function") {
-            window.addToCart(product.id);
+            window.addToCart(productId);
         }
     });
 
-    const favBtn = $(card, "[data-fav]");
+    const favBtn = $("[data-fav]", card);
     favBtn?.addEventListener("click", () => {
         if (typeof window.toggleFav === "function") {
-            window.toggleFav(product.id);
-            const isFav = !!product.isFavorite;
-            favBtn.classList.toggle("favorited", isFav);
-            favBtn.setAttribute("aria-pressed", String(isFav));
+            window.toggleFav(productId);
+            const currentFavStatus = !!product.isFavorite;
+            favBtn.classList.toggle("favorited", currentFavStatus);
+            favBtn.setAttribute("aria-pressed", String(currentFavStatus));
         }
     });
 

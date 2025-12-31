@@ -3,10 +3,9 @@
    ============================================ */
 
 .hero {
-    color : var(--color-text-primary, #0b1220);
+    color: var(--color-text-primary, #0b1220);
     padding: clamp(32px, 8vw, 96px) 0;
 }
-
 
 @media (max-width: 600px) {
     .hero {
@@ -17,7 +16,6 @@
     }
 }
 
-
 .hero-content {
     position: relative;
     z-index: 1;
@@ -27,14 +25,20 @@
     border-radius: 0;
     box-shadow: none;
     backdrop-filter: none;
-    animation: heroFadeIn 1.2s cubic-bezier(.4,0,.2,1);
+    animation: heroFadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
     text-align: left;
 }
 
 @keyframes heroFadeIn {
-    from { opacity: 0; transform: translateY(32px) scale(0.98);}
-    to { opacity: 1; transform: none;}
+    from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .hero-content h1 {
@@ -44,11 +48,11 @@
     color: #1a73e8;
     font-weight: 900;
     letter-spacing: -0.035em;
-    text-shadow: 0 6px 32px rgba(30,115,232,0.13);
+    text-shadow: 0 6px 32px rgba(30, 115, 232, 0.13);
     background: linear-gradient(90deg, #1a73e8 60%, #10b981 100%);
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 2px 12px rgba(16,185,129,0.08));
+    filter: drop-shadow(0 2px 12px rgba(16, 185, 129, 0.08));
     text-align: left;
 }
 
@@ -58,16 +62,14 @@
     margin-bottom: 40px;
     font-size: 1.22rem;
     font-weight: 500;
-    text-shadow: 0 2px 12px rgba(16,185,129,0.10);
+    text-shadow: 0 2px 12px rgba(16, 185, 129, 0.1);
     line-height: 1.6;
 }
 
 .hero-ctas {
     display: flex;
-    gap : 2rem;
-
+    gap: 2rem;
 }
-
 
 .hero-cta {
     display: inline-block;
@@ -77,7 +79,7 @@
     font-weight: 700;
     padding: 18px 44px;
     border-radius: 2rem;
-    box-shadow: 0 4px 32px rgba(30,115,232,0.13);
+    box-shadow: 0 4px 32px rgba(30, 115, 232, 0.13);
     border: none;
     text-decoration: none;
     letter-spacing: 0.01em;
@@ -87,7 +89,7 @@
     outline: none;
 }
 
-.hero .btn{
+.hero .btn {
     font-size: 1.1rem;
     padding: 14px 32px;
 }
@@ -114,13 +116,13 @@
     transform: translateY(-4px);
     box-shadow: 0 14px 36px rgba(26, 115, 232, 0.22);
 }
-.btn.btn-outline{
+.btn.btn-outline {
     background: #000;
     border: 2px solid transparent;
     color: #fff;
 }
 
-.btn.btn-outline:hover{
+.btn.btn-outline:hover {
     background: #7c7777;
     border: 2px solid #fff;
     transform: translateY(-4px);
