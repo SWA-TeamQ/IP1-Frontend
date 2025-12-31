@@ -1,5 +1,5 @@
 import { storageGetJson, storageSetJson } from "../../utils/storage.js";
-import { getProduct } from "../products/products.data.js";
+import { getProduct, getProducts } from "../products/products.data.js";
 
 class CartItem {
     constructor(productId, quantity) {
@@ -44,7 +44,12 @@ class Cart {
     updateQuantity(productId, quantity) {
         const cartItem = this.items.get(productId);
         if (!cartItem) return;
-        cartItem.quantity = Math.max(1, Number(quantity) || 1);
+        const newQty = Math.max(1, Number(quantity) || 1);
+        const product = getProduct(productId);
+        const unitPrice = product?.details?.salePrice || product?.getPrice?.() || product?.price || 0;
+        const diff = newQty - (cartItem.quantity || 0);
+        cartItem.quantity = newQty;
+        this.#total += unitPrice * diff;
         this.save();
     }
 
@@ -80,6 +85,7 @@ class Cart {
 }
 
 export function initCart() {
+    getProducts();
     const cart = new Cart();
     window.shoppingCart = cart;
 

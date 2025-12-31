@@ -1,6 +1,5 @@
 import { getProduct } from "../products/products.data.js";
 import { formatPrice } from "../../utils/formatters.js";
-import { TAX } from "./cart.constants.js";
 
 export function initCheckoutPage() {
     const orderSummaryEl = document.querySelector(".order-summary");
