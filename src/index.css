@@ -4,20 +4,20 @@
 @import url("/src/styles/base/global.css");
 @import url("/src/styles/base/base.css");
 
-@import url("/src/styles/components/skeleton.css");
+@import url("/src/styles/components/buttons.css");
+@import url("/src/styles/components/footer.css");
 @import url("/src/styles/components/header.css");
 @import url("/src/styles/components/hero.css");
-@import url("/src/styles/components/products.css");
 @import url("/src/styles/components/product-card.css");
-@import url("/src/styles/components/footer.css");
+@import url("/src/styles/components/products.css");
+@import url("/src/styles/components/skeleton.css");
 
+@import url("/src/styles/pages/auth.css");
+@import url("/src/styles/pages/home.css");
 @import url("/src/styles/pages/checkout.css");
-@import url("/src/styles/pages/about.css");
 @import url("/src/styles/pages/product-detail.css");
-@import url("/src/styles/pages/login.css");
 @import url("/src/styles/pages/register.css");
-@import url("/src/styles/pages/forgetpassword.css");
 
-@import url("/src/styles/utilities/responsive.css");
-@import url("/src/styles/utilities/empty-states.css");
 @import url("/src/styles/utilities/animations.css");
+
+
