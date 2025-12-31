@@ -3,7 +3,7 @@
    ============================================ */
 
 .hero {
-    color: var(--color-text-primary, #0b1220);
+    color: var(--color-text-primary);
     padding: clamp(32px, 8vw, 96px) 0;
 }
 
@@ -45,11 +45,10 @@
     font-size: clamp(38px, 6vw, 72px);
     line-height: 1.07;
     margin: 0 0 28px;
-    color: #1a73e8;
     font-weight: 900;
     letter-spacing: -0.035em;
-    text-shadow: 0 6px 32px rgba(30, 115, 232, 0.13);
-    background: linear-gradient(90deg, #1a73e8 60%, #10b981 100%);
+    text-shadow: 0 6px 32px rgba(26, 115, 232, 0.13);
+    background: linear-gradient(90deg, var(--color-primary) 60%, var(--color-secondary) 100%);
     background-clip: text;
     color: transparent;
     filter: drop-shadow(0 2px 12px rgba(16, 185, 129, 0.08));
@@ -57,7 +56,7 @@
 }
 
 .hero-sub {
-    color: #475569;
+    color: var(--color-text-secondary);
     max-width: 48ch;
     margin-bottom: 40px;
     font-size: 1.22rem;
@@ -73,13 +72,13 @@
 
 .hero-cta {
     display: inline-block;
-    background: linear-gradient(90deg, #1a73e8 60%, #10b981 100%);
-    color: #fff;
+    background: linear-gradient(90deg, var(--color-primary) 60%, var(--color-secondary) 100%);
+    color: var(--color-text-inverse);
     font-size: 1.25rem;
     font-weight: 700;
     padding: 18px 44px;
     border-radius: 2rem;
-    box-shadow: 0 4px 32px rgba(30, 115, 232, 0.13);
+    box-shadow: 0 4px 32px rgba(26, 115, 232, 0.13);
     border: none;
     text-decoration: none;
     letter-spacing: 0.01em;
@@ -98,10 +97,10 @@
     display: inline-block;
     background: linear-gradient(
         90deg,
-        var(--color-primary, #1a73e8),
-        var(--color-primary-dark, #1557b0)
+        var(--color-primary),
+        var(--color-primary-dark)
     );
-    color: #fff;
+    color: var(--color-text-inverse);
     padding: 0.85rem 1.25rem;
     border-radius: 10px;
     box-shadow: 0 8px 30px rgba(26, 115, 232, 0.18);
@@ -116,13 +115,13 @@
     box-shadow: 0 14px 36px rgba(26, 115, 232, 0.22);
 }
 .btn.btn-outline {
-    background: #000;
+    background: var(--color-text-primary);
     border: 2px solid transparent;
-    color: #fff;
+    color: var(--color-text-inverse);
 }
 
 .btn.btn-outline:hover {
-    background: #7c7777;
-    border: 2px solid #fff;
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-text-inverse);
     transform: translateY(-4px);
 }
