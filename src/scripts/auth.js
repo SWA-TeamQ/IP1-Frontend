@@ -153,7 +153,7 @@ if (loginForm) {
         localStorage.setItem("loggedInUser", JSON.stringify(user));
         showMessage(messageBox, "Login successful. Redirecting...", "success");
 
-        setTimeout(() => window.location.href = "index.html", 1500);
+        setTimeout(() => window.location.href = "../index.html", 1500);
     });
 }
 
