@@ -1,26 +1,28 @@
 import { initCart } from "/src/modules/cart/cart.store.js";
 import { initFavorites } from "../modules/products/favorites.store.js";
-import {
-    fetchProducts,
-    fetchProduct,
-} from "../modules/products/product.api.js";
+import { fetchProducts, fetchProduct, toggleFavorite } from "../modules/products/product.api.js";
 
 export async function initApp() {
-    // Global stores
+    // Initialize global stores
     const favorites = initFavorites();
+
+    // Fetch products (API or fallback)
     const products = await fetchProducts();
 
-    // set the isFavorite property of each product based on the favorites list
+    // Sync favorites
     for (const p of products) {
         p.isFavorite = favorites?.has?.(p.id) ?? false;
     }
 
-    // Keep favorites toggles in sync with product objects.
+    // Global toggle for favorites
     window.toggleFav = (productId) => {
-        favorites?.toggle?.(productId);
-        const p = fetchProduct(productId);
-        if (p) p.isFavorite = favorites?.has?.(p.id) ?? false;
+        toggleFavorite(productId); // updated
+        const product = products.find(p => p.id === productId);
+        if (product) {
+            product.isFavorite = favorites?.has?.(productId) ?? false;
+        }
     };
 
+    // Initialize cart
     initCart();
 }

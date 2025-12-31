@@ -4,10 +4,11 @@ import { initProductsPage } from "./scripts/pages/products.page.js";
 import { initProductDetailPage } from "./scripts/pages/product-detail.page.js";
 import { initCheckout } from "./scripts/pages/checkout.page.js";
 
+(async () => {
+    await initApp(); //  WAIT for products + favorites
 
-
-initApp();
-initHomePage();
-initProductsPage();
-initProductDetailPage();
-initCheckout();
+    initHomePage();
+    initProductsPage();
+    initProductDetailPage();
+    initCheckout();
+})();
