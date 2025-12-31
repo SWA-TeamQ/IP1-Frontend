@@ -1,0 +1,322 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(120deg, #fafdff 60%, #eaf6ff 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-container {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.product-media {
+  display: flex;
+  gap: 24px;
+  padding: 32px;
+  align-items: flex-start;
+}
+
+.thumbnail-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.thumbnail-gallery img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.thumbnail-gallery img:hover,
+.thumbnail-gallery img.active {
+  transform: scale(1.1);
+}
+
+.main-image {
+  flex: 1;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a73e8 0%, #10b981 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.main-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease, opacity 0.35s ease;
+}
+
+.product-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 24px;
+}
+
+.product-title {
+  font-size: 2.4rem;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.price {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a73e8;
+  margin: 20px 0;
+}
+
+.control-btn {
+  background: linear-gradient(90deg, #1a73e8 20%, #10b981 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.image-actions {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.image-actions button,
+.image-actions a {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: 0.3s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.image-actions button:hover,
+.image-actions a:hover {
+  transform: scale(1.1);
+  background: #fff;
+}
+
+/* === Services & Reviews Sections === */
+.services-section {
+  max-width: 900px;
+  margin: 0 auto 64px auto;
+  padding: 56px 32px 48px;
+  background: linear-gradient(120deg, #fafdff 60%, #eaf6ff 100%);
+  border-radius: 24px;
+  margin-left: 16px;
+}
+
+.services-section h2 {
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 28px;
+  background: linear-gradient(90deg, #1a73e8 60%, #10b981 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.services-section ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.services-section li {
+  background: #fff;
+  padding: 22px 24px;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  transition: 0.3s;
+  margin-left: 8px;
+}
+
+.services-section li:hover {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+/* === Review Form === */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.rating-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stars-select {
+  display: flex;
+  gap: 8px;
+}
+
+.stars-select input {
+  display: none;
+}
+
+.stars-select label {
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.3s;
+}
+
+.stars-select label:hover,
+.stars-select label:hover ~ label {
+  color: #10b981;
+  transform: scale(1.2);
+}
+
+.stars-select input:checked ~ label {
+  color: #1a73e8;
+  transform: scale(1.2);
+}
+
+
+.review-form input[type='text'],
+.review-form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  transition: all 0.3s;
+}
+
+.review-form input[type='text']:focus,
+.review-form textarea:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 8px rgba(26, 115, 232, 0.2);
+  outline: none;
+}
+
+.review-form button {
+  width: fit-content;
+}
+
+/* === SUGGESTION CARDS - OPTIMIZED === */
+.suggestions {
+  padding: 32px 32px 48px;
+}
+
+.suggestions h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1f2937;
+}
+
+.suggestion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.suggestion-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.suggestion-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.suggestion-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.suggestion-card h4 {
+  margin: 16px 0 8px;
+  font-size: 1.25rem;
+  color: #1f2937;
+}
+
+.suggestion-card span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a73e8;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.product-description {
+  margin: 12px 0;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+.product-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.product-meta span::before {
+  content: '•';
+  margin-right: 4px;
+}
+
+
