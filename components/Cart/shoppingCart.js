@@ -1,38 +1,25 @@
-import { PRODUCTS } from "../../js/data/products.js";
+import { PRODUCTS, getProduct } from "../../js/data/products.js";
 import { escapeHtml, formatPrice } from "../../js/lib/utils.js";
+import {
+  changeCartQuantity,
+  removeFromCart,
+  clearCart,
+  updateCartCount,
+} from "./CartSystem.js";
 
-const STORAGE_CART = "shop_cart_v1";
 const SHIPPING_COST = 5.99;
 
-function getProduct(id) {
-  const product = PRODUCTS.find((p) => p.id === id || p.id === String(id));
-  if (!product) {
-    console.warn(`Product not found for id: ${id}`);
-  }
-  return product;
-}
-
-function getCart() {
-  try {
-    const cart = localStorage.getItem(STORAGE_CART);
-    console.log("Raw cart from localStorage:", cart);
-    const parsed = cart ? JSON.parse(cart) : null;
-    console.log("Parsed cart:", parsed);
-    if (parsed && parsed.items) {
-      const cartMap = new Map(parsed.items);
-      console.log("Cart Map:", [...cartMap.entries()]);
-      return cartMap;
-    }
-    return new Map();
-  } catch (e) {
-    console.error("Error loading cart:", e);
-    return new Map();
-  }
-}
-
-function saveCart(cartMap) {
-  const toStore = JSON.stringify({ items: [...cartMap], total: 0 });
-  localStorage.setItem(STORAGE_CART, toStore);
+function getcart() {
+  const items = Array.from(window.shoppingCart.items.values()).map((item) => ({
+    productId: item.productId,
+    quantity: item.quantity,
+  }));
+  return {
+    items,
+    size: items.length,
+    totalQuantity: window.shoppingCart.getTotalQuantity(),
+    total: window.shoppingCart.getTotal(),
+  };
 }
 
 // ============================================
@@ -67,17 +54,17 @@ let selectedItems = new Set();
 // SELECTION FUNCTIONS
 // ============================================
 function toggleSelectAll() {
-  const cart = getCart();
+  const cart = getcart();
   const checkboxes = document.querySelectorAll(".cart-item-checkbox");
 
   if (selectAllCheckbox.checked) {
-    cart.forEach((item, productId) => selectedItems.add(productId));
+    cart.items.forEach((item) => selectedItems.add(item.productId));
     checkboxes.forEach((cb) => (cb.checked = true));
   } else {
     selectedItems.clear();
     checkboxes.forEach((cb) => (cb.checked = false));
   }
-  updateSelectionUI();
+  updateSelectionUI(cart);
 }
 
 function toggleItemSelection(productId, checked) {
@@ -88,23 +75,23 @@ function toggleItemSelection(productId, checked) {
   }
 
   // Update select all checkbox state
-  const cart = getCart();
+  const cart = getcart();
   selectAllCheckbox.checked = selectedItems.size === cart.size && cart.size > 0;
   selectAllCheckbox.indeterminate =
     selectedItems.size > 0 && selectedItems.size < cart.size;
 
-  updateSelectionUI();
+  updateSelectionUI(cart);
 }
 
-function calculateTotals(productIds, cart) {
+function calculateTotals(productIds, cartMap) {
   let subtotal = 0;
   let totalItems = 0;
 
   productIds.forEach((productId) => {
-    const item = cart.get(productId);
+    const item = cartMap.get(productId);
     const product = getProduct(productId);
     if (item && product) {
-      const price = product.salePrice || product.getPrice();
+      const price = product.details?.salePrice ?? product.getPrice();
       subtotal += price * item.quantity;
       totalItems += item.quantity;
     }
@@ -113,16 +100,16 @@ function calculateTotals(productIds, cart) {
   return { subtotal, totalItems }; 
 }
 
-function updateSelectionUI() {
-  const cart = getCart();
+function updateSelectionUI(cart = getcart()) {
+  const cartMap = new Map(cart.items.map((i) => [String(i.productId), i]));
   const productIds =
     selectedItems.size > 0
       ? Array.from(selectedItems)
-      : Array.from(cart.keys());
+      : Array.from(cartMap.keys());
 
-  const { subtotal, totalItems } = calculateTotals(productIds, cart);
+  const { subtotal, totalItems } = calculateTotals(productIds, cartMap);
 
-  updateSummary(subtotal, totalItems);
+  updateSummary(subtotal, totalItems, cart);
 
   if (removeSelectedBtn) {
     removeSelectedBtn.style.display =
@@ -139,12 +126,9 @@ function removeSelectedItems() {
       `Are you sure you want to remove ${selectedItems.size} selected item(s)?`
     )
   ) {
-    const cart = getCart();
-    selectedItems.forEach((productId) => cart.delete(productId));
-    saveCart(cart);
+    selectedItems.forEach((productId) => removeFromCart(productId));
     selectedItems.clear();
-    renderCartItems();
-    renderOrderSummary();
+    refreshCartFromStorage();
   }
 }
 
@@ -152,14 +136,13 @@ function removeSelectedItems() {
 // REMOVE ALL ITEMS
 // ============================================
 function removeAllItems() {
-  const cart = getCart();
-  if (cart.size === 0) return;
+  const cart = getcart();
+  if (!cart.size) return;
 
   if (confirm("Are you sure you want to remove all items from your cart?")) {
-    saveCart(new Map());
+    clearCart();
     selectedItems.clear();
-    renderCartItems();
-    renderOrderSummary();
+    refreshCartFromStorage();
   }
 }
 
@@ -173,7 +156,7 @@ if (removeSelectedBtn)
 // RENDER CART ITEMS
 // ============================================
 function renderCartItems() {
-  const cart = getCart();
+  const cart = getcart();
   cartItemsList.innerHTML = "";
 
   if (cart.size === 0) {
@@ -189,12 +172,10 @@ function renderCartItems() {
   let subtotal = 0;
   let totalItems = 0;
 
-  cart.forEach((item, productId) => {
-    console.log("Processing cart item:", { productId, item });
-    const product = getProduct(productId);
-    console.log("Found product:", product);
+  cart.items.forEach((item) => {
+    const product = getProduct(item.productId);
     if (!product) {
-      console.warn("Product not found for ID:", productId);
+      console.warn("Product not found for ID:", item.productId);
       return;
     }
 
@@ -207,14 +188,14 @@ function renderCartItems() {
     subtotal += lineTotal;
     totalItems += item.quantity;
 
-    const isSelected = selectedItems.has(productId);
+    const isSelected = selectedItems.has(String(item.productId));
     const itemEl = document.createElement("div");
     itemEl.className = `cart-item ${isSelected ? "selected" : ""}`;
     const isMinQty = item.quantity <= 1;
 
     itemEl.innerHTML = `
       <div class="cart-item-select">
-        <input type="checkbox" class="cart-item-checkbox" data-id="${productId}" ${
+        <input type="checkbox" class="cart-item-checkbox" data-id="${item.productId}" ${
       isSelected ? "checked" : ""
     }>
       </div>
@@ -230,13 +211,13 @@ function renderCartItems() {
         <div class="cart-item-price">$${price.toFixed(2)}</div>
         <div class="cart-item-actions">
           <div class="qty-controls">
-            <button class="qty-btn" data-action="decrease" data-id="${productId}" ${
+            <button class="qty-btn" data-action="decrease" data-id="${item.productId}" ${
       isMinQty ? "disabled" : ""
     }">−</button>
             <span class="qty-value">${item.quantity}</span>
-            <button class="qty-btn" data-action="increase" data-id="${productId}">+</button>
+              <button class="qty-btn" data-action="increase" data-id="${item.productId}">+</button>
           </div>
-          <button class="remove-btn" data-id="${productId}">Remove</button>
+            <button class="remove-btn" data-id="${item.productId}">Remove</button>
         </div>
       </div>
       <div class="cart-item-total">$${lineTotal.toFixed(2)}</div>
@@ -246,22 +227,23 @@ function renderCartItems() {
   });
 
   updateSummary(subtotal, totalItems);
-  attachItemEvents();
-  renderOrderSummary();
+  attachItemEvents(cart);
+  renderOrderSummary(cart);
 }
 
-function updateSummary(subtotal, totalItems) {
-  const shipping = subtotal > 0 ? SHIPPING_COST : 0;
-  const total = subtotal + shipping;
+function updateSummary(subtotal, totalItems, cart = getcart()) {
+  const effectiveSubtotal = subtotal ?? cart.total ?? 0;
+  const shipping = effectiveSubtotal > 0 ? SHIPPING_COST : 0;
+  const total = effectiveSubtotal + shipping;
 
-  subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-  shippingEl.textContent = subtotal > 0 ? `$${shipping.toFixed(2)}` : "Free";
+  subtotalEl.textContent = `$${effectiveSubtotal.toFixed(2)}`;
+  shippingEl.textContent = effectiveSubtotal > 0 ? `$${shipping.toFixed(2)}` : "Free";
   totalEl.textContent = `$${total.toFixed(2)}`;
   itemCountEl.textContent = totalItems;
-  if (cartCountEl) cartCountEl.textContent = totalItems;
+  if (cartCountEl) cartCountEl.textContent = cart.totalQuantity ?? totalItems;
 }
 
-function attachItemEvents() {
+function attachItemEvents(cart = getcart()) {
   // Checkbox selection
   document.querySelectorAll(".cart-item-checkbox").forEach((checkbox) => {
     checkbox.addEventListener("change", () => {
@@ -283,20 +265,17 @@ function attachItemEvents() {
     btn.addEventListener("click", () => {
       const id = btn.dataset.id;
       const action = btn.dataset.action;
-      const cart = getCart();
-      const item = cart.get(id);
+      const item = cart.items.find((i) => String(i.productId) === String(id));
+      if (!item) return;
 
       if (action === "increase") {
-        item.quantity++;
+        changeCartQuantity(id, item.quantity + 1);
+        refreshCartFromStorage();
       } else if (action === "decrease") {
         if (item.quantity === 1) return;
-        item.quantity--;
+        changeCartQuantity(id, item.quantity - 1);
+        refreshCartFromStorage();
       }
-
-      cart.set(id, item);
-      saveCart(cart);
-      renderCartItems();
-      renderOrderSummary();
     });
   });
 
@@ -304,23 +283,17 @@ function attachItemEvents() {
   document.querySelectorAll(".remove-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.dataset.id;
-      const cart = getCart();
-      cart.delete(id);
       selectedItems.delete(id);
-      saveCart(cart);
-      renderCartItems();
-      renderOrderSummary();
+      removeFromCart(id);
+      refreshCartFromStorage();
     });
   });
 }
 
-function renderOrderSummary() {
+function renderOrderSummary(cart = getcart()) {
   if (!orderSummary) return; // stop if element not found
 
-  const cart = getCart(); // use your existing cart
-  const cartItems = Array.from(cart.values());
-
-  const lines = cartItems.map((item) => {
+  const lines = cart.items.map((item) => {
     const product = PRODUCTS.find((p) => p.id == item.productId);
     if (!product) return ""; // skip if product missing
     const unit = product.details?.salePrice ?? product.getPrice() ?? 0;
@@ -333,14 +306,14 @@ function renderOrderSummary() {
     `;
   });
 
-  const subtotal = cartItems.reduce((sum, item) => {
+  const subtotal = cart.total ?? cart.items.reduce((sum, item) => {
     const product = PRODUCTS.find((p) => p.id == item.productId);
     if (!product) return sum;
     const unit = product.details?.salePrice ?? product.getPrice() ?? 0;
     return sum + unit * item.quantity;
   }, 0);
 
-  const shipping = subtotal > 0 ? 5.99 : 0; // hardcoded shipping cost
+  const shipping = subtotal > 0 ? SHIPPING_COST : 0; // hardcoded shipping cost
   const total = subtotal + shipping;
 
   orderSummary.innerHTML = `
@@ -450,14 +423,12 @@ function closeModal() {
 }
 
 checkoutBtn.addEventListener("click", () => {
-  const cart = getCart();
-  if (cart.size === 0) {
+  const cart = getcart();
+  if (!cart.size) {
     alert("Your cart is empty!");
     return;
   }
-  checkoutModal.classList.add("active");
-  checkoutModal.setAttribute("aria-hidden", "false");
-  renderOrderSummary();
+  window.location.href = "/pages/checkout/checkout.html";
 });
 
 closeModalBtn.addEventListener("click", closeModal);
@@ -466,12 +437,13 @@ cancelCheckoutBtn.addEventListener("click", closeModal);
 let lastOrderItems = [];
 
 confirmPaymentBtn.addEventListener("click", () => {
-  const cart = getCart();
-
-  lastOrderItems = Array.from(cart.values());
+  const cart = getcart();
+  lastOrderItems = cart.items.map((i) => ({ ...i }));
 
   step1.style.display = "none";
   step2.style.display = "block";
+
+  refreshCartFromStorage();
 });
 
 
@@ -484,8 +456,8 @@ if (printReceiptBtn) {
 
     onPrintReceipt(lastOrderItems);
 
-    saveCart(new Map());
-    renderCartItems();
+    clearCart();
+    refreshCartFromStorage();
   });
 }
 
@@ -504,8 +476,38 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+function refreshCartFromStorage() {
+  if (window.shoppingCart?.load) {
+    window.shoppingCart.load();
+  }
+
+  const cart = getcart();
+  selectedItems = new Set(
+    Array.from(selectedItems).filter((id) =>
+      cart.items.some((item) => String(item.productId) === String(id))
+    )
+  );
+
+  renderCartItems();
+  updateSelectionUI();
+  updateCartCount();
+}
+
+// Keep cart page in sync when localStorage changes in another tab
+window.addEventListener("storage", (event) => {
+  const storageKey = window.shoppingCart?.STORAGE_CART;
+  if (!storageKey) return;
+
+  if (event.key === null || event.key === storageKey) {
+    refreshCartFromStorage();
+  }
+});
+
 // ============================================
 // INIT
 // ============================================
-renderCartItems();
-renderOrderSummary();
+function init() {
+  refreshCartFromStorage();
+}
+
+init();

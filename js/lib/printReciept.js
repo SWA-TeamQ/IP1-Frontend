@@ -83,4 +83,6 @@ export function onPrintReceipt(cartItems, products) {
   printWindow.document.open();
   printWindow.document.write(html);
   printWindow.document.close();
+
+  return printWindow;
 }

@@ -34,6 +34,9 @@ export function addToCart(productId) {
 export function renderCart() {
     if (!cartList) {
         updateCartCount();
+        if (cartTotalEl) {
+            cartTotalEl.textContent = `$${formatPrice(window.shoppingCart.getTotal())}`;
+        }
         return;
     }
     cartList.innerHTML = "";
@@ -51,7 +54,9 @@ export function renderCart() {
         removeFromCart
     );
     cartList.appendChild(cartListObj.element);
-    if (cartTotalEl) cartTotalEl.textContent = `$${formatPrice(cartListObj.total)}`;
+    if (cartTotalEl) {
+        cartTotalEl.textContent = `$${formatPrice(window.shoppingCart.getTotal())}`;
+    }
     updateCartCount();
 }
 

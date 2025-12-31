@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="./checkout.css" />
+</head>
+<body>
+  <main class="checkout-page">
+    <section class="steps-panel">
+      <header class="steps-header">
+        <h1>Checkout</h1>
+        <p class="muted">Complete your shipping and payment details.</p>
+        <ol class="stepper">
+          <li data-step-indicator="0" class="active">Shipping</li>
+          <li data-step-indicator="1">Delivery</li>
+          <li data-step-indicator="2">Payment</li>
+        </ol>
+      </header>
+
+      <form id="checkoutForm" novalidate>
+        <section class="step" data-step="0">
+          <h2>Shipping Address</h2>
+          <div class="grid two-cols">
+            <label>Full Name<input name="fullName" required /></label>
+            <label>Email<input name="email" type="email" required /></label>
+            <label>Phone<input name="phone" type="tel" required /></label>
+            <label>Country<input name="country" required /></label>
+            <label>City<input name="city" required /></label>
+            <label>Postal Code<input name="postal" required /></label>
+          </div>
+          <label>Address Line<input name="address" required /></label>
+          <p class="form-hint">All fields are required.</p>
+        </section>
+
+        <section class="step" data-step="1" hidden>
+          <h2>Delivery Method</h2>
+          <div class="shipping-options">
+            <label class="card-option">
+              <input type="radio" name="shipping" value="standard" checked />
+              <div>
+                <div class="option-title">Standard</div>
+                <div class="option-meta">$5.99 · 4-6 business days</div>
+              </div>
+            </label>
+            <label class="card-option">
+              <input type="radio" name="shipping" value="express" />
+              <div>
+                <div class="option-title">Express</div>
+                <div class="option-meta">$14.99 · 1-2 business days</div>
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <section class="step" data-step="2" hidden>
+          <h2>Payment & Promo</h2>
+          <div class="grid two-cols">
+            <label>Name on Card<input name="cardName" required /></label>
+            <label>Card Number<input name="cardNumber" required pattern="[0-9]{13,19}" /></label>
+            <label>Expiry (MM/YY)<input name="expiry" required pattern="^(0[1-9]|1[0-2])\/\d{2}$" /></label>
+            <label>CVV<input name="cvv" required pattern="^\d{3,4}$" /></label>
+          </div>
+          <div class="promo-row">
+            <label class="promo-label">Promo Code</label>
+            <div class="promo-input">
+              <input name="promo" placeholder="SAVE10" />
+              <button type="button" id="applyPromo">Apply</button>
+            </div>
+            <p class="form-hint">Save 10% with code SAVE10.</p>
+          </div>
+        </section>
+
+        <div class="nav-row">
+          <button type="button" class="ghost" id="backBtn" disabled>Back</button>
+          <button type="button" id="nextBtn">Next</button>
+          <button type="submit" id="placeOrderBtn" hidden>Place Order</button>
+        </div>
+        <p class="form-error" id="formError" hidden></p>
+      </form>
+    </section>
+
+    <aside class="summary-panel">
+      <div class="summary-card">
+        <h2>Order Summary</h2>
+        <div id="summaryItems" class="summary-items"></div>
+        <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">$0.00</span></div>
+        <div class="summary-row"><span>Shipping</span><span id="summaryShipping">$0.00</span></div>
+        <div class="summary-row"><span>Discount</span><span id="summaryDiscount">-$0.00</span></div>
+        <div class="summary-total"><span>Total</span><span id="summaryTotal">$0.00</span></div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="receipt-modal" id="receiptModal" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Payment Successful</h3>
+        <button class="ghost" id="closeReceipt" type="button">Close</button>
+      </div>
+      <p class="muted">Your order is confirmed. You can download/print your receipt now.</p>
+      <div class="modal-actions">
+        <button id="downloadReceipt" type="button">Download / Print Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./checkout.js"></script>
+</body>
+</html>

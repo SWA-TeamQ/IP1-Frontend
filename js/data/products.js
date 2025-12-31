@@ -163,14 +163,17 @@ const PRODUCTS = [
     ),
 ];
 
-export { PRODUCTS };
-
-export const getProduct = (productId) => {
-    return PRODUCTS.find((product) => {
-        return product.id == productId;
-    });
+const getProduct = (productId) => {
+    return PRODUCTS.find((product) => product.id == productId);
 };
 
-export const extractProductsCategories = ()=>{
-    return Array.from(new Set(PRODUCTS.map(p=> p.details.category))).sort();
+const extractProductsCategories = () => {
+    return Array.from(new Set(PRODUCTS.map((p) => p.details.category))).sort();
+};
+
+// Expose for non-module contexts and cart price lookups
+if (typeof window !== "undefined") {
+    window.PRODUCTS = PRODUCTS;
 }
+
+export { PRODUCTS, getProduct, extractProductsCategories };

@@ -72,9 +72,10 @@ class Favorites {
 }
 
 class CartItem {
-    constructor(productId, quantity) {
+    constructor(productId, quantity, price) {
         this.productId = productId;
         this.quantity = quantity;
+        this.price = price;
     }
 }
 
@@ -89,29 +90,39 @@ class Cart {
     }
 
     add(product, quantity = 1) {
+        const price = product.details?.salePrice ?? product.getPrice();
         const existingCartItem = this.items.get(product.id);
         if (existingCartItem) {
+            if (existingCartItem.price == null) existingCartItem.price = price;
             existingCartItem.quantity += quantity;
-            const price = product.details.salePrice || product.getPrice();
             this.#total += price * quantity;
         } else {
-            this.items.set(product.id, new CartItem(product.id, quantity));
-            const price = product.details.salePrice || product.getPrice();
+            this.items.set(product.id, new CartItem(product.id, quantity, price));
             this.#total += price * quantity;
         }
         this.save();
     }
 
     remove(product) {
-        const price = product.details.salePrice || product.getPrice();
-        this.#total -= price * this.items.get(product.id).quantity;
+        const existing = this.items.get(product.id);
+        if (!existing) return;
+        const price = existing.price ?? product.details?.salePrice ?? product.getPrice();
+        this.#total -= price * existing.quantity;
         this.items.delete(product.id);
         this.save();
     }
 
     updateQuantity(productId, quantity) {
         const cartItem = this.items.get(productId);
-        cartItem.quantity = Math.max(1, quantity);
+        if (!cartItem) return;
+
+        const price = cartItem.price ?? this.#resolvePrice(productId);
+
+        const newQty = Math.max(1, quantity);
+        const diff = newQty - cartItem.quantity;
+
+        cartItem.quantity = newQty;
+        this.#total += price * diff;
         this.save();
     }
 
@@ -133,9 +144,11 @@ class Cart {
             const parsedCart = cart ? JSON.parse(cart) : null;
 
             this.items = parsedCart ? new Map(parsedCart.items) : new Map();
-            this.#total = parsedCart ? parsedCart.total : 0;
+            this.#rehydrateItemPrices();
+            this.#total = parsedCart?.total ?? this.#computeTotalFromItems();
         } catch (e) {
             this.items = new Map();
+            this.#total = 0;
         }
     }
 
@@ -150,14 +163,31 @@ class Cart {
     }
 
     getTotalQuantity() {
-        const count = Array.from(window.shoppingCart.items.values()).reduce(
-            (acc, item) => {
-                acc += item.quantity;
-                return acc;
-            },
+        return Array.from(this.items.values()).reduce(
+            (acc, item) => acc + item.quantity,
             0
         );
-        return count;
+    }
+
+    #computeTotalFromItems() {
+        return Array.from(this.items.values()).reduce((acc, item) => {
+            const price = item.price ?? this.#resolvePrice(item.productId);
+            return acc + price * item.quantity;
+        }, 0);
+    }
+
+    #rehydrateItemPrices() {
+        // Backward compatibility: ensure all items carry a price
+        this.items.forEach((item) => {
+            if (item.price == null) {
+                item.price = this.#resolvePrice(item.productId);
+            }
+        });
+    }
+
+    #resolvePrice(productId) {
+        const product = (window.PRODUCTS || []).find((p) => p.id == productId);
+        return product ? product.details?.salePrice ?? product.getPrice?.() ?? 0 : 0;
     }
 }
 
