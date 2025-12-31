@@ -1,7 +1,6 @@
 {
 	// Configure absolute imports like "/src/utils/..." from project root
 	"compilerOptions": {
-		"baseUrl": ".",
 		"paths": {
 			"/src/*": ["./src/*"]
 		}
