@@ -1,31 +1,4 @@
 /* ===============================
-   AUTHENTICATION STYLES
-================================ */
-:root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --success: #16a34a;
-    --error: #dc2626;
-    --text-main: #111827;
-    --text-muted: #6b7280;
-    --border: #e5e7eb;
-    --bg: #f3f4f6;
-    --card: #ffffff;
-    --radius: 8px;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: system-ui, sans-serif;
-    background: var(--bg);
-}
-
-/* ===============================
    AUTH PAGES WRAPPER
 ================================ */
 .auth-page-wrapper {
