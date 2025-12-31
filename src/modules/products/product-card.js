@@ -1,9 +1,9 @@
-import { getRatingStars } from "/src/modules/products/product.helpers.js";
+import { getRatingStars, getPrice } from "/src/modules/products/product.helpers.js";
 import { $ } from "/src/utils/dom.js";
 import { escapeHtml, formatPrice } from "/src/utils/formatters.js";
 
-const ICON_CART_URL = "src/assets/icons/cart.svg";
-const ICON_HEART_URL = "src/assets/icons/heart.svg";
+const ICON_CART_URL = "/src/assets/icons/cart.svg";
+const ICON_HEART_URL = "/src/assets/icons/heart.svg";
 
 export default function ProductCard(product) {
     if (!product) return;
@@ -13,8 +13,8 @@ export default function ProductCard(product) {
     const isFavorite = !!product.isFavorite;
     const ratingValue = product?.details?.rating || 0;
     const reviewCount = product?.details?.reviewCount || 0;
-    const rawCurrentPrice = product.details?.salePrice || product.getPrice?.() || 0;
-    const rawOriginalPrice = product.getPrice?.() || 0;
+    const rawCurrentPrice = getPrice(product) || 0;
+    const rawOriginalPrice = product.price || 0;
     const hasSale = !!product?.details?.salePrice;
 
     // 2. Formatting and Escaping (View Model)
