@@ -543,6 +543,11 @@ window.addEventListener("storage", (event) => {
   }
 });
 
+// Keep cart UI in sync when cart changes in the same tab
+window.addEventListener("cart:updated", () => {
+  refreshCartFromStorage();
+});
+
 // ============================================
 // INIT
 // ============================================

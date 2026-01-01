@@ -21,6 +21,15 @@ const confirmPayment = document.getElementById("confirmPayment");
 
 const printReceipt = document.getElementById("printReceipt");
 
+function broadcastCartChange() {
+    const detail = {
+        total: window.shoppingCart.getTotal(),
+        totalQuantity: window.shoppingCart.getTotalQuantity(),
+        items: Array.from(window.shoppingCart.items.values()),
+    };
+    window.dispatchEvent(new CustomEvent("cart:updated", { detail }));
+}
+
 // Cart functions
 export async function addToCart(productId) {
     await productsReady;
@@ -42,6 +51,7 @@ export async function renderCart() {
         if (cartTotalEl) {
             cartTotalEl.textContent = `$${formatPrice(window.shoppingCart.getTotal())}`;
         }
+        broadcastCartChange();
         return;
     }
     cartList.innerHTML = "";
@@ -49,6 +59,7 @@ export async function renderCart() {
     if (!window.shoppingCart.items.size) {
         cartList.innerHTML = '<p class="muted">Your cart is empty.</p>';
         if (cartTotalEl) cartTotalEl.textContent = "$0.00";
+        broadcastCartChange();
         return;
     }
     const arrayOfItems = Array.from(window.shoppingCart.items.values());
@@ -63,6 +74,7 @@ export async function renderCart() {
         cartTotalEl.textContent = `$${formatPrice(window.shoppingCart.getTotal())}`;
     }
     updateCartCount();
+    broadcastCartChange();
 }
 
 export function changeCartQuantity(productId, quantity) {
