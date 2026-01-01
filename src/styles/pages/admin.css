@@ -170,15 +170,14 @@ section h2 {
   transform: translateY(0);
 }
 
-/* Products list area */
+
 #productsList {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 14px;
 }
 
-/* These styles assume admin.js renders each product row with a wrapper.
-   If your admin.js uses different markup, it still looks okay (it’ll just apply to children). */
+
 #productsList > * {
   border: 1px solid var(--admin-border);
   border-radius: var(--admin-radius-sm);
