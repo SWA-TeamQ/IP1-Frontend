@@ -18,7 +18,7 @@ export async function initProductDetailPage() {
         return;
     }
 
-    const product = await fetchProduct(id);
+    const product = await fetchProduct();
     if (!product) {
         root.innerHTML = `
             <div class="product-detail-shell">
