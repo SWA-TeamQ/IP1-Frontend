@@ -1,65 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account | ShopLight</title>
-    <link rel="stylesheet" href="../styles/pages/auth.css">
-</head>
-<body>
-<div class="auth-page-wrapper">
-    <div class="auth-card">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Create Account | ShopLight</title>
+        <link rel="stylesheet" href="/src/index.css" />
+        <script type="module" src="/src/main.js" defer></script>
+    </head>
+    <body>
+        <div class="auth-page-wrapper">
+            <div class="auth-card">
+                <div class="brand">
+                    <div class="brand-logo">ShopLight</div>
+                    <div class="brand-tagline">
+                        Create your shopping account
+                    </div>
+                </div>
 
-        <div class="brand">
-            <div class="brand-logo">ShopLight</div>
-            <div class="brand-tagline">Create your shopping account</div>
+                <header class="auth-header">
+                    <h1 class="auth-title">Create Account</h1>
+                    <p class="auth-subtitle">All fields are required</p>
+                </header>
+
+                <div
+                    id="registerMessage"
+                    class="message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+                <form id="registerForm" novalidate>
+                    <div class="form-group">
+                        <label for="fullNameInput">Full Name</label>
+                        <input
+                            id="fullNameInput"
+                            class="form-input"
+                            required
+                            autocomplete="name"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailInput">Email</label>
+                        <input
+                            id="emailInput"
+                            type="email"
+                            class="form-input"
+                            required
+                            autocomplete="email"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneInput">Phone Number</label>
+                        <input
+                            id="phoneInput"
+                            type="tel"
+                            class="form-input"
+                            placeholder="+251911000000"
+                            required
+                            autocomplete="tel"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordInput">Password</label>
+                        <input
+                            id="passwordInput"
+                            type="password"
+                            class="form-input"
+                            required
+                            autocomplete="new-password"
+                        />
+                        <small class="hint"
+                            >Min 8 chars, uppercase, lowercase & number</small
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPasswordInput"
+                            >Confirm Password</label
+                        >
+                        <input
+                            id="confirmPasswordInput"
+                            type="password"
+                            class="form-input"
+                            required
+                            autocomplete="new-password"
+                        />
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        Create Account
+                    </button>
+                </form>
+
+                <footer class="auth-footer">
+                    Already have an account?
+                    <a href="login.html" class="link-primary">Login</a>
+                </footer>
+            </div>
         </div>
 
-        <header class="auth-header">
-            <h1 class="auth-title">Create Account</h1>
-            <p class="auth-subtitle">All fields are required</p>
-        </header>
-
-        <div id="registerMessage" class="message" role="alert" aria-live="polite"></div>
-
-        <form id="registerForm" novalidate>
-            <div class="form-group">
-                <label for="fullNameInput">Full Name</label>
-                <input id="fullNameInput" class="form-input" required autocomplete="name">
-            </div>
-
-            <div class="form-group">
-                <label for="emailInput">Email</label>
-                <input id="emailInput" type="email" class="form-input" required autocomplete="email">
-            </div>
-
-            <div class="form-group">
-                <label for="phoneInput">Phone Number</label>
-                <input id="phoneInput" type="tel" class="form-input" placeholder="+251911000000" required autocomplete="tel">
-            </div>
-
-            <div class="form-group">
-                <label for="passwordInput">Password</label>
-                <input id="passwordInput" type="password" class="form-input" required autocomplete="new-password">
-                <small class="hint">Min 8 chars, uppercase, lowercase & number</small>
-            </div>
-
-            <div class="form-group">
-                <label for="confirmPasswordInput">Confirm Password</label>
-                <input id="confirmPasswordInput" type="password" class="form-input" required autocomplete="new-password">
-            </div>
-
-            <button type="submit" class="btn-primary">Create Account</button>
-        </form>
-
-        <footer class="auth-footer">
-            Already have an account?
-            <a href="login.html" class="link-primary">Login</a>
-        </footer>
-
-    </div>
-</div>
-
-<script src="../scripts/auth.js"></script>
-</body>
+        <script src="../scripts/auth.js"></script>
+    </body>
 </html>
