@@ -1,6 +1,9 @@
 import { getProduct } from "../products/products.data.js";
 import { formatPrice } from "../../utils/formatters.js";
 
+// Local tax rate fallback to avoid missing constants module
+
+
 export function initCheckoutPage() {
     const orderSummaryEl = document.querySelector(".order-summary");
     if(!orderSummaryEl) return;

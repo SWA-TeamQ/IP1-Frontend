@@ -5,11 +5,9 @@ import {
     extractProductsCategories,
 } from "./modules/products/products.data.js";
 import ProductList from "./components/product-list.js";
-import Toast from "./components/toast.js";
+import Toast from "./modules/cart/toast.js";
 import { addToCart, renderCart, closeCheckout } from "./components/Cart/CartSystem.js";
-import { closeQuickViewModal } from "./components/quick-view-model.js";
 import { initCart } from "./modules/cart/cart.store.js";
-import "./components/Cart/cart-drawer.js";
 
 // DOM Elements - Updated for professional design
 const productGrid = document.getElementById("productGrid");
@@ -98,7 +96,6 @@ function wireEvents() {
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             closeCheckout();
-            closeQuickViewModal();
         }
     });
 }

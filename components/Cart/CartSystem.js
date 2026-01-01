@@ -1,8 +1,8 @@
 import { PRODUCTS as products, getProduct, getProducts } from "../../modules/products/products.data.js";
-import { escapeHtml, formatPrice } from "../../js/lib/utils.js";
+import { escapeHtml, formatPrice } from "../../utils/formatters.js";
 import CartList from "./cart-list.js";
-import Toast from "../toast.js";
-import { onPrintReceipt } from "../../js/lib/printReciept.js";
+import Toast from "../../modules/cart/toast.js";
+import { onPrintReceipt } from "../../modules/cart/printReciept.js";
 
 const productsReady = getProducts();
 
@@ -35,7 +35,7 @@ export async function addToCart(productId) {
     await productsReady;
     const product = getProduct(productId);
     if (!product) return;
-    shoppingCart.add(product);
+    window.shoppingCart.add(product);
     renderCart();
     // visual affordance
     Toast(
@@ -78,13 +78,13 @@ export async function renderCart() {
 }
 
 export function changeCartQuantity(productId, quantity) {
-    shoppingCart.updateQuantity(productId, quantity);
+    window.shoppingCart.updateQuantity(productId, quantity);
     renderCart();
 }
 
 export function removeFromCart(productId) {
     const product = getProduct(productId);
-    shoppingCart.remove(product);
+    window.shoppingCart.remove(product);
     renderCart();
 }
 
@@ -123,7 +123,7 @@ export function clearCart() {
 
 // Checkout
 export function openCheckout() {
-    if (!shoppingCart.items.size) {
+    if (!window.shoppingCart.items.size) {
         alert("Your cart is empty.");
         return;
     }

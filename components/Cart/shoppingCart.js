@@ -1,7 +1,7 @@
 import { PRODUCTS, getProduct, getProducts } from "../../modules/products/products.data.js";
 import { fetchProductById } from "../../modules/products/products.api.js";
 import { mapApiProduct } from "../../modules/products/products.mapper.js";
-import { escapeHtml, formatPrice } from "../../js/lib/utils.js";
+import { escapeHtml, formatPrice } from "../../utils/formatters.js";
 import {
   changeCartQuantity,
   removeFromCart,
@@ -10,14 +10,21 @@ import {
 } from "./CartSystem.js";
 import { initCart } from "../../modules/cart/cart.store.js";
 
+/* ===========================
+   CONSTANTS
+=========================== */
 const SHIPPING_COST = 5.99;
-const productsReady = getProducts();
+const STORE_NAME = "ShopLight";
 
+/* ===========================
+   CART HELPERS
+=========================== */
 function getcart() {
   const items = Array.from(window.shoppingCart.items.values()).map((item) => ({
     productId: item.productId,
     quantity: item.quantity,
   }));
+
   return {
     items,
     size: items.length,
@@ -26,9 +33,9 @@ function getcart() {
   };
 }
 
-// ============================================
-// DOM ELEMENTS
-// ============================================
+/* ===========================
+   DOM ELEMENTS
+=========================== */
 const cartItemsList = document.getElementById("cartItemsList");
 const cartEmpty = document.getElementById("cartEmpty");
 const subtotalEl = document.getElementById("subtotal");
@@ -36,130 +43,24 @@ const shippingEl = document.getElementById("shipping");
 const totalEl = document.getElementById("total");
 const itemCountEl = document.getElementById("itemCount");
 const cartCountEl = document.getElementById("cartCount");
-
-const checkoutBtn = document.querySelector(".btn-checkout");
-const checkoutModal = document.getElementById("checkoutModal");
-const closeModalBtn = document.getElementById("closeModal");
-const confirmPaymentBtn = document.getElementById("confirmPayment");
-const cancelCheckoutBtn = document.getElementById("cancelCheckout");
-const printReceiptBtn = document.getElementById("printReceipt");
-const closeCheckoutBtn = document.getElementById("closeCheckout");
-const step1 = document.getElementById("step1");
-const step2 = document.getElementById("step2");
-const removeAllBtn = document.getElementById("removeAllBtn");
-const selectAllCheckbox = document.getElementById("selectAllCheckbox");
-const removeSelectedBtn = document.getElementById("removeSelectedBtn");
 const orderSummary = document.getElementById("orderSummary");
 
-// Track selected items
-let selectedItems = new Set();
+const checkoutBtn = document.querySelector(".btn-checkout");
+const confirmPaymentBtn = document.getElementById("confirmPayment");
+const printReceiptBtn = document.getElementById("printReceipt");
+const closeCheckoutBtn = document.getElementById("closeCheckout");
 
-// ============================================
-// SELECTION FUNCTIONS
-// ============================================
-function toggleSelectAll() {
-  if (!selectAllCheckbox) return;
-  const cart = getcart();
-  const checkboxes = document.querySelectorAll(".cart-item-checkbox");
+/* ===========================
+   STATE
+=========================== */
+let lastOrderItems = [];
 
-  if (selectAllCheckbox.checked) {
-    cart.items.forEach((item) => selectedItems.add(item.productId));
-    checkboxes.forEach((cb) => (cb.checked = true));
-  } else {
-    selectedItems.clear();
-    checkboxes.forEach((cb) => (cb.checked = false));
-  }
-  updateSelectionUI(cart);
-}
-
-function toggleItemSelection(productId, checked) {
-  if (checked) {
-    selectedItems.add(productId);
-  } else {
-    selectedItems.delete(productId);
-  }
-
-  // Update select all checkbox state
-  const cart = getcart();
-  selectAllCheckbox.checked = selectedItems.size === cart.size && cart.size > 0;
-  selectAllCheckbox.indeterminate =
-    selectedItems.size > 0 && selectedItems.size < cart.size;
-
-  updateSelectionUI(cart);
-}
-
-function calculateTotals(productIds, cartMap) {
-  let subtotal = 0;
-  let totalItems = 0;
-
-  productIds.forEach((productId) => {
-    const item = cartMap.get(productId);
-    const product = getProduct(productId);
-    if (item && product) {
-      const price = product.details?.salePrice ?? product.getPrice();
-      subtotal += price * item.quantity;
-      totalItems += item.quantity;
-    }
-  });
-
-  return { subtotal, totalItems }; 
-}
-
-function updateSelectionUI(cart = getcart()) {
-  const cartMap = new Map(cart.items.map((i) => [String(i.productId), i]));
-  const productIds =
-    selectedItems.size > 0
-      ? Array.from(selectedItems)
-      : Array.from(cartMap.keys());
-
-  const { subtotal, totalItems } = calculateTotals(productIds, cartMap);
-
-  updateSummary(subtotal, totalItems, cart);
-
-  if (removeSelectedBtn) {
-    removeSelectedBtn.style.display =
-      selectedItems.size > 0 ? "inline-block" : "none";
-    removeSelectedBtn.textContent = `Remove Selected (${selectedItems.size})`;
-  }
-}
-
-function removeSelectedItems() {
-  if (selectedItems.size === 0) return;
-
-  if (
-    confirm(
-      `Are you sure you want to remove ${selectedItems.size} selected item(s)?`
-    )
-  ) {
-    selectedItems.forEach((productId) => removeFromCart(productId));
-    selectedItems.clear();
-    refreshCartFromStorage();
-  }
-}
-
-// ============================================
-// REMOVE ALL ITEMS
-// ============================================
-function removeAllItems() {
-  const cart = getcart();
-  if (!cart.size) return;
-
-  if (confirm("Are you sure you want to remove all items from your cart?")) {
-    clearCart();
-    selectedItems.clear();
-    refreshCartFromStorage();
-  }
-}
-
-if (removeAllBtn) removeAllBtn.addEventListener("click", removeAllItems);
-if (selectAllCheckbox)
-  selectAllCheckbox.addEventListener("change", toggleSelectAll);
-if (removeSelectedBtn)
-  removeSelectedBtn.addEventListener("click", removeSelectedItems);
-
+/* ===========================
+   ENSURE API PRODUCTS EXIST
+=========================== */
 async function ensureProductsForCart(cartItems) {
   const missingIds = cartItems
-    .map((item) => String(item.productId))
+    .map((i) => String(i.productId))
     .filter((id) => !getProduct(id));
 
   if (!missingIds.length) return;
@@ -172,23 +73,20 @@ async function ensureProductsForCart(cartItems) {
   );
 
   fetched.forEach((res) => {
-    if (res.status === "fulfilled" && res.value) {
-      const existing = getProduct(res.value.id);
-      if (!existing) {
-        PRODUCTS.push(res.value);
-      }
+    if (res.status === "fulfilled" && res.value && !getProduct(res.value.id)) {
+      PRODUCTS.push(res.value);
     }
   });
 }
 
-// ============================================
-// RENDER CART ITEMS
-// ============================================
+/* ===========================
+   RENDER CART ITEMS
+=========================== */
 async function renderCartItems() {
   const cart = getcart();
   cartItemsList.innerHTML = "";
 
-  if (cart.size === 0) {
+  if (!cart.size) {
     cartEmpty.style.display = "flex";
     cartItemsList.style.display = "none";
     updateSummary(0, 0);
@@ -204,357 +102,231 @@ async function renderCartItems() {
   let totalItems = 0;
 
   cart.items.forEach((item) => {
-    const product = getProduct(item.productId);
-    if (!product) {
-      console.warn("Product not found for ID:", item.productId);
-      return;
-    }
+    const product =
+      getProduct(item.productId) || {
+        id: item.productId,
+        name: "Product",
+        image: "https://via.placeholder.com/120",
+        getPrice: () => 0,
+        details: {},
+      };
 
-    const price = product.details?.salePrice ?? product.getPrice?.() ?? product.price ?? 0;
-    const color = product.details?.color || "Standard";
-    const size = product.details?.size || "One Size";
-    const badge = product.details?.badge;
-    
-    const lineTotal = price * item.quantity;
-    subtotal += lineTotal;
+    const unit = product.details?.salePrice ?? product.getPrice?.() ?? product.price ?? 0;
+    const line = unit * item.quantity;
+
+    subtotal += line;
     totalItems += item.quantity;
 
-    const isSelected = selectedItems.has(String(item.productId));
-    const itemEl = document.createElement("div");
-    itemEl.className = `cart-item ${isSelected ? "selected" : ""}`;
-    const isMinQty = item.quantity <= 1;
-
-    itemEl.innerHTML = `
-      <div class="cart-item-select">
-        <input type="checkbox" class="cart-item-checkbox" data-id="${item.productId}" ${
-      isSelected ? "checked" : ""
-    }>
+    const el = document.createElement("div");
+    el.className = "cart-item";
+    el.innerHTML = `
+      <div class="cart-item-thumb">
+        <img src="${product.image}" alt="${escapeHtml(product.name)}" />
       </div>
-      <div class="cart-item-image">
-        <img src="${product.image}" alt="${product.name}">
-        ${badge ? `<span class="cart-item-badge">${badge}</span>` : ""}
-      </div>
-      <div class="cart-item-details">
-        <div class="cart-item-info">
-          <h3 class="cart-item-name">${product.name}</h3>
-          <p class="cart-item-meta">${color} • ${size}</p>
+      <div class="cart-item-body">
+        <div class="cart-item-top">
+          <h4>${escapeHtml(product.name)}</h4>
+          <button class="remove-btn" data-remove="${product.id}">Remove</button>
         </div>
-        <div class="cart-item-price">$${price.toFixed(2)}</div>
-        <div class="cart-item-actions">
+        <div class="cart-item-meta">
+          <span>$${formatPrice(unit)}</span>
           <div class="qty-controls">
-            <button class="qty-btn" data-action="decrease" data-id="${item.productId}" ${
-      isMinQty ? "disabled" : ""
-    }">−</button>
+            <button class="qty-btn" data-action="decrease" data-id="${product.id}">-</button>
             <span class="qty-value">${item.quantity}</span>
-              <button class="qty-btn" data-action="increase" data-id="${item.productId}">+</button>
+            <button class="qty-btn" data-action="increase" data-id="${product.id}">+</button>
           </div>
-            <button class="remove-btn" data-id="${item.productId}">Remove</button>
         </div>
       </div>
-      <div class="cart-item-total">$${lineTotal.toFixed(2)}</div>
+      <strong class="cart-line-total">$${formatPrice(line)}</strong>
     `;
 
-    cartItemsList.appendChild(itemEl);
+    const decBtn = el.querySelector('[data-action="decrease"]');
+    const incBtn = el.querySelector('[data-action="increase"]');
+    const removeBtn = el.querySelector('[data-remove]');
+
+    decBtn?.addEventListener("click", () => {
+      if (item.quantity <= 1) return;
+      changeCartQuantity(item.productId, item.quantity - 1);
+      refreshCartFromStorage();
+    });
+
+    incBtn?.addEventListener("click", () => {
+      changeCartQuantity(item.productId, item.quantity + 1);
+      refreshCartFromStorage();
+    });
+
+    removeBtn?.addEventListener("click", () => {
+      removeFromCart(item.productId);
+      refreshCartFromStorage();
+    });
+
+    cartItemsList.appendChild(el);
   });
 
   updateSummary(subtotal, totalItems);
-  attachItemEvents(cart);
   renderOrderSummary(cart);
 }
 
+/* ===========================
+   SUMMARY UI
+=========================== */
 function updateSummary(subtotal, totalItems, cart = getcart()) {
   const effectiveSubtotal = subtotal ?? cart.total ?? 0;
-  const shipping = effectiveSubtotal > 0 ? SHIPPING_COST : 0;
+  const shipping = effectiveSubtotal ? SHIPPING_COST : 0;
   const total = effectiveSubtotal + shipping;
 
-  subtotalEl.textContent = `$${effectiveSubtotal.toFixed(2)}`;
-  shippingEl.textContent = effectiveSubtotal > 0 ? `$${shipping.toFixed(2)}` : "Free";
-  totalEl.textContent = `$${total.toFixed(2)}`;
-  itemCountEl.textContent = totalItems;
-  if (cartCountEl) cartCountEl.textContent = cart.totalQuantity ?? totalItems;
+  subtotalEl.textContent = `$${formatPrice(effectiveSubtotal)}`;
+  shippingEl.textContent = shipping ? `$${formatPrice(shipping)}` : "Free";
+  totalEl.textContent = `$${formatPrice(total)}`;
+  itemCountEl.textContent = totalItems ?? cart.totalQuantity ?? 0;
+  if (cartCountEl) cartCountEl.textContent = cart.totalQuantity ?? totalItems ?? 0;
 }
 
-function attachItemEvents(cart = getcart()) {
-  // Checkbox selection
-  document.querySelectorAll(".cart-item-checkbox").forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-      const id = checkbox.dataset.id;
-      toggleItemSelection(id, checkbox.checked);
-
-      // Update visual state
-      const cartItem = checkbox.closest(".cart-item");
-      if (checkbox.checked) {
-        cartItem.classList.add("selected");
-      } else {
-        cartItem.classList.remove("selected");
-      }
-    });
-  });
-
-  // Quantity buttons
-  document.querySelectorAll(".qty-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id;
-      const action = btn.dataset.action;
-      const item = cart.items.find((i) => String(i.productId) === String(id));
-      if (!item) return;
-
-      if (action === "increase") {
-        changeCartQuantity(id, item.quantity + 1);
-        refreshCartFromStorage();
-      } else if (action === "decrease") {
-        if (item.quantity === 1) return;
-        changeCartQuantity(id, item.quantity - 1);
-        refreshCartFromStorage();
-      }
-    });
-  });
-
-  // Remove buttons
-  document.querySelectorAll(".remove-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id;
-      selectedItems.delete(id);
-      removeFromCart(id);
-      refreshCartFromStorage();
-    });
-  });
-}
-
+/* ===========================
+   ORDER SUMMARY MODAL
+=========================== */
 function renderOrderSummary(cart = getcart()) {
-  if (!orderSummary) return; // stop if element not found
+  if (!orderSummary) return;
 
   const lines = cart.items.map((item) => {
-    const product = PRODUCTS.find((p) => p.id == item.productId);
-    if (!product) return ""; // skip if product missing
-    const unit = product.details?.salePrice ?? product.getPrice?.() ?? product.price ?? 0;
-    const lineTotal = unit * item.quantity;
+    const p = getProduct(item.productId);
+    const unit = p?.details?.salePrice ?? p?.getPrice?.() ?? p?.price ?? 0;
     return `
-      <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
-        <div>${escapeHtml(product.name)} x ${item.quantity}</div>
-        <div><strong>$${formatPrice(lineTotal)}</strong></div>
+      <div class="summary-row">
+        <span>${escapeHtml(p?.name || "Product")} × ${item.quantity}</span>
+        <strong>$${formatPrice(unit * item.quantity)}</strong>
       </div>
     `;
   });
 
-  const subtotal = cart.total ?? cart.items.reduce((sum, item) => {
-    const product = PRODUCTS.find((p) => p.id == item.productId);
-    if (!product) return sum;
-    const unit = product.details?.salePrice ?? product.getPrice?.() ?? product.price ?? 0;
-    return sum + unit * item.quantity;
-  }, 0);
-
-  const shipping = subtotal > 0 ? SHIPPING_COST : 0; // hardcoded shipping cost
+  const subtotal = cart.total ?? 0;
+  const shipping = subtotal ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
 
   orderSummary.innerHTML = `
     ${lines.join("")}
-    <hr>
-    <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div>$${formatPrice(
-      subtotal
-    )}</div></div>
-    <div style="display:flex;justify-content:space-between"><div>Shipping</div><div>$${formatPrice(
-      shipping
-    )}</div></div>
-    <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:0.5rem"><div>Total</div><div>$${formatPrice(
-      total
-    )}</div></div>
+    <hr />
+    <div class="summary-row"><span>Subtotal</span><span>$${formatPrice(subtotal)}</span></div>
+    <div class="summary-row"><span>Shipping</span><span>$${formatPrice(shipping)}</span></div>
+    <div class="summary-row total"><span>Total</span><span>$${formatPrice(total)}</span></div>
   `;
 }
 
+/* ===========================
+   RECEIPT PRINTING
+=========================== */
 export function onPrintReceipt(cartItems) {
-  const printWindow = window.open("", "_blank", "width=800,height=600");
-  if (!printWindow) {
-    alert("Unable to open print window. Please allow popups for this site.");
-    return;
-  }
+  const win = window.open("", "_blank");
+  if (!win) return alert("Allow popups to print receipt.");
 
   const date = new Date().toLocaleString();
-  const storeName = "ShopLight";
 
-  const itemsHtml = cartItems
+  const rows = cartItems
     .map((item) => {
-      const p = PRODUCTS.find((x) => x.id === item.productId);
-      if (!p) return "";
-      const unitPrice = p.details?.salePrice ?? p.getPrice() ?? 0;
-      return `<tr>
-        <td style="padding:6px 8px">${escapeHtml(p.name)}</td>
-        <td style="padding:6px 8px;text-align:center">${item.quantity}</td>
-        <td style="padding:6px 8px;text-align:right">$${formatPrice(unitPrice)}</td>
-        <td style="padding:6px 8px;text-align:right">$${formatPrice(unitPrice * item.quantity)}</td>
-      </tr>`;
+      const p = getProduct(item.productId);
+      const unit = p?.details?.salePrice ?? p?.getPrice?.() ?? p?.price ?? 0;
+      return `
+        <tr>
+          <td>${escapeHtml(p?.name || "Product")}</td>
+          <td>${item.quantity}</td>
+          <td>$${formatPrice(unit)}</td>
+          <td>$${formatPrice(unit * item.quantity)}</td>
+        </tr>
+      `;
     })
     .join("");
 
-  const subtotal = cartItems.reduce((s, i) => {
-    const p = PRODUCTS.find((x) => x.id === i.productId);
-    const unit = p ? p.details?.salePrice ?? p.getPrice?.() ?? p.price ?? 0 : 0;
-    return s + unit * i.quantity;
+  const subtotal = cartItems.reduce((sum, i) => {
+    const p = getProduct(i.productId);
+    const unit = p?.details?.salePrice ?? p?.getPrice?.() ?? p?.price ?? 0;
+    return sum + unit * i.quantity;
   }, 0);
 
-  const shipping = subtotal > 0 ? 5.99 : 0;
+  const shipping = subtotal ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
 
-  const html = `
+  win.document.write(`
     <html>
-      <head>
-        <title>Receipt - ${storeName}</title>
-        <style>
-          body { font-family: Arial, Helvetica, sans-serif; padding:20px; color:#111 }
-          h1 { margin:0 0 8px 0 }
-          table { width:100%; border-collapse:collapse; margin-top:12px }
-          td, th { border-bottom:1px solid #eee }
-          .totals { margin-top:12px; width:100% }
-          .right { text-align:right }
-        </style>
-      </head>
-      <body>
-        <h1>${storeName}</h1>
-        <div>Receipt — ${date}</div>
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align:left">Item</th>
-              <th style="text-align:center">Qty</th>
-              <th style="text-align:right">Unit</th>
-              <th style="text-align:right">Line</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${itemsHtml}
-          </tbody>
-        </table>
-        <div class="totals">
-          <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div class="right">$${formatPrice(subtotal)}</div></div>
-          <div style="display:flex;justify-content:space-between"><div>Shipping</div><div class="right">$${formatPrice(shipping)}</div></div>
-          <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:8px"><div>Total</div><div class="right">$${formatPrice(total)}</div></div>
-        </div>
-        <div style="margin-top:18px">Thank you for shopping with us.</div>
-        <script>window.onload = function(){ window.print(); }</script>
-      </body>
+    <head>
+      <title>Receipt</title>
+      <style>
+        body{font-family:Arial;padding:20px}
+        table{width:100%;border-collapse:collapse}
+        td,th{border-bottom:1px solid #eee;padding:6px}
+        th{text-align:left}
+      </style>
+    </head>
+    <body>
+      <h1>${STORE_NAME}</h1>
+      <p>${date}</p>
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Qty</th><th>Unit</th><th>Total</th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <p><strong>Subtotal:</strong> $${formatPrice(subtotal)}</p>
+      <p><strong>Shipping:</strong> $${formatPrice(shipping)}</p>
+      <h3>Total: $${formatPrice(total)}</h3>
+      <script>window.print()</script>
+    </body>
     </html>
-  `;
+  `);
 
-  printWindow.document.open();
-  printWindow.document.write(html);
-  printWindow.document.close();
+  win.document.close();
 }
 
-
-// ============================================
-// CHECKOUT MODAL
-// ============================================
-function closeModal() {
-  if (!checkoutModal) return;
-  checkoutModal.classList.remove("active");
-  checkoutModal.setAttribute("aria-hidden", "true");
-  setTimeout(() => {
-    if (step1 && step2) {
-      step1.style.display = "block";
-      step2.style.display = "none";
-    }
-  }, 300);
-}
-
+/* ===========================
+   CHECKOUT FLOW
+=========================== */
 if (checkoutBtn)
-  checkoutBtn.addEventListener("click", () => {
-    const cart = getcart();
-    if (!cart.size) {
-      alert("Your cart is empty!");
-      return;
-    }
+  checkoutBtn.onclick = () => {
+    if (!getcart().size) return alert("Cart is empty");
     window.location.href = "/pages/checkout/checkout.html";
-  });
-
-if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
-if (cancelCheckoutBtn) cancelCheckoutBtn.addEventListener("click", closeModal);
-
-let lastOrderItems = [];
+  };
 
 if (confirmPaymentBtn)
-  confirmPaymentBtn.addEventListener("click", () => {
-    const cart = getcart();
-    lastOrderItems = cart.items.map((i) => ({ ...i }));
+  confirmPaymentBtn.onclick = () => {
+    lastOrderItems = getcart().items.map((i) => ({ ...i }));
+  };
 
-    if (step1 && step2) {
-      step1.style.display = "none";
-      step2.style.display = "block";
-    }
-
-    refreshCartFromStorage();
-  });
-
-
-if (printReceiptBtn) {
-  printReceiptBtn.addEventListener("click", () => {
-    if (lastOrderItems.length === 0) {
-      alert("No order to print.");
-      return;
-    }
-
+if (printReceiptBtn)
+  printReceiptBtn.onclick = () => {
+    if (!lastOrderItems.length) return alert("No order to print");
     onPrintReceipt(lastOrderItems);
-
     clearCart();
     refreshCartFromStorage();
-  });
-}
+  };
 
+if (closeCheckoutBtn)
+  closeCheckoutBtn.onclick = () => window.history.back();
 
-if (closeCheckoutBtn) closeCheckoutBtn.addEventListener("click", closeModal);
-
-if (checkoutModal) {
-  checkoutModal.addEventListener("click", (e) => {
-    if (e.target === checkoutModal) {
-      closeModal();
-    }
-  });
-}
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && checkoutModal?.classList.contains("active")) {
-    closeModal();
-  }
-});
-
+/* ===========================
+   REFRESH + INIT
+=========================== */
 async function refreshCartFromStorage() {
-  if (window.shoppingCart?.load) {
-    window.shoppingCart.load();
-  }
-
-  const cart = getcart();
-  selectedItems = new Set(
-    Array.from(selectedItems).filter((id) =>
-      cart.items.some((item) => String(item.productId) === String(id))
-    )
-  );
-
+  window.shoppingCart?.load?.();
   await renderCartItems();
-  updateSelectionUI();
   updateCartCount();
 }
 
-// Keep cart page in sync when localStorage changes in another tab
-window.addEventListener("storage", (event) => {
-  const storageKey = window.shoppingCart?.STORAGE_CART;
-  if (!storageKey) return;
+async function init() {
+  await initCart();
+  await getProducts();
+  await refreshCartFromStorage();
+}
 
-  if (event.key === null || event.key === storageKey) {
+// Keep page in sync when cart changes elsewhere
+window.addEventListener("storage", (event) => {
+  const key = window.shoppingCart?.STORAGE_CART;
+  if (!key) return;
+  if (event.key === null || event.key === key) {
     refreshCartFromStorage();
   }
 });
 
-// Keep cart UI in sync when cart changes in the same tab
 window.addEventListener("cart:updated", () => {
   refreshCartFromStorage();
 });
-
-// ============================================
-// INIT
-// ============================================
-async function init() {
-  await initCart();
-  await productsReady;
-  await refreshCartFromStorage();
-}
 
 init();

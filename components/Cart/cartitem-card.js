@@ -1,4 +1,4 @@
-import { escapeHtml, formatPrice } from "../../js/lib/utils.js";
+import { escapeHtml, formatPrice } from "../../utils/formatters.js";
 
 export default function CartItemCard(
     product,

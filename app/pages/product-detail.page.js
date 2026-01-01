@@ -1,4 +1,4 @@
-import { getProduct } from "../../modules/products/products.data.js";
+import { getProduct, getProducts } from "../../modules/products/products.data.js";
 import ProductDetail from "../../modules/products/product-detail.js";
 
 export async function initProductDetailPage() {
@@ -18,7 +18,9 @@ export async function initProductDetailPage() {
         return;
     }
 
-    const product = await getProduct(id);
+    // Ensure API products are loaded, then grab the mapped product
+    await getProducts();
+    const product = getProduct(id);
     if (!product) {
         root.innerHTML = `
             <div class="product-detail-shell">

@@ -1,6 +1,6 @@
 import { PRODUCTS, getProduct } from "../../js/data/products.js";
-import { formatPrice } from "../../js/lib/utils.js";
-import { onPrintReceipt } from "../../js/lib/printReciept.js";
+import { formatPrice } from "../../utils/formatters.js";
+import { onPrintReceipt } from "../../modules/cart/printReciept.js";
 
 const SHIPPING = {
   standard: { label: "Standard", cost: 5.99, eta: "4-6 business days" },

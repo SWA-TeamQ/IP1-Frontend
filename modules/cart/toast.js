@@ -1,4 +1,4 @@
-import { escapeHtml } from "../js/lib/utils.js";
+import { escapeHtml } from "../../utils/formatters.js";
 const toastContainer = document.getElementById("toastContainer");
 
 export default function Toast(message, type = "success", duration = 3000) {
