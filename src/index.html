@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+            name="description"
+            content="ShopLight - Premium handpicked products blending style, comfort, and innovation."
+        />
+        <title>ShopLight — Quality Goods, Thoughtfully Chosen</title>
+        <link rel="stylesheet" href="./index.css" />
+        <link rel="preload" as="image" href="/src/assets/images/shoe.png" />
+        <script type="module" src="./main.js" defer></script>
+    </head>
+    <body>
+        <script type="module">
+            import { insertNavbar } from "/src/components/navbar.js";
+            insertNavbar();
+        </script>
+
+        <main id="main-content">
+            <section class="hero">
+                <div class="container hero-grid">
+                    <article class="hero-content">
+                        <h1 class="hero-title">
+                            Thoughtfully <br />
+                            Chosen Goods.
+                        </h1>
+                        <p class="hero-sub">
+                            Modern design meets reliable performance. Discover
+                            our handpicked collection of essentials built for
+                            the modern lifestyle.
+                        </p>
+                        <div class="hero-ctas">
+                            <a class="btn btn-primary" href="#featured"
+                                >Shop Collection</a
+                            >
+                            <a
+                                class="btn btn-secondary"
+                                href="/src/pages/register.html"
+                                >Get Started</a
+                            >
+                        </div>
+                    </article>
+
+                    <div class="hero-image-wrapper">
+                        <div class="image-bg-glow"></div>
+                        <img
+                            src="/src/assets/images/shoe.png"
+                            alt="Premium Red Athletic Shoe"
+                            class="floating-img"
+                            width="600"
+                            height="400"
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <section class="container info-section" id="about">
+                <div class="info-header">
+                    <h2>The ShopLight Way</h2>
+                    <p class="muted">
+                        Blending style, comfort, and innovation for a seamless
+                        experience.
+                    </p>
+                </div>
+
+                <section class="services-grid" id="services">
+                    <div class="service-card">
+                        <div class="service-icon">✨</div>
+                        <h3>Curated Quality</h3>
+                        <p>
+                            Every item is rigorously tested to meet our
+                            standards for design and durability.
+                        </p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🚀</div>
+                        <h3>Fast Shipping</h3>
+                        <p>
+                            Enjoy reliable, speedy delivery on every order with
+                            real-time tracking.
+                        </p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔒</div>
+                        <h3>Secure Checkout</h3>
+                        <p>
+                            Shop with total confidence using our
+                            industry-leading encrypted payment gateway.
+                        </p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🎧</div>
+                        <h3>24/7 Support</h3>
+                        <p>
+                            Our dedicated team is always here to ensure your
+                            experience is nothing short of perfect.
+                        </p>
+                    </div>
+                </section>
+            </section>
+
+            <section id="featured" class="container products-section">
+                <header class="section-header">
+                    <div class="header-left">
+                        <h2 class="section-title">Featured Products</h2>
+                        <p class="muted">Popular, highly rated, and on sale.</p>
+                    </div>
+                    <a href="/src/pages/product.html"
+                    class="text-link"
+                        >View All Products =></a
+                    >
+                </header>
+
+                <div
+                    id="featuredGrid"
+                    class="product-grid"
+                    role="list"
+                    aria-label="Featured Products"
+                ></div>
+            </section>
+        </main>
+
+        <script type="module">
+            import { insertFooter } from "/src/components/footer.js";
+            insertFooter();
+        </script>
+    </body>
+</html>

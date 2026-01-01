@@ -1,0 +1,298 @@
+/* ============================================
+   HEADER & NAVIGATION — refreshed for better spacing & layout
+   ============================================ */
+
+/* Sticky header with subtle glass effect */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky, 1000);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(10, 20, 30, 0.06);
+  height: var(--header-height, 72px);
+  display: flex;
+  align-items: center;
+}
+
+/* Inner container: center content and provide consistent horizontal padding */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: var(--space-6, 1.5rem);
+  padding: 0 2.25rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Brand / logo */
+.brand .logo {
+  font-size: 1.375rem;
+  font-weight: 800;
+  color: var(--color-text-primary, #0b1220);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  letter-spacing: -0.02em;
+  transition: color var(--transition-fast, 160ms) ease, transform 120ms ease;
+  background: linear-gradient(90deg, rgba(26,115,232,0.06), rgba(16,185,129,0.04));
+  box-shadow: 0 6px 20px rgba(9,30,66,0.06);
+}
+
+/* Make logo slightly more prominent on larger screens */
+@media (min-width: 1100px) {
+  .brand .logo {
+    font-size: 1.25rem;
+  }
+}
+
+/* Main Navigation */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.main-nav ul {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6, 1.25rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Links — subtle pill hover and accessible focus */
+.main-nav a {
+  color: var(--color-text-primary, #0b1220);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: background 150ms ease, color 150ms ease, transform 120ms ease;
+}
+
+.main-nav a:hover,
+.main-nav a:focus {
+  background: linear-gradient(90deg, rgba(26,115,232,0.06), rgba(26,115,232,0.02));
+  color: var(--color-primary, #1a73e8);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+/* Header actions area (right side) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 0.75rem);
+}
+
+/* Cart button: clearer shape, easier tap target and consistent badge */
+.nav-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, var(--color-primary, #1a73e8), var(--color-primary-dark, #1557b0));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  height: 44px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 8px 28px rgba(26,115,232,0.12);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.nav-cart-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.nav-cart-btn:hover,
+.nav-cart-btn:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(26,115,232,0.14);
+  outline: none;
+}
+
+/* Cart count badge (single consistent style) */
+.cart-count {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-error, #ef4444);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-left: -6px;
+  box-shadow: 0 4px 10px rgba(239,68,68,0.12);
+  min-width: 20px;
+  height: 20px;
+}
+
+/* Search — keep but keep compact; collapse on small screens */
+.search {
+  flex: 0 1 380px;
+  max-width: 420px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted, #9aa6b2);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.search input[type="search"] {
+  width: 100%;
+  padding: 10px 14px;
+  padding-left: 40px;
+  border: 1px solid rgba(10,20,30,0.06);
+  border-radius: 10px;
+  background-color: var(--color-bg-primary, #fff);
+  font-size: 0.95rem;
+  transition: box-shadow 120ms ease, border-color 120ms ease;
+  box-shadow: 0 4px 10px rgba(9,30,66,0.04);
+}
+
+.search input[type="search"]:focus {
+  outline: none;
+  border-color: var(--color-primary, #1a73e8);
+  box-shadow: 0 8px 24px rgba(26,115,232,0.08);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-secondary, #556677);
+}
+
+
+.nav-cart-btn{
+  display: flex;
+
+  img {
+    width : 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+
+
+/* Hamburger button (mobile) */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: 8px;
+  z-index: 110;
+}
+
+.hamburger span,
+.hamburger span:before,
+.hamburger span:after {
+  display: block;
+  background: var(--color-text-primary, #0b1220);
+  height: 3px;
+  width: 26px;
+  border-radius: 2px;
+  position: relative;
+  transition: all 0.28s cubic-bezier(.4,0,.2,1);
+}
+
+.hamburger span:before,
+.hamburger span:after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.hamburger span:before { top: -8px; }
+.hamburger span:after { top: 8px; }
+
+/* Responsive Nav behaviour */
+@media (max-width: 900px) {
+  .main-nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--header-height, 72px);
+    justify-content: flex-end;
+  }
+
+  .main-nav ul {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 240px;
+    box-shadow: 0 10px 40px rgba(9,30,66,0.06);
+    border-radius: 12px;
+    padding: 10px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px) scale(0.98);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .main-nav.open ul {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  .main-nav li {
+    width: 100%;
+  }
+
+  .main-nav a,
+  .main-nav .nav-cart-btn {
+    width: 100%;
+    display: block;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 8px;
+  }
+
+  .search { display: none; }
+  .hamburger { display: inline-block; }
+}
+
+/* Small screens adjustments */
+@media (max-width: 480px) {
+  .header-inner {
+    padding: 0 1rem;
+  }
+  .brand .logo { font-size: 1rem; }
+  .nav-cart-btn { padding: 8px; height: 40px; border-radius: 10px; }
+  .main-nav { justify-content: flex-end; }
+}

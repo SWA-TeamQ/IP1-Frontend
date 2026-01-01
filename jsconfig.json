@@ -1,0 +1,10 @@
+{
+	// Configure absolute imports like "/src/utils/..." from project root
+	"compilerOptions": {
+		"paths": {
+			"/src/*": ["./src/*"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist", "build"]
+}

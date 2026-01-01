@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login | ShopLight</title>
+        <link rel="stylesheet" href="/src/index.css" />
+        <script type="module" src="/src/main.js" defer></script>
+    </head>
+    <body>
+        <script type="module">
+            import { insertNavbar } from "/src/components/navbar.js";
+            insertNavbar();
+        </script>
+        <div class="auth-page-wrapper">
+            <div class="auth-card">
+                <div class="brand">
+                    <div class="brand-logo">ShopLight</div>
+                    <div class="brand-tagline">Smart & Simple Shopping</div>
+                </div>
+
+                <header class="auth-header">
+                    <h1 class="auth-title">Welcome Back</h1>
+                    <p class="auth-subtitle">Login to continue shopping</p>
+                </header>
+
+                <div
+                    id="loginMessage"
+                    class="message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+                <form id="loginForm" novalidate>
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input
+                            id="loginEmail"
+                            type="email"
+                            class="form-input"
+                            required
+                            autocomplete="email"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input
+                            id="loginPassword"
+                            type="password"
+                            class="form-input"
+                            required
+                            autocomplete="current-password"
+                        />
+                    </div>
+
+                    <button type="submit" class="btn-primary">Login</button>
+                </form>
+
+                <div class="divider">OR</div>
+
+                <button class="btn-google" onclick="simulateGoogleLogin()">
+                    <svg class="google-icon" viewBox="0 0 48 48">
+                        <path
+                            fill="#EA4335"
+                            d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.5 2.4 30.1 0 24 0 14.6 0 6.4 5.4 2.6 13.3l7.9 6.1C12.4 13.3 17.8 9.5 24 9.5z"
+                        />
+                        <path
+                            fill="#4285F4"
+                            d="M46.1 24.6c0-1.6-.1-2.8-.4-4.1H24v7.8h12.5c-.5 3-2.1 5.5-4.5 7.2l6.9 5.3c4-3.7 6.2-9.2 6.2-16.2z"
+                        />
+                        <path
+                            fill="#FBBC05"
+                            d="M10.5 28.6c-1-3-1-6.2 0-9.2L2.6 13.3c-3.5 7-3.5 15.4 0 22.4l7.9-6.1z"
+                        />
+                        <path
+                            fill="#34A853"
+                            d="M24 48c6.1 0 11.5-2 15.4-5.5l-6.9-5.3c-1.9 1.3-4.4 2-8.5 2-6.2 0-11.6-3.8-13.5-9.2l-7.9 6.1C6.4 42.6 14.6 48 24 48z"
+                        />
+                    </svg>
+                    Continue with Google
+                </button>
+
+                <footer class="auth-footer">
+                    <a
+                        href="/src/pages/forgetpassword.html"
+                        class="link-primary"
+                        >Forgot Password?</a
+                    ><br /><br />
+                    Don't have an account?
+                    <a href="/src/pages/register.html" class="link-primary"
+                        >Create one</a
+                    >
+                </footer>
+            </div>
+        </div>
+
+        <script src="../scripts/auth.js"></script>
+    </body>
+</html>

@@ -1,0 +1,184 @@
+/* ============================================
+   PRODUCT CARD COMPONENT
+   ============================================ */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--color-border-light);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-primary-light);
+}
+
+/* Image Container */
+.card-image-container {
+    position: relative;
+    background: var(--color-bg-secondary);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.card:hover .card-image {
+    transform: scale(1.08);
+}
+
+/* Floating Badge */
+.card-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    z-index: 2;
+}
+
+/* Icon Button Standardization */
+.btn-icon-base {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    padding: 0;
+}
+
+/* Favorite Button (Top Floating) */
+.top-fav {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 3;
+    border-radius: 50%; /* Circular for the floating look */
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.top-fav:hover {
+    background: #ffffff;
+    transform: scale(1.1);
+}
+
+/* Cart Button (Bottom Action) */
+.btn-cart-icon {
+    border-radius: 12px; /* Squared to match "View" button */
+    background: var(--color-primary);
+    border: none;
+}
+
+.btn-cart-icon:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+/* Icon Sizing & Filter for Favorited State */
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-cart-icon .icon {
+    filter: brightness(0) invert(1); /* Ensures cart icon is white */
+}
+
+.top-fav.favorited .icon {
+    filter: invert(27%) sepia(91%) saturate(2352%) hue-rotate(339deg) brightness(94%) contrast(91%);
+}
+
+/* Content Area */
+.card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-primary);
+}
+
+.card-subtitle {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Pricing & Actions */
+.price-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.price-current {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.price-original {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+}
+
+.card-actions {
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.btn-secondary {
+    flex: 1;
+    background: #f3f4f6;
+    color: #111827;
+    text-align: center;
+    padding: 0.75rem;
+    height: 44px; /* Matches the Cart icon height */
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .card-actions {
+        flex-direction: column;
+    }
+    .btn-secondary, .btn-cart-icon {
+        width: 100%;
+    }
+}

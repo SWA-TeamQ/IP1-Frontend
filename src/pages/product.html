@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>ShopLight — Products</title>
+
+        <link rel="stylesheet" href="/src/index.css" />
+    </head>
+    <body>
+        <script type="module">
+            import { insertNavbar } from "/src/components/navbar.js";
+            insertNavbar();
+        </script>
+
+        <main class="container">
+            <div id="products">
+                <div class="section-header">
+                    <h1 class="section-title">Products</h1>
+                    <div class="filters">
+                        <div id="categoryList" class="filters"></div>
+                    </div>
+                </div>
+                <div id="productsGrid" class="product-grid" role="list"></div>
+            </div>
+        </main>
+
+        <script type="module">
+            import { insertFooter } from "/src/components/footer.js";
+            insertFooter();
+        </script>
+        <script type="module" src="/src/main.js"></script>
+    </body>
+</html>

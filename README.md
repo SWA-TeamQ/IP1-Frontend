@@ -41,6 +41,11 @@ open index.html
 ```
 No build tools required.
 
+Docs
+----
+- `docs/JS_ARCHITECTURE.md` — how the JS works (single entrypoint, page initializers)
+- `docs/PROJECT_STRUCTURE.md` — where things live
+
 Recommended dev workflow
 ------------------------
 - Branch from `main` for features: `git checkout -b feat/my-feature`
@@ -49,11 +54,14 @@ Recommended dev workflow
 
 Project structure
 -----------------
-- `index.html` — main entry (hero, product grid, cart, modals)  
-- `assets/` — images and screenshots  
-- `css/` — design tokens and component styles (`style.css`, `reset.css`)  
-- `js/` — product data and app logic (`products.js`, `index.js`)  
-- `docs/` — proposals, changelog, and design notes
+- `index.html` — main entrypoint  
+- `index.css` — single CSS entrypoint (imports core styles + legacy CSS)  
+- `main.js` — app orchestrator loaded by all pages  
+- `assets/` — images and icons  
+- `core/` — shared utilities, libs, and global styles/tokens  
+- `styles/` — all CSS (base, components, pages, utilities)  
+- `modules/` — feature modules (products, cart, auth, admin)  
+- `pages/` — standalone HTML pages (product, checkout, auth)  
 
 Features (current)
 ------------------
@@ -61,7 +69,7 @@ Features (current)
 - Search with debounce, category & sort filters  
 - Add to Cart, update quantity, remove items; cart drawer + checkout modal  
 - Printable receipt (salePrice respected)  
-- Favorites (localStorage) and quick-view modal  
+- Favorites (localStorage)  
 - Toast notifications with accessible ARIA attributes  
 - Lazy-loaded Spline hero (performance-minded) and noscript/image fallback
 
@@ -74,7 +82,7 @@ Design decisions (short)
 
 Accessibility & UX checklist
 ----------------------------
-- [x] Keyboard accessible controls for cart, modal, and quick view  
+- [x] Keyboard accessible controls for cart and modal  
 - [x] Focus trap helpers and focus restore on modal/drawer close  
 - [x] Toasts use `role="status"` and `aria-live` for screen reader announcements  
 - [x] `prefers-reduced-motion` respected in CSS  
