@@ -1,0 +1,214 @@
+/* Admin page styling aligned to ShopLight (uses existing CSS variables from /src/index.css) */
+
+:root {
+  /* fallback if variables.css isn’t loaded for some reason */
+  --admin-surface: var(--color-bg-primary, #ffffff);
+  --admin-surface-2: var(--color-bg-secondary, #f7f9fc);
+  --admin-border: var(--color-border-light, rgba(0,0,0,0.08));
+  --admin-text: var(--color-text-primary, #0f172a);
+  --admin-muted: var(--color-text-secondary, rgba(15, 23, 42, 0.65));
+  --admin-primary: var(--color-primary, #1a73e8);
+  --admin-primary-dark: var(--color-primary-dark, #1558b0);
+  --admin-radius: var(--radius-2xl, 18px);
+  --admin-radius-sm: var(--radius-lg, 12px);
+  --admin-shadow: var(--shadow-md, 0 10px 30px rgba(15, 23, 42, 0.08));
+  --admin-gap: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--admin-text);
+  background: linear-gradient(120deg, #fafdff 60%, #f0f7ff 100%);
+  min-height: 100vh;
+}
+
+/* Centered page container */
+body > header,
+body > section {
+  width: min(1100px, calc(100% - 48px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Top bar */
+header {
+  margin-top: 28px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+  backdrop-filter: blur(10px);
+  padding: 18px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--admin-gap);
+}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, var(--admin-primary) 55%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#logoutBtn {
+  appearance: none;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-surface);
+  color: var(--admin-text);
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+#logoutBtn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(26, 115, 232, 0.25);
+  box-shadow: 0 10px 24px rgba(26, 115, 232, 0.12);
+}
+
+#logoutBtn:active { transform: translateY(0); }
+
+/* Sections */
+section {
+  margin-top: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+}
+
+section h2 {
+  margin: 0 0 14px 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--admin-text);
+}
+
+/* Form card */
+.form-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.form-section::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--admin-primary) 40%, #10b981 100%);
+  opacity: 0.18;
+}
+
+#productForm {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+#productForm input {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-surface);
+  color: var(--admin-text);
+  outline: none;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+/* grid placement */
+#productId { display: none; }
+
+#name { grid-column: span 6; }
+#price { grid-column: span 3; }
+#category { grid-column: span 3; }
+
+#description { grid-column: span 8; }
+#image { grid-column: span 4; }
+
+#productForm input:focus {
+  border-color: rgba(26, 115, 232, 0.45);
+  box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.14);
+}
+
+#productForm button[type="submit"] {
+  grid-column: span 12;
+  margin-top: 4px;
+
+  appearance: none;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, var(--admin-primary), var(--admin-primary-dark));
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  box-shadow: 0 10px 24px rgba(26, 115, 232, 0.20);
+}
+
+#productForm button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(26, 115, 232, 0.26);
+}
+
+#productForm button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Products list area */
+#productsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+/* These styles assume admin.js renders each product row with a wrapper.
+   If your admin.js uses different markup, it still looks okay (it’ll just apply to children). */
+#productsList > * {
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-sm);
+  background: var(--admin-surface);
+  padding: 14px;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+}
+
+#productsList h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+#productsList p {
+  margin: 0 0 10px 0;
+  color: var(--admin-muted);
+  line-height: 1.35;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  body > header,
+  body > section {
+    width: min(1100px, calc(100% - 28px));
+  }
+
+  #name { grid-column: span 12; }
+  #price { grid-column: span 6; }
+  #category { grid-column: span 6; }
+  #description { grid-column: span 12; }
+  #image { grid-column: span 12; }
+}
