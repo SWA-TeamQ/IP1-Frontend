@@ -70,8 +70,7 @@
 
 @media (min-width: 640px) {
     .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 500px));
-    }
+        grid-template-columns: repeat(auto-fit, minmax(260px,350px));    }
 }
 
 @keyframes fadeInGrid {
