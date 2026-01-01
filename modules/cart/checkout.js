@@ -2,7 +2,7 @@ import { getProduct } from "../products/products.data.js";
 import { formatPrice } from "../../utils/formatters.js";
 
 // Local tax rate fallback to avoid missing constants module
-
+const TAX = 8;
 
 export function initCheckoutPage() {
     const orderSummaryEl = document.querySelector(".order-summary");
