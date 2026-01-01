@@ -8,6 +8,10 @@
         <script type="module" src="/src/main.js" defer></script>
     </head>
     <body>
+        <script type="module">
+            import { insertNavbar } from "/src/components/navbar.js";
+            insertNavbar();
+        </script>
         <div class="auth-page-wrapper">
             <div class="auth-card">
                 <div class="brand">
@@ -102,6 +106,10 @@
             </div>
         </div>
 
+        <script type="module">
+            import { insertFooter } from "/src/components/footer.js";
+            insertFooter();
+        </script>
         <script src="../scripts/auth.js"></script>
     </body>
 </html>

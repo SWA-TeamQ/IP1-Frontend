@@ -19,13 +19,16 @@
                     <h1 class="section-title">Products</h1>
                     <div class="filters">
                         <div id="categoryList" class="filters"></div>
-                        <a href="/src/index.html" class="filter-select">Back to home</a>
                     </div>
                 </div>
                 <div id="productsGrid" class="product-grid" role="list"></div>
             </div>
         </main>
 
+        <script type="module">
+            import { insertFooter } from "/src/components/footer.js";
+            insertFooter();
+        </script>
         <script type="module" src="/src/main.js"></script>
     </body>
 </html>

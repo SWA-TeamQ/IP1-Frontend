@@ -1,51 +1,84 @@
-/* Home Page Sections */
-
-.about-section,
-.services-section {
-    padding: 2rem;
-    text-align : center;
-    display: flex;
-    flex-direction: column;
-    gap : 1.5rem;
+/* Info Section */
+.info-section {
+    padding: 100px 0;
+    border-top: 1px solid rgba(0,0,0,0.05);
 }
 
-.about-section h2,
-.services-section h2 {
+.info-header {
     text-align: center;
-    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 64px;
+}
+
+.info-header h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    text-align: center;
+    padding: 40px;
+    background: #fff;
+    border: 1px solid #f3f4f6;
+    border-radius: 24px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-card:hover {
+    transform: translateY(-12px);
+    border-color: var(--color-primary-light);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+}
+
+.service-icon {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
     font-weight: 700;
-    background: linear-gradient(90deg, var(--color-primary) 60%, var(--color-secondary) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -0.01em;
 }
 
-.about-section p,
-.services-section p,
-.services-section ul {
+.service-card p {
     color: var(--color-text-secondary);
-    font-size: 1.08rem;
-    margin-bottom: 0;
+    line-height: 1.6;
 }
 
-.services-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* Featured Products */
+.products-section {
+    padding: 80px 0 120px;
+}
+
+.section-header {
     display: flex;
-    gap: clamp(16px, 4vw, 48px);
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
 }
 
-.services-section li {
-    background: none;
-    border-radius: 0;
-    padding: 0 0 0 0;
-    font-weight: 500;
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.text-link {
     color: var(--color-primary);
-    box-shadow: none;
-    margin-bottom: 8px;
-    transition: color 0.2s;
-    font-size: 1.08rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: gap 0.2s;
+}
+
+.text-link:hover {
+    text-decoration: underline;
 }

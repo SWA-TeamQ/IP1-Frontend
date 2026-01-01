@@ -50,7 +50,7 @@ export default function ProductDetail(products) {
         </div>
 
         <div class="main-image">
-            <img src="${images[0] ?? ""}" alt="Product" />
+            <img src="${images[0] ?? "/src/assets/images/placeholder.png"}" alt="Product" />
         </div>
 
         <div class="product-details">

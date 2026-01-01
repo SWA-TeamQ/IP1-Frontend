@@ -2,9 +2,15 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>ShopLight — Home</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+            name="description"
+            content="ShopLight - Premium handpicked products blending style, comfort, and innovation."
+        />
+        <title>ShopLight — Quality Goods, Thoughtfully Chosen</title>
         <link rel="stylesheet" href="./index.css" />
+        <link rel="preload" as="image" href="/src/assets/images/shoe.png" />
+        <script type="module" src="./main.js" defer></script>
     </head>
     <body>
         <script type="module">
@@ -12,108 +18,107 @@
             insertNavbar();
         </script>
 
-        <main>
-            <section class="hero hero-large">
+        <main id="main-content">
+            <section class="hero">
                 <div class="container hero-grid">
-                    <div class="hero-content">
+                    <article class="hero-content">
                         <h1 class="hero-title">
-                            Elevate your everyday — quality goods, thoughtfully
-                            chosen.
+                            Thoughtfully <br />
+                            Chosen Goods.
                         </h1>
                         <p class="hero-sub">
-                            Handpicked products with modern design and reliable
-                            performance. Fast shipping, easy returns, and
-                            exceptional support — discover what makes ShopLight
-                            different.
+                            Modern design meets reliable performance. Discover
+                            our handpicked collection of essentials built for
+                            the modern lifestyle.
                         </p>
                         <div class="hero-ctas">
-                            <a class="btn hero-cta" href="#featured"
-                                >Featured Products</a
+                            <a class="btn btn-primary" href="#featured"
+                                >Shop Collection</a
                             >
                             <a
-                                class="btn btn-outline"
+                                class="btn btn-secondary"
                                 href="/src/pages/register.html"
                                 >Get Started</a
                             >
                         </div>
-                    </div>
+                    </article>
 
-                    <div>
+                    <div class="hero-image-wrapper">
+                        <div class="image-bg-glow"></div>
                         <img
                             src="/src/assets/images/shoe.png"
-                            alt="Shoe image"
+                            alt="Premium Red Athletic Shoe"
+                            class="flating-img"
+                            width="600"
+                            height="400"
                         />
                     </div>
                 </div>
             </section>
 
-            <section class="container about-section" id="about">
-                <h2>About ShopLight</h2>
-                <p class="muted">
-                    ShopLight is your destination for premium, handpicked
-                    products that blend style, comfort, and innovation. Our
-                    mission is to deliver a seamless, delightful shopping
-                    experience with a focus on quality, accessibility, and
-                    customer satisfaction.
-                </p>
-                <ul>
-                    <li>Curated collections from top brands and artisans</li>
-                    <li>Commitment to sustainability and ethical sourcing</li>
-                    <li>Dedicated support team for all your needs</li>
-                </ul>
-            </section>
+            <section class="container info-section" id="about">
+                <div class="info-header">
+                    <h2>The ShopLight Way</h2>
+                    <p class="muted">
+                        Blending style, comfort, and innovation for a seamless
+                        experience.
+                    </p>
+                </div>
 
-            <section class="container services-section" id="services">
-                <h2>Our Services</h2>
-                <ul>
-                    <li>
-                        <strong>Curated Products:</strong> Only the best, most
-                        innovative items make it to our store.
-                    </li>
-                    <li>
-                        <strong>Fast & Free Shipping:</strong> Enjoy reliable,
-                        speedy delivery on every order.
-                    </li>
-                    <li>
-                        <strong>Secure Payments:</strong> Shop with confidence
-                        using industry-leading security.
-                    </li>
-                    <li>
-                        <strong>Easy Returns:</strong> Hassle-free returns and
-                        exchanges for peace of mind.
-                    </li>
-                    <li>
-                        <strong>24/7 Support:</strong> Our team is always here
-                        to help you.
-                    </li>
-                </ul>
+                <section class="services-grid" id="services">
+                    <div class="service-card">
+                        <div class="service-icon">✨</div>
+                        <h3>Curated Quality</h3>
+                        <p>
+                            Every item is rigorously tested to meet our
+                            standards for design and durability.
+                        </p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🚀</div>
+                        <h3>Fast Shipping</h3>
+                        <p>
+                            Enjoy reliable, speedy delivery on every order with
+                            real-time tracking.
+                        </p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔒</div>
+                        <h3>Secure Checkout</h3>
+                        <p>
+                            Shop with total confidence using our
+                            industry-leading encrypted payment gateway.
+                        </p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🎧</div>
+                        <h3>24/7 Support</h3>
+                        <p>
+                            Our dedicated team is always here to ensure your
+                            experience is nothing short of perfect.
+                        </p>
+                    </div>
+                </section>
             </section>
 
             <section id="featured" class="container products-section">
-                <div class="section-header">
-                    <div>
+                <header class="section-header">
+                    <div class="header-left">
                         <h2 class="section-title">Featured Products</h2>
-                        <p class="muted">
-                            Our handpicked selection — popular, highly rated,
-                            and on sale.
-                        </p>
+                        <p class="muted">Popular, highly rated, and on sale.</p>
                     </div>
-                    <div class="section-actions">
-                        <a
-                            href="./pages/product/index.html"
-                            class="filter-select"
-                            >View all products</a
-                        >
-                    </div>
-                </div>
+                    <a href="/src/pages/product.html"
+                    class="text-link"
+                        >View All Products =></a
+                    >
+                </header>
 
                 <div
                     id="featuredGrid"
-                    class="product-grid featured-grid"
+                    class="product-grid"
                     role="list"
-                >
-                    <!-- JS injects featured items -->
-                </div>
+                    aria-label="Featured Products"
+                ></div>
             </section>
         </main>
 
@@ -121,7 +126,5 @@
             import { insertFooter } from "/src/components/footer.js";
             insertFooter();
         </script>
-
-        <script src="./main.js" type="module" defer></script>
     </body>
 </html>
