@@ -7,9 +7,9 @@
       "price": 129.0,
       "salePrice": 45.0,
       "images": [
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1547255171-0d41368f2f0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1614027164847-23a2b8b5a9a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1547255171-0d41368f2f0e?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1614027164847-23a2b8b5a9a4?auto=format&fit=crop&w=800&q=80"
       ],
       "details": {
         "category": "accessories",
@@ -18,28 +18,25 @@
         "color": "Silver",
         "reviewCount": 3
       },
+      "features": [
+        "⌚ Stainless Steel Case",
+        "🪶 Lightweight Design",
+        "💧 Splash Resistant"
+      ],
+      "highlights": [
+        "✔️ Timeless minimalist style",
+        "✔️ Genuine leather strap",
+        "✔️ Precision quartz movement",
+        "✔️ Perfect for daily wear"
+      ],
       "reviews": [
-        {
-          "id": "r1",
-          "user": "Sara T.",
-          "rating": 5,
-          "comment": "Beautifully simple design."
-        },
-        {
-          "id": "r2",
-          "user": "Mark J.",
-          "rating": 4,
-          "comment": "Good, but the strap is stiff."
-        },
-        {
-          "id": "r3",
-          "user": "Elena R.",
-          "rating": 5,
-          "comment": "Exactly what I wanted."
-        }
+        { "id": "r1", "user": "Sara T.", "rating": 5, "comment": "Beautifully simple design." },
+        { "id": "r2", "user": "Mark J.", "rating": 4, "comment": "Good, but the strap is stiff." },
+        { "id": "r3", "user": "Elena R.", "rating": 5, "comment": "Exactly what I wanted." }
       ],
       "isFavorite": false
     },
+
     {
       "id": "p2",
       "name": "Cozy Knit Sweater",
@@ -47,9 +44,9 @@
       "price": 89.0,
       "salePrice": 69.0,
       "images": [
-        "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1529374236941-6a7d5b4f4e5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1620745105747-f8d42a8e2f1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1529374236941-6a7d5b4f4e5e?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1620745105747-f8d42a8e2f1a?auto=format&fit=crop&w=800&q=80"
       ],
       "details": {
         "category": "apparel",
@@ -58,25 +55,21 @@
         "color": "Beige",
         "reviewCount": 3
       },
+      "features": [
+        "🧶 Soft Knit Fabric",
+        "🌬️ Breathable",
+        "❄️ Warm & Cozy"
+      ],
+      "highlights": [
+        "✔️ Perfect for winter layering",
+        "✔️ Comfortable relaxed fit",
+        "✔️ Neutral everyday style",
+        "✔️ Durable stitching"
+      ],
       "reviews": [
-        {
-          "id": "r4",
-          "user": "John D.",
-          "rating": 5,
-          "comment": "So soft and warm!"
-        },
-        {
-          "id": "r5",
-          "user": "Alice P.",
-          "rating": 4,
-          "comment": "Fits a bit large."
-        },
-        {
-          "id": "r6",
-          "user": "Bob S.",
-          "rating": 5,
-          "comment": "Perfect for winter."
-        }
+        { "id": "r4", "user": "John D.", "rating": 5, "comment": "So soft and warm!" },
+        { "id": "r5", "user": "Alice P.", "rating": 4, "comment": "Fits a bit large." },
+        { "id": "r6", "user": "Bob S.", "rating": 5, "comment": "Perfect for winter." }
       ],
       "isFavorite": false
     },
@@ -87,9 +80,9 @@
       "price": 199.0,
       "salePrice": 179.0,
       "images": [
-        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1578985545125-eabf1a2d0bd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1583394838336-d89c2a2ff9d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+        "https://images.unsplash.com/photo-1578985545125-eabf1a2d0bd1",
+        "https://images.unsplash.com/photo-1583394838336-d89c2a2ff9d5"
       ],
       "details": {
         "category": "electronics",
@@ -98,28 +91,25 @@
         "color": "Black",
         "reviewCount": 3
       },
+      "features": [
+        "🎧 Bluetooth 5.3",
+        "🔋 Up to 40 hrs",
+        "⚡ Fast Charge"
+      ],
+      "highlights": [
+        "✔️ Active Noise Cancellation",
+        "✔️ 40-Hour Battery Life",
+        "✔️ Fast USB-C Charging",
+        "✔️ Premium Comfort Fit"
+      ],
       "reviews": [
-        {
-          "id": "r7",
-          "user": "David W.",
-          "rating": 5,
-          "comment": "Best ANC at this price."
-        },
-        {
-          "id": "r8",
-          "user": "Amara K.",
-          "rating": 4,
-          "comment": "Great bass."
-        },
-        {
-          "id": "r9",
-          "user": "Chris L.",
-          "rating": 5,
-          "comment": "Battery lasts forever."
-        }
+        { "id": "r7", "user": "David W.", "rating": 5, "comment": "Best ANC at this price." },
+        { "id": "r8", "user": "Amara K.", "rating": 4, "comment": "Great bass." },
+        { "id": "r9", "user": "Chris L.", "rating": 5, "comment": "Battery lasts forever." }
       ],
       "isFavorite": false
     },
+
     {
       "id": "p4",
       "name": "Ceramic Coffee Mug",
@@ -127,9 +117,9 @@
       "price": 18.0,
       "salePrice": null,
       "images": [
-        "https://images.unsplash.com/photo-1514228742587-6b1558feca3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1608396300711-39e1ba9e5d35?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1574332988204-69e56c7e8b8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1514228742587-6b1558feca3d",
+        "https://images.unsplash.com/photo-1608396300711-39e1ba9e5d35",
+        "https://images.unsplash.com/photo-1574332988204-69e56c7e8b8d"
       ],
       "details": {
         "category": "home",
@@ -138,347 +128,203 @@
         "color": "White",
         "reviewCount": 3
       },
+      "features": [
+        "☕ 350ml Capacity",
+        "🔥 Heat Resistant",
+        "🎨 Hand Finished"
+      ],
+      "highlights": [
+        "✔️ Comfortable grip",
+        "✔️ Dishwasher safe",
+        "✔️ Minimal modern design",
+        "✔️ Ideal for daily coffee"
+      ],
       "reviews": [
-        {
-          "id": "r10",
-          "user": "Liam C.",
-          "rating": 4,
-          "comment": "Heavy and high quality."
-        },
-        {
-          "id": "r11",
-          "user": "Sophia G.",
-          "rating": 5,
-          "comment": "My favorite morning mug."
-        },
-        {
-          "id": "r12",
-          "user": "Noel F.",
-          "rating": 4,
-          "comment": "Nice finish."
-        }
+        { "id": "r10", "user": "Liam C.", "rating": 4, "comment": "Heavy and high quality." },
+        { "id": "r11", "user": "Sophia G.", "rating": 5, "comment": "My favorite morning mug." },
+        { "id": "r12", "user": "Noel F.", "rating": 4, "comment": "Nice finish." }
       ],
       "isFavorite": false
     },
     {
-      "id": "p5",
-      "name": "Running Sneakers",
-      "description": "Lightweight, breathable running sneakers.",
-      "price": 119.0,
-      "salePrice": 99.0,
-      "images": [
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1595900396198-7b4668b7e27b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-      ],
-      "details": {
-        "category": "footwear",
-        "rating": 4.4,
-        "badge": "Popular",
-        "color": "Red",
-        "reviewCount": 3
-      },
-      "reviews": [
-        {
-          "id": "r13",
-          "user": "Mike R.",
-          "rating": 5,
-          "comment": "Like walking on clouds."
-        },
-        {
-          "id": "r14",
-          "user": "Jen H.",
-          "rating": 4,
-          "comment": "Good arch support."
-        },
-        {
-          "id": "r15",
-          "user": "Toby B.",
-          "rating": 4,
-          "comment": "Runs narrow."
-        }
-      ],
-      "isFavorite": false
-    },
-    {
-      "id": "p6",
-      "name": "Wooden Desk Lamp",
-      "description": "Minimal lamp with dimmable LED.",
-      "price": 79.0,
-      "salePrice": null,
-      "images": [
-        "https://images.unsplash.com/photo-1534073828943-f801091bb18c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1618004248804-2a17a772c5ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1608231387042-66e7f33a2c30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-      ],
-      "details": {
-        "category": "home",
-        "rating": 4.2,
-        "badge": null,
-        "color": "Wood",
-        "reviewCount": 3
-      },
-      "reviews": [
-        {
-          "id": "r16",
-          "user": "Paul K.",
-          "rating": 4,
-          "comment": "Looks great on my desk."
-        },
-        {
-          "id": "r17",
-          "user": "Sue M.",
-          "rating": 5,
-          "comment": "Warm light, very cozy."
-        },
-        {
-          "id": "r18",
-          "user": "Ray J.",
-          "rating": 3,
-          "comment": "Smaller than expected."
-        }
-      ],
-      "isFavorite": false
-    },
-    {
-      "id": "p7",
-      "name": "Organic Cotton Tee",
-      "description": "Breathable everyday tee.",
-      "price": 29.0,
-      "salePrice": 24.0,
-      "images": [
-        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1583454117101-2a71d6f4e5c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1629329509492-7f7d0b4e2a19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-      ],
-      "details": {
-        "category": "apparel",
-        "rating": 4.1,
-        "badge": null,
-        "color": "White",
-        "reviewCount": 3
-      },
-      "reviews": [
-        {
-          "id": "r19",
-          "user": "Greg L.",
-          "rating": 4,
-          "comment": "Nice fit."
-        },
-        {
-          "id": "r20",
-          "user": "Tina V.",
-          "rating": 4,
-          "comment": "Very soft cotton."
-        },
-        {
-          "id": "r21",
-          "user": "Leo P.",
-          "rating": 4,
-          "comment": "Good basic tee."
-        }
-      ],
-      "isFavorite": false
-    },
-    {
-      "id": "p8",
-      "name": "Portable Charger",
-      "description": "10000mAh USB-C power bank.",
-      "price": 39.0,
-      "salePrice": 34.0,
-      "images": [
-        "https://images.unsplash.com/photo-1609592424071-334335f6e8e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1588871657632-2554e3f3e9d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1618898909081-5a3d4b3c4a0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-      ],
-      "details": {
-        "category": "electronics",
-        "rating": 4.5,
-        "badge": "Deal",
-        "color": "Black",
-        "reviewCount": 3
-      },
-      "reviews": [
-        {
-          "id": "r22",
-          "user": "Ben S.",
-          "rating": 5,
-          "comment": "Charges my phone twice."
-        },
-        {
-          "id": "r23",
-          "user": "Zoe Q.",
-          "rating": 4,
-          "comment": "A bit heavy."
-        },
-        {
-          "id": "r24",
-          "user": "Sam D.",
-          "rating": 5,
-          "comment": "Essential for travel."
-        }
-      ],
-      "isFavorite": false
-    },
-    {
-      "id": "p9",
-      "name": "Leather Travel Bag",
-      "description": "Genuine leather duffel for weekend trips.",
-      "price": 240.0,
-      "salePrice": 199.0,
-      "images": [
-        "https://images.unsplash.com/photo-1547949003-9792a18a2601?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1590490360247-95c6e9f7a7a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1616464426304-9a91fc9d6df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-      ],
-      "details": {
-        "category": "accessories",
-        "rating": 4.9,
-        "badge": "Luxury",
-        "color": "Tan",
-        "reviewCount": 3
-      },
-      "reviews": [
-        {
-          "id": "r25",
-          "user": "Oscar B.",
-          "rating": 5,
-          "comment": "Exceptional quality."
-        },
-        {
-          "id": "r26",
-          "user": "Fay E.",
-          "rating": 5,
-          "comment": "Smells like real leather."
-        },
-        {
-          "id": "r27",
-          "user": "Will T.",
-          "rating": 4,
-          "comment": "Expensive but worth it."
-        }
-      ],
-      "isFavorite": false
-    },
-    {
-      "id": "p10",
-      "name": "Smart Fitness Band",
-      "description": "Track steps and heart rate.",
-      "price": 59.0,
-      "salePrice": null,
-      "images": [
-        "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1614024542284-1a817d8d1d3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1620799140424-62a1c5e1f0c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-      ],
-      "details": {
-        "category": "electronics",
-        "rating": 4.4,
-        "badge": "Popular",
-        "color": "Blue",
-        "reviewCount": 3
-      },
-      "reviews": [
-        {
-          "id": "r28",
-          "user": "Nora G.",
-          "rating": 4,
-          "comment": "App is easy to use."
-        },
-        {
-          "id": "r29",
-          "user": "Ken Y.",
-          "rating": 4,
-          "comment": "Accurate tracking."
-        },
-        {
-          "id": "r30",
-          "user": "Mia X.",
-          "rating": 5,
-          "comment": "Great value."
-        }
-      ],
-      "isFavorite": false
-    },
-    {
-      "id": "p11",
-      "name": "Canvas Wall Art",
-      "description": "Abstract mountain landscape.",
-      "price": 45.0,
-      "salePrice": 35.0,
-      "images": [
-        "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1505939052468-3f1c0a33b844?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1501453073719-467a1a20ea2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-      ],
-      "details": {
-        "category": "home",
-        "rating": 4.8,
-        "badge": "Sale",
-        "color": "Multicolor",
-        "reviewCount": 3
-      },
-      "reviews": [
-        {
-          "id": "r31",
-          "user": "Vera O.",
-          "rating": 5,
-          "comment": "Colors are vibrant."
-        },
-        {
-          "id": "r32",
-          "user": "Ivan K.",
-          "rating": 5,
-          "comment": "Transformed my room."
-        },
-        {
-          "id": "r33",
-          "user": "Lia M.",
-          "rating": 4,
-          "comment": "Smaller than pictured."
-        }
-      ],
-      "isFavorite": false
-    },
-    {
-      "id": "p12",
-      "name": "Stainless Steel Bottle",
-      "description": "Insulated bottle keeps drinks cold.",
-      "price": 32.0,
-      "salePrice": null,
-      "images": [
-        "https://images.unsplash.com/photo-1602143352538-461f281a0471?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1585121679383-99267e3187a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1584755079643-4d66e1a4a4f0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-      ],
-      "details": {
-        "category": "home",
-        "rating": 4.7,
-        "badge": "Eco",
-        "color": "Green",
-        "reviewCount": 3
-      },
-      "reviews": [
-        {
-          "id": "r34",
-          "user": "Tom B.",
-          "rating": 5,
-          "comment": "Truly leak-proof."
-        },
-        {
-          "id": "r35",
-          "user": "Ava H.",
-          "rating": 5,
-          "comment": "Stays cold all day."
-        },
-        {
-          "id": "r36",
-          "user": "Roy G.",
-          "rating": 4,
-          "comment": "Great paint finish."
-        }
-      ],
-      "isFavorite": false
-    }
+  "id": "p5",
+  "name": "Running Sneakers",
+  "description": "Lightweight, breathable sneakers designed for daily runs.",
+  "price": 119.0,
+  "salePrice": 99.0,
+  "images": [
+    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1595900396198-7b4668b7e27b?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80"
+  ],
+  "details": {
+    "category": "footwear",
+    "rating": 4.4,
+    "badge": "Popular",
+    "color": "Red",
+    "reviewCount": 3
+  },
+  "features": [
+    "👟 Lightweight Build",
+    "🌬️ Breathable Mesh",
+    "🦶 Cushioned Sole"
+  ],
+  "highlights": [
+    "✔️ Designed for comfort",
+    "✔️ Excellent grip",
+    "✔️ Shock absorption",
+    "✔️ Ideal for daily running"
+  ],
+  "reviews": [
+    { "id": "r13", "user": "Mike R.", "rating": 5, "comment": "Like walking on clouds." },
+    { "id": "r14", "user": "Jen H.", "rating": 4, "comment": "Good arch support." },
+    { "id": "r15", "user": "Toby B.", "rating": 4, "comment": "Runs slightly narrow." }
+  ],
+  "isFavorite": false
+}
+,{
+  "id": "p6",
+  "name": "Leather Wallet",
+  "description": "Slim genuine leather wallet with RFID protection.",
+  "price": 49.0,
+  "salePrice": null,
+  "images": [
+    "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1600180758895-6d8c68f34d68?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1620799140424-62a1c5e1f0c5?auto=format&fit=crop&w=800&q=80"
+  ],
+  "details": {
+    "category": "accessories",
+    "rating": 4.5,
+    "badge": null,
+    "color": "Brown",
+    "reviewCount": 3
+  },
+  "features": [
+    "💳 RFID Protection",
+    "🐄 Genuine Leather",
+    "📏 Slim Profile"
+  ],
+  "highlights": [
+    "✔️ Protects your cards",
+    "✔️ Durable stitching",
+    "✔️ Minimal bulk",
+    "✔️ Premium finish"
+  ],
+  "reviews": [
+    { "id": "r16", "user": "Paul K.", "rating": 4, "comment": "Slim and classy." },
+    { "id": "r17", "user": "Sue M.", "rating": 5, "comment": "Leather feels premium." },
+    { "id": "r18", "user": "Ray J.", "rating": 4, "comment": "Great everyday wallet." }
+  ],
+  "isFavorite": false
+}
+,{
+  "id": "p7",
+  "name": "Portable Power Bank",
+  "description": "10000mAh USB-C fast charging power bank.",
+  "price": 39.0,
+  "salePrice": 34.0,
+  "images": [
+    "https://images.unsplash.com/photo-1609592424071-334335f6e8e8?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1588871657632-2554e3f3e9d8?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1618898909081-5a3d4b3c4a0f?auto=format&fit=crop&w=800&q=80"
+  ],
+  "details": {
+    "category": "electronics",
+    "rating": 4.5,
+    "badge": "Deal",
+    "color": "Black",
+    "reviewCount": 3
+  },
+  "features": [
+    "🔋 10000mAh Capacity",
+    "⚡ Fast Charging",
+    "🔌 USB-C Output"
+  ],
+  "highlights": [
+    "✔️ Charges phone twice",
+    "✔️ Compact & portable",
+    "✔️ Ideal for travel",
+    "✔️ Durable casing"
+  ],
+  "reviews": [
+    { "id": "r19", "user": "Ben S.", "rating": 5, "comment": "Perfect for trips." },
+    { "id": "r20", "user": "Zoe Q.", "rating": 4, "comment": "A bit heavy." },
+    { "id": "r21", "user": "Sam D.", "rating": 5, "comment": "Reliable and fast." }
+  ],
+  "isFavorite": false
+}
+,{
+  "id": "p8",
+  "name": "Aromatherapy Candle",
+  "description": "Hand-poured soy candle with lavender scent.",
+  "price": 25.0,
+  "salePrice": null,
+  "images": [
+    "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1600369671236-e74521d4b5c7?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=80"
+  ],
+  "details": {
+    "category": "wellness",
+    "rating": 4.8,
+    "badge": "Relax",
+    "color": "Purple",
+    "reviewCount": 3
+  },
+  "features": [
+    "🕯️ Soy Wax",
+    "🌿 Natural Oils",
+    "😌 Calming Aroma"
+  ],
+  "highlights": [
+    "✔️ Stress relief",
+    "✔️ Long burn time",
+    "✔️ Eco-friendly",
+    "✔️ Perfect for evenings"
+  ],
+  "reviews": [
+    { "id": "r22", "user": "Nora G.", "rating": 5, "comment": "Very relaxing." },
+    { "id": "r23", "user": "Ken Y.", "rating": 5, "comment": "Smells amazing." },
+    { "id": "r24", "user": "Mia X.", "rating": 4, "comment": "Burns evenly." }
+  ],
+  "isFavorite": false
+}
+,{
+  "id": "p9",
+  "name": "Smart Fitness Band",
+  "description": "Track steps, sleep, and heart rate daily.",
+  "price": 59.0,
+  "salePrice": null,
+  "images": [
+    "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1614024542284-1a817d8d1d3d?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1620799140424-62a1c5e1f0c5?auto=format&fit=crop&w=800&q=80"
+  ],
+  "details": {
+    "category": "wearables",
+    "rating": 4.4,
+    "badge": "Popular",
+    "color": "Blue",
+    "reviewCount": 3
+  },
+  "features": [
+    "❤️ Heart Rate Monitor",
+    "👣 Step Counter",
+    "😴 Sleep Tracking"
+  ],
+  "highlights": [
+    "✔️ Accurate tracking",
+    "✔️ Lightweight band",
+    "✔️ Easy-to-use app",
+    "✔️ Great battery life"
+  ],
+  "reviews": [
+    { "id": "r25", "user": "Nora G.", "rating": 4, "comment": "Very intuitive app." },
+    { "id": "r26", "user": "Ken Y.", "rating": 4, "comment": "Accurate readings." },
+    { "id": "r27", "user": "Mia X.", "rating": 5, "comment": "Excellent value." }
+  ],
+  "isFavorite": false
+}
   ]
 }
