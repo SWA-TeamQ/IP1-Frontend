@@ -141,11 +141,6 @@
     width : 100%;
     margin: 0 auto 64px auto;
     padding: 56px 32px 48px;
-    background: linear-gradient(
-        120deg,
-        var(--color-bg-primary) 60%,
-        #eaf6ff 100%
-    );
     border-radius: 24px;
     margin-left: 16px;
 }

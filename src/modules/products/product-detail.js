@@ -1,5 +1,7 @@
-const { $ } = await import("/src/utils/dom.js");
+const { $, $$ } = await import("/src/utils/dom.js");
+
 export default function ProductDetail(products) {
+    console.log(1);
     const params = new URLSearchParams(location.search);
     const id = params.get("id");
 
@@ -41,7 +43,7 @@ export default function ProductDetail(products) {
                 .map(
                     (img, i) => `
                 <img src="${img}" class="${i === 0 ? "active" : ""}"
-                     onclick="changeImage(this)" />
+                     onclick="changeImage(this)" data-index="${i}" />
               `
                 )
                 .join("")}
@@ -72,7 +74,7 @@ export default function ProductDetail(products) {
                 ${features.map((f) => `<span>${f}</span>`).join("")}
             </div>
 
-           <a href="checkout.html?id=${id}"> <button class="control-btn">Add to Cart</button></a>
+           <button class="control-btn">Add to Cart</button>
         </div>
     </div>
 
@@ -173,18 +175,17 @@ export default function ProductDetail(products) {
 </div>
 `;
 
-    // Event Listeners
-    details.querySelector("[data-id]")?.addEventListener("click", () => {
+    $(".control-btn", details).addEventListener("click", () => {
         window.addToCart(product.id);
     });
 
-    const favBtn = details.querySelector("[data-fav]");
+    const favBtn = $("[data-fav]");
     favBtn?.addEventListener("click", () => {
         if (typeof window.toggleFav === "function") {
             window.toggleFav(product.id);
             const currentFavStatus = !!product.isFavorite;
             favBtn.setAttribute("aria-pressed", String(currentFavStatus));
-            const label = favBtn.querySelector("span");
+            const label = $("span", favBtn);
             if (label) {
                 label.textContent = currentFavStatus
                     ? "Favorited"
@@ -197,10 +198,11 @@ export default function ProductDetail(products) {
 }
 
 function changeImage(el) {
-    const mainImg = $(".main-image");
-    document
-        .querySelectorAll(".thumbnail-gallery img")
-        .forEach((i) => i.classList.remove("active"));
+    const mainImg = $(".main-image > img");
+    console.log(el, mainImg.src);
+    $$(".thumbnail-gallery img")
+    .forEach((i) => i.classList.remove("active"));
+
     el.classList.add("active");
     mainImg.style.opacity = 0;
     setTimeout(() => {
