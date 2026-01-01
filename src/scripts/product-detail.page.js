@@ -1,9 +1,13 @@
+import { $ } from "/src/utils/dom.js";
+
 import { fetchProduct } from "../modules/products/product.api.js";
 import ProductDetail from "../modules/products/product-detail.js";
+import { renderSkeletons } from "/src/components/skeleton.js";
 
 export async function initProductDetailPage() {
-    const root = document.getElementById("productDetailRoot");
+    const root = $("#productDetailRoot");
     if (!root) return;
+    renderSkeletons(root, 1);
 
     const params = new URLSearchParams(location.search);
     const id = params.get("id");

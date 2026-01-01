@@ -9,159 +9,18 @@
     </head>
 
     <body>
+        <script type="module">
+            import { insertNavbar } from "/src/components/navbar.js";
+            insertNavbar();
+        </script>
+
         <div class="container">
-            <div id="productDetailRoot">
-                
-            </div>
-            <!-- <div class="product-container">
-                <div class="product-media">
-                    <div class="thumbnail-gallery">
-                        <img
-                            src="https://wallpapercave.com/wp/wp6128206.jpg"
-                            class="active"
-                            onclick="changeImage(this)"
-                        />
-                        <img
-                            src="https://tse2.mm.bing.net/th/id/OIP.V7IGZ3EZ__peC1jLOpTrywHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
-                            onclick="changeImage(this)"
-                        />
-                        <img
-                            src="https://tse2.mm.bing.net/th/id/OIP.gk4GXueMxp8GtoXINUGxWwHaFi?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
-                            onclick="changeImage(this)"
-                        />
-                        <img
-                            src="https://tse2.mm.bing.net/th/id/OIP.V7IGZ3EZ__peC1jLOpTrywHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
-                            onclick="changeImage(this)"
-                        />
-                    </div>
-
-                    <div class="main-image">
-                        <img
-                            src="https://wallpapercave.com/wp/wp6128206.jpg"
-                            alt="Product"
-                        />
-                        <div class="image-actions">
-                            <button title="Favorite">❤️</button>
-                            <button title="Share">🔗</button>
-                            <a
-                                href="https://wallpapercave.com/wp/wp6128206.jpg"
-                                download
-                                title="Download"
-                                >⬇️</a
-                            >
-                        </div>
-                    </div>
-
-                    <div class="product-details">
-                        <h2 class="product-title">
-                            Premium Wireless Headphones
-                        </h2>
-                        <div class="price">$249.99</div>
-                        <p class="product-description">
-                            Experience immersive sound with long-lasting
-                            comfort. Studio-grade audio, adaptive noise
-                            cancellation, and plush cushions ensure all-day
-                            wear.
-                        </p>
-                        <div class="product-meta">
-                            <span>🎧 Bluetooth 5.3</span>
-                            <span>🔋 Up to 40 hrs</span>
-                            <span>⚡️ Fast Charge</span>
-                        </div>
-                        <button class="control-btn">Add to Cart</button>
-                    </div>
-                </div>
-
-                <section class="services-section">
-                    <h2>Why You'll Love This</h2>
-                    <ul>
-                        <li>✔️ Active Noise Cancellation</li>
-                        <li>✔️ 40-Hour Battery Life</li>
-                        <li>✔️ Fast USB-C Charging</li>
-                        <li>✔️ Premium Comfort Fit</li>
-                    </ul>
-                </section>
-
-                <section class="services-section">
-                    <h2>Ratings & Reviews</h2>
-                    <ul>
-                        <li>⭐️⭐️⭐️⭐️⭐️ - Excellent sound quality!</li>
-                        <li>⭐️⭐️⭐️⭐️ - Very comfortable for long use</li>
-                        <li>⭐️⭐️⭐️⭐️⭐️ - Battery lasts forever</li>
-                    </ul>
-                </section>
-
-                <section class="services-section">
-                    <h2>Add Your Review</h2>
-                    <form class="review-form">
-                        <div class="rating-input">
-                            <label>Rating:</label>
-                            <div class="stars-select">
-                                <input
-                                    type="radio"
-                                    name="userRating"
-                                    id="r5"
-                                /><label for="r5">⭐️</label>
-                                <input
-                                    type="radio"
-                                    name="userRating"
-                                    id="r4"
-                                /><label for="r4">⭐️</label>
-                                <input
-                                    type="radio"
-                                    name="userRating"
-                                    id="r3"
-                                /><label for="r3">⭐️</label>
-                                <input
-                                    type="radio"
-                                    name="userRating"
-                                    id="r2"
-                                /><label for="r2">⭐️</label>
-                                <input
-                                    type="radio"
-                                    name="userRating"
-                                    id="r1"
-                                /><label for="r1">⭐️</label>
-                            </div>
-                        </div>
-                        <input type="text" placeholder="Your name" required />
-                        <textarea
-                            placeholder="Write your review..."
-                            required
-                        ></textarea>
-                        <button type="submit" class="control-btn">
-                            Submit Review
-                        </button>
-                    </form>
-                </section>
-
-                <section class="suggestions">
-                    <h3>You May Also Like</h3>
-                    <div class="suggestion-grid">
-                        <div class="suggestion-card">
-                            <img
-                                src="https://img.freepik.com/premium-photo/headphones-background-design-blue-headphone-vector_1114736-4416.jpg"
-                            />
-                            <h4>Wireless Earbuds</h4>
-                            <span>$129.99</span>
-                        </div>
-                        <div class="suggestion-card">
-                            <img
-                                src="https://tse2.mm.bing.net/th/id/OIP.gk4GXueMxp8GtoXINUGxWwHaFi?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
-                            />
-                            <h4>Gaming Headset</h4>
-                            <span>$199.99</span>
-                        </div>
-                        <div class="suggestion-card">
-                            <img
-                                src="https://tse2.mm.bing.net/th/id/OIP.V7IGZ3EZ__peC1jLOpTrywHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
-                            />
-                            <h4>Bluetooth Speaker</h4>
-                            <span>$89.99</span>
-                        </div>
-                    </div>
-                </section>
-            </div> -->
+            <div id="productDetailRoot"></div>
         </div>
+
+        <script type="module">
+            import { insertFooter } from "/src/components/footer.js";
+            insertFooter();
+        </script>
     </body>
 </html>

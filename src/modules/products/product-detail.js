@@ -1,48 +1,54 @@
-import { escapeHtml, formatPrice } from "../../utils/formatters.js";
-
+const { $ } = await import("/src/utils/dom.js");
 export default function ProductDetail(products) {
-        const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(location.search);
     const id = params.get("id");
 
-    const product =  products.find((p) => p.id === id);
-        const suggestions = products.filter((each) => each.details.category === product.details.category)
+    const product = products.find((p) => p.id === id);
+    const suggestions = products.filter(
+        (each) =>
+            each.details.category === product.details.category &&
+            each.id !== product.id
+    );
     const details = document.createElement("div");
     details.className = "product-details";
 
-   if (!product) {
-  details.innerHTML = "<p>Product not found</p>";
-  return;
-}
+    if (!product) {
+        details.innerHTML = "<p>Product not found</p>";
+        return;
+    }
 
-const images = Array.isArray(product.images) ? product.images : [];
-const features = Array.isArray(product.features) ? product.features : [];
-const highlights = Array.isArray(product.highlights) ? product.highlights : [];
-const reviews = Array.isArray(product.reviews) ? product.reviews : [];
+    const images = Array.isArray(product.images) ? product.images : [];
+    const features = Array.isArray(product.features) ? product.features : [];
+    const highlights = Array.isArray(product.highlights)
+        ? product.highlights
+        : [];
+    const reviews = Array.isArray(product.reviews) ? product.reviews : [];
 
-const rating = product.details?.rating ?? 0;
-const reviewCount = product.details?.reviewCount ?? reviews.length;
-const category = product.details?.category ?? "—";
-const color = product.details?.color ?? "—";
+    const rating = product.details?.rating ?? 0;
+    const reviewCount = product.details?.reviewCount ?? reviews.length;
+    const category = product.details?.category ?? "—";
+    const color = product.details?.color ?? "—";
 
-const original = product.price ?? 0;
-const current = product.salePrice ?? original;
+    const original = product.price ?? 0;
+    const current = product.salePrice ?? original;
 
-
-       details.innerHTML = `
+    details.innerHTML = `
 <div class="product-container">
     <div class="product-media">
 
         <div class="thumbnail-gallery">
-            ${images.map(
-              (img, i) => `
+            ${images
+                .map(
+                    (img, i) => `
                 <img src="${img}" class="${i === 0 ? "active" : ""}"
                      onclick="changeImage(this)" />
               `
-            ).join("")}
+                )
+                .join("")}
         </div>
 
         <div class="main-image">
-            <img src="${images[0] || ""}" alt="Product" />
+            <img src="${images[0] ?? ""}" alt="Product" />
         </div>
 
         <div class="product-details">
@@ -50,38 +56,44 @@ const current = product.salePrice ?? original;
 
             <div class="price">
                 $${current.toFixed(2)}
-                ${product.salePrice ? `<span class="original" style="text-decoration: line-through;text-decoration-color:black;font-size:0.8em; color:red">$${original.toFixed(2)}</span>` : ""}
+                ${
+                    product.salePrice
+                        ? `<span class="original" style="text-decoration: line-through;text-decoration-color:black;font-size:0.8em; color:red">$${original.toFixed(
+                              2
+                          )}</span>`
+                        : ""
+                }
             </div>
 
             <p class="product-description">${product.description}</p>
 
-            <!-- ✅ PRODUCT FEATURES -->
+            <!--  PRODUCT FEATURES -->
             <div class="product-meta">
-                ${features.map(f => `<span>${f}</span>`).join("")}
+                ${features.map((f) => `<span>${f}</span>`).join("")}
             </div>
 
            <a href="checkout.html?id=${id}"> <button class="control-btn">Add to Cart</button></a>
         </div>
     </div>
 
-    <!-- ✅ HIGHLIGHTS -->
+    <!--  HIGHLIGHTS -->
     <section class="services-section">
         <h2>Why You'll Love This</h2>
         <ul>
-            ${highlights.map(h => `<li>${h}</li>`).join("")}
+            ${highlights.map((h) => `<li>${h}</li>`).join("")}
         </ul>
     </section>
 
-    <!-- ✅ REVIEWS -->
+    <!--  REVIEWS -->
     <section class="services-section">
         <h2>Ratings & Reviews</h2>
         <div id="Review-Number">
             ⭐ ${rating} (${reviewCount} reviews)
         </div>
         <ul>
-            ${reviews.map(
-              r => `<li>⭐️ ${r.rating} — ${r.comment}</li>`
-            ).join("")}
+            ${reviews
+                .map((r) => `<li>⭐️ ${r.rating} — ${r.comment}</li>`)
+                .join("")}
         </ul>
     </section>
 
@@ -133,12 +145,16 @@ const current = product.salePrice ?? original;
 
     <div class="suggestion-grid">
         ${
-          suggestions.length
-            ? suggestions.map(
-                p => `
+            suggestions.length > 0
+                ? suggestions
+                      .map(
+                          (p) => `
                 <div class="suggestion-card" onclick="viewProduct('${p.id}')">
                     <img 
-                        src="${p.images?.[0] || 'https://via.placeholder.com/300'}"
+                        src="${
+                            p.images?.[0] ||
+                            "/src/assets/images/placeholder.png"
+                        }"
                         alt="${p.name}"
                         loading="lazy"
                     />
@@ -146,8 +162,9 @@ const current = product.salePrice ?? original;
                     <span>$${(p.salePrice ?? p.price).toFixed(2)}</span>
                 </div>
                 `
-              ).join("")
-            : `<p>No similar products found.</p>`
+                      )
+                      .join("")
+                : `<p>No similar products found.</p>`
         }
     </div>
 </section>
@@ -155,7 +172,6 @@ const current = product.salePrice ?? original;
 
 </div>
 `;
-
 
     // Event Listeners
     details.querySelector("[data-id]")?.addEventListener("click", () => {
@@ -170,10 +186,29 @@ const current = product.salePrice ?? original;
             favBtn.setAttribute("aria-pressed", String(currentFavStatus));
             const label = favBtn.querySelector("span");
             if (label) {
-                label.textContent = currentFavStatus ? "Favorited" : "Add to favorites";
+                label.textContent = currentFavStatus
+                    ? "Favorited"
+                    : "Add to favorites";
             }
         }
     });
 
     return details;
 }
+
+function changeImage(el) {
+    const mainImg = $(".main-image");
+    document
+        .querySelectorAll(".thumbnail-gallery img")
+        .forEach((i) => i.classList.remove("active"));
+    el.classList.add("active");
+    mainImg.style.opacity = 0;
+    setTimeout(() => {
+        mainImg.src = el.src;
+        mainImg.style.transform = "scale(1.02)";
+        mainImg.style.opacity = 1;
+        setTimeout(() => (mainImg.style.transform = "scale(1)"), 200);
+    }, 200);
+}
+
+window.changeImage = changeImage;
