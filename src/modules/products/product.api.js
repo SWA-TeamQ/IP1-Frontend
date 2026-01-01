@@ -33,9 +33,9 @@ export const fetchProducts = async (fresh = false) => {
     return products;
 };
 
-export const fetchProduct = async (id) => {
+export const fetchProduct = async (id = null) => {
     await fetchProducts();
-    return products.find((p) => p.id === id);
+    return id ? products.find((p) => p.id === id) : products;
 };
 
 export const createProduct = async (data) => {

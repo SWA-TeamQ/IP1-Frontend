@@ -1,9 +1,13 @@
+import { $ } from "/src/utils/dom.js";
+
 import { fetchProduct } from "../modules/products/product.api.js";
 import ProductDetail from "../modules/products/product-detail.js";
+import { renderSkeletons } from "/src/components/skeleton.js";
 
 export async function initProductDetailPage() {
-    const root = document.getElementById("productDetailRoot");
+    const root = $("#productDetailRoot");
     if (!root) return;
+    renderSkeletons(root, 1);
 
     const params = new URLSearchParams(location.search);
     const id = params.get("id");
@@ -18,7 +22,7 @@ export async function initProductDetailPage() {
         return;
     }
 
-    const product = await fetchProduct(id);
+    const product = await fetchProduct();
     if (!product) {
         root.innerHTML = `
             <div class="product-detail-shell">

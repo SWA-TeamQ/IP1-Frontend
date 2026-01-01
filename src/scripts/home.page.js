@@ -8,6 +8,7 @@ export async function initHomePage() {
     
     renderSkeletons(grid, 4);
     const products = await fetchProducts();
+    grid.innerHTML = "";
     const featured = products.slice(0, 4);
     grid.appendChild(ProductList(featured));
 }
