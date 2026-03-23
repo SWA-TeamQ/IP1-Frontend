@@ -1,22 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
-@import url("/src/styles/base/reset.css");
-@import url("/src/styles/base/variables.css");
-@import url("/src/styles/base/global.css");
-@import url("/src/styles/base/base.css");
+@import "tailwindcss";
 
-@import url("/src/styles/components/buttons.css");
-@import url("/src/styles/components/footer.css");
-@import url("/src/styles/components/header.css");
-@import url("/src/styles/components/hero.css");
-@import url("/src/styles/components/product-card.css");
-@import url("/src/styles/components/products.css");
-@import url("/src/styles/components/skeleton.css");
+:root {
+  color-scheme: light;
+}
 
-@import url("/src/styles/pages/auth.css");
-@import url("/src/styles/pages/home.css");
-@import url("/src/styles/pages/checkout.css");
-@import url("/src/styles/pages/product-detail.css");
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
 
-@import url("/src/styles/utilities/animations.css");
-
-
+#root {
+  min-height: 100vh;
+}
