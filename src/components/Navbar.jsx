@@ -84,7 +84,9 @@ function Navbar() {
               </Link>
               <button
                 type="button"
-                onClick={logout}
+                onClick={async () => {
+                  await logout();
+                }}
                 className="rounded-full border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300"
               >
                 Logout

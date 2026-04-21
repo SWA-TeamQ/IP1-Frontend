@@ -4,22 +4,31 @@ import { fetchProducts, getProductById } from "../services/products.js";
 import { formatPrice } from "../utils/formatters.js";
 import { useCart } from "../context/CartContext.jsx";
 import { useFavorites } from "../context/FavoritesContext.jsx";
+import { createProductReview, fetchProductReviews } from "../services/reviews.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 function ProductDetailPage() {
   const { id } = useParams();
   const { addItem } = useCart();
+  const { user } = useAuth();
   const { isFavorite, toggleFavorite } = useFavorites();
   const [product, setProduct] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
   const [activeImage, setActiveImage] = useState("");
+  const [reviews, setReviews] = useState([]);
+  const [reviewForm, setReviewForm] = useState({ rating: "5", comment: "" });
+  const [reviewMessage, setReviewMessage] = useState({ type: "", text: "" });
+  const [submittingReview, setSubmittingReview] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     const load = async () => {
       const prod = await getProductById(id);
       const all = await fetchProducts();
+      const reviewItems = await fetchProductReviews(id);
       if (!mounted) return;
       setProduct(prod);
+      setReviews(reviewItems.length ? reviewItems : prod?.reviews || []);
       if (prod?.images?.length) setActiveImage(prod.images[0]);
       const related = all.filter(
         (p) => p.details?.category === prod?.details?.category && p.id !== prod?.id
@@ -37,7 +46,45 @@ function ProductDetailPage() {
   const currentPrice = product?.salePrice ?? details?.salePrice ?? product?.price ?? 0;
   const originalPrice = product?.price ?? currentPrice;
   const rating = details?.rating ?? 0;
-  const reviewCount = details?.reviewCount ?? product?.reviews?.length ?? 0;
+  const reviewCount = reviews.length;
+
+  const submitReview = async (event) => {
+    event.preventDefault();
+    setReviewMessage({ type: "", text: "" });
+
+    if (!user) {
+      setReviewMessage({
+        type: "error",
+        text: "Please sign in before submitting a review.",
+      });
+      return;
+    }
+
+    const comment = reviewForm.comment.trim();
+    if (!comment) {
+      setReviewMessage({ type: "error", text: "Review comment is required." });
+      return;
+    }
+
+    setSubmittingReview(true);
+    try {
+      const nextReview = await createProductReview(id, {
+        rating: Number(reviewForm.rating),
+        comment,
+        user: user.fullName || user.email || "Customer",
+      });
+      setReviews((prev) => [nextReview, ...prev]);
+      setReviewForm({ rating: "5", comment: "" });
+      setReviewMessage({ type: "success", text: "Review submitted successfully." });
+    } catch {
+      setReviewMessage({
+        type: "error",
+        text: "Unable to submit review right now. Please try again.",
+      });
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
 
   if (!product) {
     return (
@@ -168,7 +215,7 @@ function ProductDetailPage() {
             ⭐ {rating} ({reviewCount} reviews)
           </div>
           <ul className="mt-4 space-y-3 text-sm text-slate-700">
-            {(product.reviews || []).map((review) => (
+            {reviews.map((review) => (
               <li key={review.id} className="border-b border-slate-100 pb-3">
                 <div className="font-semibold">{review.user}</div>
                 <div>⭐ {review.rating}</div>
@@ -183,17 +230,31 @@ function ProductDetailPage() {
         <h2 className="text-xl font-semibold text-slate-900">Add Your Review</h2>
         <form
           className="rounded-2xl border border-slate-200 bg-white p-6"
-          onSubmit={(event) => {
-            event.preventDefault();
-            alert("Review submitted (simulation).");
-          }}
+          onSubmit={submitReview}
         >
+          {reviewMessage.text && (
+            <div
+              className={`mb-4 rounded-lg px-4 py-2 text-sm ${
+                reviewMessage.type === "error"
+                  ? "bg-rose-50 text-rose-600"
+                  : "bg-emerald-50 text-emerald-600"
+              }`}
+            >
+              {reviewMessage.text}
+            </div>
+          )}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <label className="text-sm font-semibold text-slate-700">
                 Rating
               </label>
-              <select className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm">
+              <select
+                value={reviewForm.rating}
+                onChange={(event) =>
+                  setReviewForm((prev) => ({ ...prev, rating: event.target.value }))
+                }
+                className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              >
                 <option value="5">5 - Excellent</option>
                 <option value="4">4 - Great</option>
                 <option value="3">3 - Good</option>
@@ -201,31 +262,16 @@ function ProductDetailPage() {
                 <option value="1">1 - Poor</option>
               </select>
             </div>
-            <div>
-              <label className="text-sm font-semibold text-slate-700">
-                Your name
-              </label>
-              <input
-                className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-sm font-semibold text-slate-700">
-                Email
-              </label>
-              <input
-                type="email"
-                className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-                required
-              />
-            </div>
             <div className="sm:col-span-2">
               <label className="text-sm font-semibold text-slate-700">
                 Review
               </label>
               <textarea
                 rows="4"
+                value={reviewForm.comment}
+                onChange={(event) =>
+                  setReviewForm((prev) => ({ ...prev, comment: event.target.value }))
+                }
                 className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
                 required
               />
@@ -233,9 +279,10 @@ function ProductDetailPage() {
           </div>
           <button
             type="submit"
+            disabled={submittingReview}
             className="mt-4 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
           >
-            Submit Review
+            {submittingReview ? "Submitting..." : "Submit Review"}
           </button>
         </form>
       </section>
