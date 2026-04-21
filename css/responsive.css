@@ -1,0 +1,85 @@
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--space-6);
+    }
+
+    .search {
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --container-padding: var(--space-4);
+        --header-height: 3.5rem;
+    }
+
+    .header-inner {
+        gap: var(--space-3);
+    }
+
+    .search {
+        max-width: none;
+        flex: 1;
+    }
+
+    .hero {
+        padding: var(--space-16) 0;
+    }
+
+    .hero h1 {
+        font-size: var(--font-size-3xl);
+    }
+
+    .hero p {
+        font-size: var(--font-size-lg);
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: var(--space-4);
+    }
+
+    .card {
+        padding: var(--space-4);
+    }
+
+    .cart-drawer {
+        width: 100vw;
+        right: -100vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: var(--space-12) 0;
+    }
+
+    .hero h1 {
+        font-size: var(--font-size-2xl);
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-4);
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-actions {
+        flex-direction: row;
+    }
+
+    .btn {
+        flex: 1;
+        padding: var(--space-3) var(--space-4);
+    }
+}
