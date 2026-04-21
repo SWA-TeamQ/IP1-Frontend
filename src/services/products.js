@@ -1,5 +1,4 @@
 import { apiClient, extractItem, extractItems } from "./api.js";
-import { PRODUCTS } from "../data/products.js";
 
 const PRODUCTS_API_ENDPOINT = "/api/products";
 
@@ -26,26 +25,16 @@ function normalizeProduct(p) {
 
 export async function fetchProducts({ fresh = false, params = {} } = {}) {
     if (cache.length > 0 && !fresh) return cache;
-    try {
-        const res = await apiClient.get(PRODUCTS_API_ENDPOINT, { params });
-        const items = extractItems(res.data);
-        cache = items.map(normalizeProduct);
-    } catch (err) {
-        console.warn("fetchProducts failed, using local fallback:", err);
-        cache = PRODUCTS.map(normalizeProduct);
-    }
+    const res = await apiClient.get(PRODUCTS_API_ENDPOINT, { params });
+    const items = extractItems(res.data);
+    cache = items.map(normalizeProduct);
     return cache;
 }
 
 export async function getProductById(id) {
-    try {
-        const res = await apiClient.get(`${PRODUCTS_API_ENDPOINT}/${id}`);
-        const product = extractItem(res.data);
-        return product ? normalizeProduct(product) : null;
-    } catch {
-        const list = await fetchProducts();
-        return list.find((p) => p.id === String(id));
-    }
+    const res = await apiClient.get(`${PRODUCTS_API_ENDPOINT}/${id}`);
+    const product = extractItem(res.data);
+    return product ? normalizeProduct(product) : null;
 }
 
 export function getCategories(products) {

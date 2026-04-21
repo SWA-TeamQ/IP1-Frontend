@@ -38,16 +38,14 @@ The application is now React + Vite and is in a migration stage from a legacy va
 - `src/context/`:
     - App-level state providers (`AuthContext`, `CartContext`, `FavoritesContext`)
 - `src/services/`:
-    - API client + product service abstraction
-- `src/data/`:
-    - Local fallback/mock data used when API calls fail
+    - API client + service abstractions
 - `src/utils/`:
     - Shared utility helpers (`auth`, `storage`, `formatters`, `receipt`)
 
 ## Data flow
 
 - UI pages/components call service-layer functions from `src/services/`.
-- `src/services/products.js` tries API data first, then falls back to local data.
+- `src/services/` communicates directly with the backend API.
 - Global state (auth/cart/favorites) flows through context providers and hooks.
 
 ## Migration note

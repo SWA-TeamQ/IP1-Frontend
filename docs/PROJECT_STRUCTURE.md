@@ -35,8 +35,6 @@
     - State providers and hooks
 - `services/`:
     - API client and domain services
-- `data/`:
-    - Local fallback data
 - `utils/`:
     - Shared helper functions
 - `assets/`:
@@ -66,7 +64,6 @@
     - Create component in `src/components/`
 - Add API/data logic:
     - Extend `src/services/`
-    - Add fallback fixtures in `src/data/` if required
 - Add global state:
     - Add provider/hook in `src/context/`
     - Wire provider in `src/main.jsx`

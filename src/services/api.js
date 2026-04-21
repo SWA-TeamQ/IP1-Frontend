@@ -62,8 +62,3 @@ export function extractToken(responseData) {
     const payload = extractPayload(responseData);
     return payload?.token ?? responseData?.token ?? null;
 }
-
-export function isEndpointUnsupported(error) {
-    const status = error?.response?.status;
-    return status === 404 || status === 405 || status === 501;
-}
