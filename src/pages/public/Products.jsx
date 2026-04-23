@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import ProductList from "../components/ProductList.jsx";
+import ProductList from "../../components/ProductList.jsx";
 import {
   fetchProducts,
   filterProductsByCategory,
   getCategories,
   searchProducts,
   sortProducts,
-} from "../services/products.js";
-import { useFavorites } from "../context/FavoritesContext.jsx";
+} from "../../services/products.js";
+import { useFavorites } from "../../context/FavoritesContext.jsx";
 
 function ProductsPage() {
   const [products, setProducts] = useState([]);

@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { fetchProducts, getProductById } from "../services/products.js";
-import { formatPrice } from "../utils/formatters.js";
-import { useCart } from "../context/CartContext.jsx";
-import { useFavorites } from "../context/FavoritesContext.jsx";
+import { fetchProducts, getProductById } from "../../services/products.js";
+import { formatPrice } from "../../utils/formatters.js";
+import { useCart } from "../../context/CartContext.jsx";
+import { useFavorites } from "../../context/FavoritesContext.jsx";
+import ProductAttributes from "../../components/products/ProductAttributes.jsx";
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -22,7 +23,7 @@ function ProductDetailPage() {
       setProduct(prod);
       if (prod?.images?.length) setActiveImage(prod.images[0]);
       const related = all.filter(
-        (p) => p.details?.category === prod?.details?.category && p.id !== prod?.id
+        (p) => p.category === prod?.category && p.id !== prod?.id
       );
       setSuggestions(related);
     };
@@ -33,11 +34,10 @@ function ProductDetailPage() {
     };
   }, [id]);
 
-  const details = useMemo(() => product?.details ?? {}, [product]);
-  const currentPrice = product?.salePrice ?? details?.salePrice ?? product?.price ?? 0;
+  const currentPrice = product?.salePrice ?? product?.price ?? 0;
   const originalPrice = product?.price ?? currentPrice;
-  const rating = details?.rating ?? 0;
-  const reviewCount = details?.reviewCount ?? product?.reviews?.length ?? 0;
+  const rating = product?.rating ?? 0;
+  const reviewCount = product?.reviewCount ?? product?.reviews?.length ?? 0;
 
   if (!product) {
     return (
@@ -83,7 +83,7 @@ function ProductDetailPage() {
         <div className="space-y-6">
           <div>
             <span className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-              {details?.category ?? "Category"}
+              {product.category || "Category"}
             </span>
             <h1 className="mt-2 text-3xl font-semibold text-slate-900">
               {product.name}
@@ -140,6 +140,8 @@ function ProductDetailPage() {
               ))}
             </div>
           </div>
+
+          <ProductAttributes attributes={product.attributes} />
         </div>
       </div>
 

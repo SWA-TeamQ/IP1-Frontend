@@ -10,13 +10,8 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const { totalQuantity } = useCart();
   const { user, logout } = useAuth();
-  const initials = user?.fullName
-    ? user.fullName
-        .split(" ")
-        .map((part) => part[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase()
+  const initials = user?.firstName
+    ? (user.firstName[0] + (user.lastName?.[0] || "")).toUpperCase()
     : "SL";
 
   return (

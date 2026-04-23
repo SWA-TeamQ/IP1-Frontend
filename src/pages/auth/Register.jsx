@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
-import { isValidEmail, isStrongPassword } from "../utils/auth.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { isValidEmail, isStrongPassword } from "../../utils/auth.js";
 
 function RegisterPage() {
   const navigate = useNavigate();
   const { register } = useAuth();
   const [form, setForm] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     password: "",
@@ -36,10 +37,13 @@ function RegisterPage() {
     }
 
     const result = register({
-      fullName: form.fullName,
+      firstName: form.firstName,
+      lastName: form.lastName,
       email: form.email,
       phone: form.phone,
       password: form.password,
+      role: 'user',
+      createdAt: new Date().toISOString(),
     });
 
     if (!result.ok) {
@@ -81,16 +85,29 @@ function RegisterPage() {
       )}
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-        <div>
-          <label className="text-sm font-semibold text-slate-700">
-            Full Name
-          </label>
-          <input
-            className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-            value={form.fullName}
-            onChange={(event) => updateField("fullName", event.target.value)}
-            required
-          />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="text-sm font-semibold text-slate-700">
+              First Name
+            </label>
+            <input
+              className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              value={form.firstName}
+              onChange={(event) => updateField("firstName", event.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="text-sm font-semibold text-slate-700">
+              Last Name
+            </label>
+            <input
+              className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              value={form.lastName}
+              onChange={(event) => updateField("lastName", event.target.value)}
+              required
+            />
+          </div>
         </div>
         <div>
           <label className="text-sm font-semibold text-slate-700">Email</label>

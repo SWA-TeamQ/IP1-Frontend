@@ -30,7 +30,13 @@ export function CartProvider({ children }) {
 
     setCart((prev) => {
       const items = { ...prev.items };
-      const existing = items[productId] || { productId, quantity: 0 };
+      const existing = items[productId] || { 
+        productId, 
+        quantity: 0,
+        name: product.name,
+        price: product.salePrice ?? product.price,
+        image: product.images?.[0]
+      };
       items[productId] = {
         ...existing,
         quantity: existing.quantity + quantity,

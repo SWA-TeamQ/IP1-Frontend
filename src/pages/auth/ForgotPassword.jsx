@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getUsers, saveUsers, hashPassword, isStrongPassword } from "../utils/auth.js";
+import { getUsers, saveUsers, hashPassword, isStrongPassword } from "../../utils/auth.js";
 
 function ForgotPasswordPage() {
   const navigate = useNavigate();

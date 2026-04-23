@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function ProfilePage() {
   const { user, logout } = useAuth();
@@ -40,9 +40,8 @@ function ProfilePage() {
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-6">
-        <div className="text-sm text-slate-500">Full name</div>
         <div className="text-lg font-semibold text-slate-900">
-          {user.fullName || "ShopLight Member"}
+          {user.firstName} {user.lastName}
         </div>
         <div className="mt-4 text-sm text-slate-500">Email</div>
         <div className="text-sm font-semibold text-slate-900">

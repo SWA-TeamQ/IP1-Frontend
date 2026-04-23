@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchProducts } from "../services/products.js";
-import ProductList from "../components/ProductList.jsx";
+import { fetchProducts } from "../../services/products.js";
+import ProductList from "../../components/ProductList.jsx";
 
 function HomePage() {
   const [products, setProducts] = useState([]);

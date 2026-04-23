@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
-import { isValidEmail } from "../utils/auth.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { isValidEmail } from "../../utils/auth.js";
 
 function LoginPage() {
   const navigate = useNavigate();
