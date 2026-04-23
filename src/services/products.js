@@ -1,4 +1,4 @@
-import { apiClient } from "./api.js";
+import { apiClient } from "../api/api.js";
 import { PRODUCTS } from "../data/products.js";
 
 const PRODUCTS_API_ENDPOINT = "/products";
@@ -9,10 +9,13 @@ function normalizeProduct(p) {
   return {
     ...p,
     images: p.images ?? (p.image ? [p.image] : []),
-    details: p.details ?? {},
     name: p.name ?? "",
     description: p.description ?? "",
     id: p.id ?? "",
+    category: p.category ?? "",
+    rating: p.rating ?? 0,
+    reviewCount: p.reviewCount ?? 0,
+    attributes: p.attributes ?? {},
   };
 }
 
@@ -36,13 +39,13 @@ export async function getProductById(id) {
 export function getCategories(products) {
   const set = new Set();
   (products || []).forEach((p) => {
-    if (p.details?.category) set.add(p.details.category);
+    if (p.category) set.add(p.category);
   });
   return Array.from(set);
 }
 
 export function filterProductsByCategory(products, category) {
-  return (products || []).filter((p) => p.details?.category === category);
+  return (products || []).filter((p) => p.category === category);
 }
 
 export function searchProducts(products, value) {
@@ -57,8 +60,8 @@ export function searchProducts(products, value) {
 export function sortProducts(products, by, order = "asc") {
   const sorted = [...(products || [])];
   sorted.sort((a, b) => {
-    const valA = a.details?.[by] ?? a[by];
-    const valB = b.details?.[by] ?? b[by];
+    const valA = a[by];
+    const valB = b[by];
 
     if (valA < valB) return order === "asc" ? -1 : 1;
     if (valA > valB) return order === "asc" ? 1 : -1;

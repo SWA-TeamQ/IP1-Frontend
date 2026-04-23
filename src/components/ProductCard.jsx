@@ -9,8 +9,8 @@ function ProductCard({ product }) {
 
   if (!product) return null;
 
-  const image = product.images?.[0] || product.image || "";
-  const currentPrice = product.salePrice ?? product.details?.salePrice ?? product.price ?? 0;
+  const image = product.images?.[0] || "";
+  const currentPrice = product.salePrice ?? product.price ?? 0;
   const originalPrice = product.price ?? currentPrice;
   const onSale = originalPrice > currentPrice;
 
@@ -36,9 +36,9 @@ function ProductCard({ product }) {
         >
           {isFavorite(product.id) ? "♥" : "♡"}
         </button>
-        {product.details?.category && (
+        {product.category && (
           <span className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white">
-            {product.details.category}
+            {product.category}
           </span>
         )}
       </div>
