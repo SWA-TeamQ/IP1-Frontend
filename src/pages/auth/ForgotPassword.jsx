@@ -1,39 +1,26 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getUsers, saveUsers, hashPassword, isStrongPassword } from "../../utils/auth.js";
+import { Link } from "react-router-dom";
+import { isValidEmail } from "../../utils/auth.js";
 
 function ForgotPasswordPage() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
   const [message, setMessage] = useState({ type: "", text: "" });
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setMessage({ type: "", text: "" });
 
-    if (!isStrongPassword(newPassword)) {
-      setMessage({ type: "error", text: "Password does not meet requirements." });
-      return;
-    }
-    if (newPassword !== confirm) {
-      setMessage({ type: "error", text: "Passwords do not match." });
+    if (!isValidEmail(email)) {
+      setMessage({ type: "error", text: "Invalid email address." });
       return;
     }
 
-    const users = getUsers();
-    const index = users.findIndex((u) => u.email === email.trim());
-    if (index === -1) {
-      setMessage({ type: "error", text: "No account found with this email." });
-      return;
-    }
-
-    users[index].password = hashPassword(newPassword);
-    saveUsers(users);
-
-    setMessage({ type: "success", text: "Password updated successfully." });
-    setTimeout(() => navigate("/login"), 1200);
+    // Since the API contract does not provide a forgot password endpoint,
+    // we display a message to contact support.
+    setMessage({ 
+      type: "success", 
+      text: "If an account exists for this email, you will receive reset instructions. Please contact support if you need further assistance." 
+    });
   };
 
   return (
@@ -47,7 +34,7 @@ function ForgotPasswordPage() {
         Reset Password
       </h1>
       <p className="mt-2 text-sm text-slate-600">
-        This is a simulated reset flow.
+        Enter your email to receive a reset link.
       </p>
 
       {message.text && (
@@ -66,33 +53,10 @@ function ForgotPasswordPage() {
         <div>
           <label className="text-sm font-semibold text-slate-700">Email</label>
           <input
+            type="email"
             className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="text-sm font-semibold text-slate-700">
-            New Password
-          </label>
-          <input
-            type="password"
-            className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-            value={newPassword}
-            onChange={(event) => setNewPassword(event.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="text-sm font-semibold text-slate-700">
-            Confirm New Password
-          </label>
-          <input
-            type="password"
-            className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-            value={confirm}
-            onChange={(event) => setConfirm(event.target.value)}
             required
           />
         </div>
@@ -100,7 +64,7 @@ function ForgotPasswordPage() {
           type="submit"
           className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
         >
-          Update Password
+          Send Reset Link
         </button>
       </form>
 

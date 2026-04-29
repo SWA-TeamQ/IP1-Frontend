@@ -1,58 +1,70 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState, useEffect } from "react";
+import { apiClient } from "../api/api.js";
 import {
-  getSession,
-  saveSession,
-  clearSession,
-  getUsers,
-  saveUsers,
-  hashPassword,
+  saveToken,
+  clearToken,
 } from "../utils/auth.js";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(getSession());
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (email, password) => {
-    const users = getUsers();
-    const found = users.find(
-      (u) => u.email === email && u.password === hashPassword(password)
-    );
-    if (!found) return { ok: false, message: "Invalid email or password." };
-    saveSession(found);
-    setUser(found);
-    return { ok: true };
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const userData = await apiClient.get("/auth/me");
+          setUser(userData);
+        }
+      } catch (err) {
+        console.error("Auth initialization failed:", err);
+        logout();
+      } finally {
+        setLoading(false);
+      }
+    };
+    initAuth();
+  }, []);
+
+  const login = async (email, password) => {
+    try {
+      const response = await apiClient.post("/auth/login", { email, password });
+      // response is the 'data' object from { status, message, data }
+      const { token, user } = response;
+      saveToken(token);
+      setUser(user);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, message: err.message || "Login failed" };
+    }
   };
 
-  const register = (payload) => {
-    const users = getUsers();
-    if (users.some((u) => u.email === payload.email)) {
-      return { ok: false, message: "Email already registered." };
+  const register = async (payload) => {
+    try {
+      await apiClient.post("/auth/register", payload);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, message: err.message || "Registration failed" };
     }
-    const next = [
-      ...users,
-      {
-        ...payload,
-        password: hashPassword(payload.password),
-      },
-    ];
-    saveUsers(next);
-    return { ok: true };
   };
 
   const logout = () => {
-    clearSession();
+    clearToken();
     setUser(null);
   };
 
   const value = useMemo(
-    () => ({ user, login, register, logout }),
-    [user]
+    () => ({ user, login, register, logout, loading }),
+    [user, loading]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+
 
 export function useAuth() {
   const ctx = useContext(AuthContext);

@@ -7,7 +7,6 @@ import {
   searchProducts,
   sortProducts,
 } from "../../services/products.js";
-import { useFavorites } from "../../context/FavoritesContext.jsx";
 
 function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -16,7 +15,6 @@ function ProductsPage() {
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
   const [loading, setLoading] = useState(true);
-  const { list } = useFavorites();
 
   useEffect(() => {
     let mounted = true;
@@ -34,16 +32,14 @@ function ProductsPage() {
   }, []);
 
   const categories = useMemo(
-    () => ["all", "favorites", ...getCategories(products)],
+    () => ["all", ...getCategories(products)],
     [products]
   );
 
   const filtered = useMemo(() => {
     let result = products;
 
-    if (category === "favorites") {
-      result = result.filter((p) => list.includes(p.id));
-    } else if (category !== "all") {
+    if (category !== "all") {
       result = filterProductsByCategory(result, category);
     }
 
@@ -53,7 +49,7 @@ function ProductsPage() {
 
     result = sortProducts(result, sortBy, sortOrder);
     return result;
-  }, [products, category, list, searchTerm, sortBy, sortOrder]);
+  }, [products, category, searchTerm, sortBy, sortOrder]);
 
   return (
     <div className="space-y-8">

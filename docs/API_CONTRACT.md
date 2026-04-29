@@ -1,359 +1,217 @@
-# Backend API Contract (PHP) — Base Path: `/api`
+# ShopLight API Documentation (Comprehensive Integration Guide)
 
-This document defines the required backend endpoints, data models, validation rules, and responsibilities for the ShopLight frontend.
+This document is the single source of truth for the ShopLight API. Use it to configure your API client (Axios, Fetch, etc.) and map your frontend state.
 
 ---
 
-## 1) General Conventions
+## 1. Global Technical Standards
 
-- **Base URL**: `/api`
-- **Content-Type**: `application/json`
-- **Auth**: Session cookie or JWT (choose one). Endpoints marked **Auth Required** must validate the user.
-- **Timestamps**: ISO 8601 strings.
-- **Errors**: Standard error payload:
+### 1.1 Base URL & Routing
+- **Base URL**: `http://your-domain.com/api`
+- **Versioning**: All current routes are under the `/api` prefix.
+- **Trailing Slashes**: The API is sensitive to trailing slashes; avoid adding them (e.g., use `/api/products` NOT `/api/products/`).
+
+### 1.2 Data Formats
+- **Request/Response Body**: Always JSON (UTF-8).
+- **Date Format**: ISO 8601 (`YYYY-MM-DD HH:mm:ss`) in UTC.
+- **Price Format (Crucial)**: 
+  - Prices are integers representing **Cents**.
+  - **$49.99** must be sent as `4999`.
+  - **$5.00** must be sent as `500`.
+- **IDs**: Identifiers are **UUIDs** (strings).
+
+---
+
+## 2. Authentication Flow
+
+The API uses **JWT (JSON Web Tokens)** for security.
+
+### 2.1 Acquiring a Token
+1. Call `POST /auth/login` or `POST /auth/register`.
+2. On success, the API returns a `token` string in the `data` object.
+
+### 2.2 Using the Token
+Include the token in the `Authorization` header for all subsequent requests to protected routes.
+```http
+Authorization: Bearer <your_jwt_token>
+```
+
+---
+
+## 3. Standard API Response Structure
+
+Every response follows this wrapper structure to simplify frontend error handling.
+
+### 3.1 Success (200, 201)
+```json
+{
+    "status": "success",
+    "message": "Human readable confirmation",
+    "data": { ... } // Payload (Object, Array, or Null)
+}
+```
+
+### 3.2 Error (400, 401, 403, 404, 500)
+```json
+{
+    "status": "error",
+    "message": "General error summary",
+    "errors": [
+        "Field 'email' is required",
+        "Invalid password format"
+    ] // Specific validation issues
+}
+```
+
+---
+
+## 4. Endpoint Deep Dive
+
+### 4.1 Authentication Service
+
+#### `POST /auth/register`
+- **Description**: Create a new customer account.
+- **Payload**:
   ```json
   {
-    "error": {
-      "code": "STRING_CODE",
-      "message": "Human readable message",
-      "details": {}
-    }
+    "firstName": "String (Required)",
+    "lastName": "String (Required)",
+    "email": "Valid Email (Required, Unique)",
+    "password": "String (Required, Min 6 chars recommended)"
+  }
+  ```
+
+#### `POST /auth/login`
+- **Description**: Authenticate and receive a token.
+- **Payload**:
+  ```json
+  {
+    "email": "Valid Email (Required)",
+    "password": "String (Required)"
+  }
+  ```
+- **Return Data**: `{ "token": "...", "user": { ...UserEntity } }`
+
+#### `GET /auth/me`
+- **Auth**: Required (JWT)
+- **Description**: Get the profile of the user currently logged in.
+
+---
+
+### 4.2 Product Service
+
+#### `GET /products`
+- **Auth**: None (Public)
+- **Query Parameters**:
+  - `category`: String (Filter by category name).
+  - `search`: String (Fuzzy search in name/description).
+  - `sortBy`: `price_cents`, `name`, or `created_at` (Default: `created_at`).
+  - `sortOrder`: `ASC` or `DESC` (Default: `DESC`).
+  - `limit`: Integer (Items per page, Default: 20).
+  - `page`: Integer (Current page, Default: 1).
+
+#### `GET /products/{id_or_slug}`
+- **Auth**: None (Public)
+- **Description**: Fetch detailed product info. The `{id_or_slug}` can be a UUID or the URL slug.
+- **Includes**: The `reviews` array is automatically nested in the `data` object.
+
+#### `POST /products` (Admin Only)
+- **Auth**: Required (Admin Role)
+- **Type**: `multipart/form-data`
+- **Payload Fields**:
+  - `name`: String (Required)
+  - `description`: String (Required)
+  - `price_cents`: Integer (Required)
+  - `category`: String (Required)
+  - `images[]`: File (Required, Multiple allowed)
+  - `stock_quantity`: Integer (Default: 0)
+  - `attributes`: JSON String (Optional, e.g. `{"color": "blue"}`)
+
+---
+
+### 4.3 Cart Service
+
+#### `GET /cart`
+- **Auth**: Required (JWT)
+- **Description**: Retrieve current user's shopping cart.
+- **Data Entity**: Array of objects containing `product_id`, `quantity`, and joined `name`, `price_cents`, `images`.
+
+#### `POST /cart`
+- **Auth**: Required (JWT)
+- **Payload**: `{ "product_id": "UUID", "quantity": 1 }`
+- **Logic**: If the product exists in the cart, the quantity is incremented.
+
+---
+
+### 4.4 Order & Checkout Service
+
+#### `POST /orders`
+- **Auth**: Required (JWT)
+- **Description**: Finalize a purchase.
+- **Payload**:
+  ```json
+  {
+    "items": [
+      { "productId": "UUID", "quantity": 2, "price": 1500 }
+    ],
+    "shippingAddress": {
+      "fullName": "Jane Doe",
+      "addressLine1": "123 Maple St",
+      "city": "Springfield",
+      "postalCode": "62704",
+      "country": "USA"
+    },
+    "subtotal": 30.00, // Sent as Float/Decimal, Backend converts to 3000
+    "tax": 2.50,
+    "shipping": 5.00,
+    "total": 37.50
+  }
+  ```
+
+#### `GET /orders`
+- **Auth**: Required (JWT)
+- **Description**: Returns all orders placed by the authenticated user.
+
+---
+
+### 4.5 Admin Statistics Service
+
+#### `GET /admin/stats`
+- **Auth**: Required (Admin Role)
+- **Return Data Structure**:
+  ```json
+  {
+    "summary": { "total_orders": 150, "total_revenue": 500000, "total_customers": 45 },
+    "recentSales": [...],
+    "topProducts": [...],
+    "stockAlerts": [...]
   }
   ```
 
 ---
 
-## 2) Data Models
+## 5. Error Code Reference
 
-### 2.1 User
-```json
-{
-  "id": "u_123",
-  "fullName": "Jane Doe",
-  "email": "jane@example.com",
-  "phone": "+251911000000",
-  "createdAt": "2026-03-23T12:00:00Z",
-  "updatedAt": "2026-03-23T12:00:00Z"
-}
-```
-
-### 2.2 Product
-```json
-{
-  "id": "p1",
-  "name": "Minimalist Watch",
-  "description": "Sleek stainless steel watch with leather strap.",
-  "price": 129.0,
-  "salePrice": 45.0,
-  "images": ["https://..."],
-  "details": {
-    "category": "accessories",
-    "rating": 4.6,
-    "badge": "New",
-    "color": "Silver",
-    "reviewCount": 3
-  },
-  "features": ["⌚ Stainless Steel Case", "🪶 Lightweight Design"],
-  "highlights": ["✔️ Timeless minimalist style"],
-  "reviews": [
-    { "id": "r1", "user": "Sara T.", "rating": 5, "comment": "Great!" }
-  ],
-  "createdAt": "2026-03-23T12:00:00Z",
-  "updatedAt": "2026-03-23T12:00:00Z"
-}
-```
-
-### 2.3 Cart Item
-```json
-{
-  "productId": "p1",
-  "quantity": 2
-}
-```
-
-### 2.4 Order
-```json
-{
-  "id": "o_123",
-  "userId": "u_123",
-  "items": [
-    { "productId": "p1", "quantity": 2, "unitPrice": 45.0 }
-  ],
-  "subtotal": 90.0,
-  "taxRate": 15,
-  "tax": 13.5,
-  "total": 103.5,
-  "shipping": {
-    "firstName": "John",
-    "lastName": "Doe",
-    "address": "123 Main St",
-    "city": "Nairobi",
-    "postalCode": "00100"
-  },
-  "payment": {
-    "method": "card",
-    "status": "paid"
-  },
-  "status": "confirmed",
-  "createdAt": "2026-03-23T12:00:00Z"
-}
-```
-
-### 2.5 Review
-```json
-{
-  "id": "r1",
-  "productId": "p1",
-  "userId": "u_123",
-  "rating": 5,
-  "comment": "Great!",
-  "createdAt": "2026-03-23T12:00:00Z"
-}
-```
+| Status | Meaning | Typical Trigger |
+| :--- | :--- | :--- |
+| **400** | Bad Request | Missing required fields or invalid data format. |
+| **401** | Unauthorized | Token missing, invalid, or expired. |
+| **403** | Forbidden | User is authenticated but lacks permission (e.g. not an admin). |
+| **404** | Not Found | Resource (Product/Order) does not exist. |
+| **422** | Unprocessable Entity | Validation failed (check the `errors` array). |
+| **500** | Server Error | Database crash or logic bug. Error details are returned in `message`. |
 
 ---
 
-## 3) Auth Endpoints
+## 6. Frontend Integration Best Practices
 
-### 3.1 Register
-- **POST** `/api/auth/register`
-- **Body**:
-  ```json
-  { "fullName": "Jane Doe", "email": "jane@example.com", "phone": "+251...", "password": "Secret123" }
-  ```
-- **Validation**:
-  - `email` valid + unique
-  - `password` min 8, upper/lower/number
-- **Response**:
-  ```json
-  { "user": { ...User } }
-  ```
-
-### 3.2 Login
-- **POST** `/api/auth/login`
-- **Body**:
-  ```json
-  { "email": "jane@example.com", "password": "Secret123" }
-  ```
-- **Response**:
-  ```json
-  { "user": { ...User } }
-  ```
-
-### 3.3 Logout
-- **POST** `/api/auth/logout` (**Auth Required**)
-- **Response**: `{ "ok": true }`
-
-### 3.4 Session
-- **GET** `/api/auth/session` (**Auth Required**)
-- **Response**:
-  ```json
-  { "user": { ...User } }
-  ```
-
----
-
-## 4) Products
-
-### 4.1 List Products
-- **GET** `/api/products`
-- **Query Params**:
-  - `category` (optional)
-  - `search` (optional)
-  - `sortBy` (`name|price|rating`)
-  - `order` (`asc|desc`)
-- **Response**:
-  ```json
-  { "items": [ ...Product ] }
-  ```
-
-### 4.2 Product Detail
-- **GET** `/api/products/{id}`
-- **Response**: `{ "item": { ...Product } }`
-
-### 4.3 Create Product (Admin)
-- **POST** `/api/products`
-- **Response**: `{ "item": { ...Product } }`
-
-### 4.4 Update Product (Admin)
-- **PUT** `/api/products/{id}`
-- **Response**: `{ "item": { ...Product } }`
-
-### 4.5 Delete Product (Admin)
-- **DELETE** `/api/products/{id}`
-- **Response**: `{ "ok": true }`
-
----
-
-## 5) Reviews
-
-### 5.1 Create Review
-- **POST** `/api/products/{id}/reviews` (**Auth Required**)
-- **Body**:
-  ```json
-  { "rating": 5, "comment": "Great!" }
-  ```
-- **Response**:
-  ```json
-  { "review": { ...Review } }
-  ```
-
-### 5.2 List Reviews
-- **GET** `/api/products/{id}/reviews`
-- **Response**:
-  ```json
-  { "items": [ ...Review ] }
-  ```
-
----
-
-## 6) Favorites
-
-### 6.1 List Favorites
-- **GET** `/api/favorites` (**Auth Required**)
-- **Response**:
-  ```json
-  { "items": ["p1", "p2"] }
-  ```
-
-### 6.2 Toggle Favorite
-- **POST** `/api/favorites/toggle` (**Auth Required**)
-- **Body**:
-  ```json
-  { "productId": "p1" }
-  ```
-- **Response**:
-  ```json
-  { "items": ["p2"] }
-  ```
-
----
-
-## 7) Cart
-
-### 7.1 Get Cart
-- **GET** `/api/cart` (**Auth Required**)
-- **Response**:
-  ```json
-  { "items": [ ...CartItem ] }
-  ```
-
-### 7.2 Add Item
-- **POST** `/api/cart/items` (**Auth Required**)
-- **Body**:
-  ```json
-  { "productId": "p1", "quantity": 1 }
-  ```
-- **Response**:
-  ```json
-  { "items": [ ...CartItem ] }
-  ```
-
-### 7.3 Update Quantity
-- **PATCH** `/api/cart/items/{productId}` (**Auth Required**)
-- **Body**:
-  ```json
-  { "quantity": 2 }
-  ```
-- **Response**:
-  ```json
-  { "items": [ ...CartItem ] }
-  ```
-
-### 7.4 Remove Item
-- **DELETE** `/api/cart/items/{productId}` (**Auth Required**)
-- **Response**:
-  ```json
-  { "items": [ ...CartItem ] }
-  ```
-
-### 7.5 Clear Cart
-- **DELETE** `/api/cart` (**Auth Required**)
-- **Response**: `{ "ok": true }`
-
----
-
-## 8) Orders
-
-### 8.1 Create Order
-- **POST** `/api/orders` (**Auth Required**)
-- **Body**:
-  ```json
-  {
-    "shipping": { "firstName": "John", "lastName": "Doe", "address": "123 Main St", "city": "Nairobi", "postalCode": "00100" },
-    "payment": { "method": "card", "token": "token_or_reference" }
-  }
-  ```
-- **Response**:
-  ```json
-  { "order": { ...Order } }
-  ```
-
-### 8.2 List Orders (User)
-- **GET** `/api/orders` (**Auth Required**)
-- **Response**:
-  ```json
-  { "items": [ ...Order ] }
-  ```
-
-### 8.3 Order Detail
-- **GET** `/api/orders/{id}` (**Auth Required**)
-- **Response**:
-  ```json
-  { "order": { ...Order } }
-  ```
-
----
-
-## 9) System/Health
-
-- **GET** `/api/health`
-- **Response**:
-  ```json
-  { "ok": true, "timestamp": "2026-03-23T12:00:00Z" }
-  ```
-
----
-
-## 10) Validation Rules Summary
-- `email`: must be valid and unique.
-- `password`: min 8 chars, uppercase + lowercase + number.
-- `rating`: integer 1–5.
-- `quantity`: integer >= 1.
-- `price`: non-negative float.
-
----
-
-## 11) Team Task Allocation
-
-### Team A — Auth & Users
-- Implement user registration/login/logout/session endpoints.
-- Password hashing + session/JWT management.
-- Input validation and error responses.
-
-### Team B — Products & Reviews
-- CRUD products (admin protected).
-- Reviews create/list endpoints.
-- Rating aggregation and review counts.
-
-### Team C — Cart & Orders
-- Cart CRUD endpoints.
-- Order creation + totals (tax rate 15%).
-- Order list/detail for user.
-
-### Team D — Platform & Utilities
-- Routing, middleware, CORS, env config.
-- Health endpoint, API base config `/api`.
-- DB migrations, seed data.
-
-### Team E — QA & Docs
-- Endpoint tests (Postman/REST).
-- Contract verification with frontend.
-- Error catalog and status code coverage.
-
----
-
-## 12) Status Codes
-- `200 OK`, `201 Created`, `204 No Content`
-- `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`
-- `409 Conflict`, `422 Unprocessable Entity`, `500 Internal Server Error`
+1.  **Price Display**: Always use a helper to format prices.
+    ```javascript
+    const formatPrice = (cents) => `$${(cents / 100).toFixed(2)}`;
+    ```
+2.  **Image Paths**: The API returns relative paths like `/uploads/img_123.jpg`. You must prefix this with your server's host:
+    ```javascript
+    const imageUrl = `${API_HOST}${product.images[0]}`;
+    ```
+3.  **Order Summary**: The backend recalculates totals to prevent tampering. Ensure your frontend calculations (subtotal + tax + shipping) match the backend logic precisely to avoid `400` errors.
+4.  **Slug Navigation**: For SEO-friendly URLs, prefer using the `slug` for navigation and the `id` for API actions like `POST /cart`.

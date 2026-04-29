@@ -10,7 +10,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState({ type: "", text: "" });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setMessage({ type: "", text: "" });
 
@@ -19,7 +19,7 @@ function LoginPage() {
       return;
     }
 
-    const result = login(email, password);
+    const result = await login(email, password);
     if (!result.ok) {
       setMessage({ type: "error", text: result.message });
       return;

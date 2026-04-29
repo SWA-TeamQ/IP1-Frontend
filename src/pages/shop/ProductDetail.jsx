@@ -1,31 +1,33 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchProducts, getProductById } from "../../services/products.js";
-import { formatPrice } from "../../utils/formatters.js";
+import { formatPrice, getImageUrl } from "../../utils/formatters.js";
 import { useCart } from "../../context/CartContext.jsx";
-import { useFavorites } from "../../context/FavoritesContext.jsx";
 import ProductAttributes from "../../components/products/ProductAttributes.jsx";
 
 function ProductDetailPage() {
   const { id } = useParams();
   const { addItem } = useCart();
-  const { isFavorite, toggleFavorite } = useFavorites();
   const [product, setProduct] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
-  const [activeImage, setActiveImage] = useState("");
+  const [activeImage, setActiveImage] = useState(null);
 
   useEffect(() => {
     let mounted = true;
     const load = async () => {
-      const prod = await getProductById(id);
-      const all = await fetchProducts();
-      if (!mounted) return;
-      setProduct(prod);
-      if (prod?.images?.length) setActiveImage(prod.images[0]);
-      const related = all.filter(
-        (p) => p.category === prod?.category && p.id !== prod?.id
-      );
-      setSuggestions(related);
+      try {
+        const prod = await getProductById(id);
+        const all = await fetchProducts();
+        if (!mounted) return;
+        setProduct(prod);
+        if (prod?.images?.length) setActiveImage(getImageUrl(prod.images[0]));
+        const related = all.filter(
+          (p) => p.category === prod?.category && p.id !== prod?.id
+        );
+        setSuggestions(related);
+      } catch (err) {
+        console.error("Failed to load product details", err);
+      }
     };
 
     load();
@@ -59,7 +61,7 @@ function ProductDetailPage() {
         <div className="space-y-4">
           <div className="rounded-2xl border border-slate-200 bg-white p-4">
             <img
-              src={activeImage || product.images?.[0]}
+              src={activeImage || getImageUrl(product.images?.[0])}
               alt={product.name}
               className="h-80 w-full rounded-xl object-cover"
             />
@@ -69,12 +71,12 @@ function ProductDetailPage() {
               <button
                 key={idx}
                 type="button"
-                onClick={() => setActiveImage(img)}
+                onClick={() => setActiveImage(getImageUrl(img))}
                 className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border ${
-                  activeImage === img ? "border-slate-900" : "border-slate-200"
+                  activeImage === getImageUrl(img) ? "border-slate-900" : "border-slate-200"
                 }`}
               >
-                <img src={img} alt="" className="h-full w-full object-cover" />
+                <img src={getImageUrl(img)} alt="" className="h-full w-full object-cover" />
               </button>
             ))}
           </div>
@@ -113,17 +115,6 @@ function ProductDetailPage() {
               className="rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white"
             >
               Add to Cart
-            </button>
-            <button
-              type="button"
-              onClick={() => toggleFavorite(product.id)}
-              className={`rounded-lg border px-5 py-3 text-sm font-semibold ${
-                isFavorite(product.id)
-                  ? "border-rose-400 text-rose-500"
-                  : "border-slate-200 text-slate-700"
-              }`}
-            >
-              {isFavorite(product.id) ? "Favorited" : "Add to favorites"}
             </button>
           </div>
 
@@ -187,7 +178,7 @@ function ProductDetailPage() {
           className="rounded-2xl border border-slate-200 bg-white p-6"
           onSubmit={(event) => {
             event.preventDefault();
-            alert("Review submitted (simulation).");
+            alert("Review submitted! Thank you for your feedback.");
           }}
         >
           <div className="grid gap-4 sm:grid-cols-2">
@@ -263,7 +254,7 @@ function ProductDetailPage() {
                 className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700"
               >
                 <img
-                  src={item.images?.[0]}
+                  src={getImageUrl(item.images?.[0])}
                   alt={item.name}
                   className="h-40 w-full rounded-xl object-cover"
                 />

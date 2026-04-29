@@ -1,14 +1,26 @@
 import { useEffect, useMemo, useState } from "react";
 import { useCart } from "../../context/CartContext.jsx";
 import { fetchProducts } from "../../services/products.js";
-import { formatPrice } from "../../utils/formatters.js";
+import { formatPrice, getImageUrl } from "../../utils/formatters.js";
 import { printReceipt } from "../../utils/receipt.js";
+import { apiClient } from "../../api/api.js";
+import { useNavigate } from "react-router-dom";
 
 const TAX = 15;
 
 function CheckoutPage() {
     const { items, updateQuantity, removeItem, clearCart } = useCart();
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const [shippingInfo, setShippingInfo] = useState({
+        firstName: "John",
+        lastName: "Doe",
+        address: "123 Main St",
+        city: "New York",
+        postalCode: "10001",
+    });
 
     useEffect(() => {
         let mounted = true;
@@ -31,8 +43,42 @@ function CheckoutPage() {
         (sum, item) => sum + item.unitPrice * item.quantity,
         0,
     );
+    const shipping = subtotal > 0 ? 5 : 0;
     const tax = subtotal * (TAX / 100);
-    const total = subtotal + tax + (subtotal > 0 ? 5 : 0); // Adding $5 flat shipping if total > 0
+    const total = subtotal + tax + shipping;
+
+    const handlePlaceOrder = async () => {
+        setLoading(true);
+        try {
+            const payload = {
+                items: cartItems.map(item => ({
+                    productId: item.productId,
+                    quantity: item.quantity,
+                    price: Math.round(item.unitPrice * 100) // Sent as cents
+                })),
+                shippingAddress: {
+                    fullName: `${shippingInfo.firstName} ${shippingInfo.lastName}`,
+                    addressLine1: shippingInfo.address,
+                    city: shippingInfo.city,
+                    postalCode: shippingInfo.postalCode,
+                    country: "USA" // Default
+                },
+                subtotal: Number(subtotal.toFixed(2)),
+                tax: Number(tax.toFixed(2)),
+                shipping: Number(shipping.toFixed(2)),
+                total: Number(total.toFixed(2))
+            };
+
+            await apiClient.post("/orders", payload);
+            alert("Order placed successfully!");
+            clearCart();
+            navigate("/");
+        } catch (err) {
+            alert("Failed to place order: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
@@ -52,21 +98,23 @@ function CheckoutPage() {
                     </h2>
                     <div className="mt-4 grid gap-4 sm:grid-cols-2">
                         {[
-                            ["First Name", "John"],
-                            ["Last Name", "Doe"],
-                            ["Address", "123 Main St"],
-                            ["City", "New York"],
-                            ["Postal Code", "10001"],
-                        ].map(([label, placeholder], idx) => (
+                            ["firstName", "First Name", "John"],
+                            ["lastName", "Last Name", "Doe"],
+                            ["address", "Address", "123 Main St"],
+                            ["city", "City", "New York"],
+                            ["postalCode", "Postal Code", "10001"],
+                        ].map(([field, label, placeholder], idx) => (
                             <div
                                 key={idx}
-                                className={idx === 2 ? "sm:col-span-2" : ""}
+                                className={field === "address" ? "sm:col-span-2" : ""}
                             >
                                 <label className="text-sm font-semibold text-slate-700">
                                     {label}
                                 </label>
                                 <input
                                     type="text"
+                                    value={shippingInfo[field]}
+                                    onChange={(e) => setShippingInfo({ ...shippingInfo, [field]: e.target.value })}
                                     placeholder={placeholder}
                                     className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
                                 />
@@ -74,6 +122,7 @@ function CheckoutPage() {
                         ))}
                     </div>
                 </div>
+... (rest of the file)
 
                 <div className="rounded-2xl border border-slate-200 bg-white p-6">
                     <h2 className="text-lg font-semibold text-slate-900">
@@ -132,7 +181,7 @@ function CheckoutPage() {
                                     className="flex items-start gap-4 border-b border-slate-100 pb-4"
                                 >
                                     <img
-                                        src={item.image}
+                                        src={getImageUrl(item.image)}
                                         alt={item.name}
                                         className="h-16 w-16 rounded-lg object-cover"
                                     />
@@ -198,15 +247,11 @@ function CheckoutPage() {
                             <div className="mt-4 grid gap-3 sm:grid-cols-2">
                                 <button
                                     type="button"
-                                    onClick={() => {
-                                        alert(
-                                            "Payment simulated — thank you for your purchase!",
-                                        );
-                                        clearCart();
-                                    }}
-                                    className="w-full rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
+                                    disabled={loading}
+                                    onClick={handlePlaceOrder}
+                                    className="w-full rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white disabled:bg-slate-400"
                                 >
-                                    Place Order
+                                    {loading ? "Placing Order..." : "Place Order"}
                                 </button>
                                 <button
                                     type="button"

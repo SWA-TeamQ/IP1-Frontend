@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
-import { useFavorites } from "../context/FavoritesContext.jsx";
-import { formatPrice } from "../utils/formatters.js";
+import { formatPrice, getImageUrl } from "../utils/formatters.js";
 
 function ProductCard({ product }) {
   const { addItem } = useCart();
-  const { isFavorite, toggleFavorite } = useFavorites();
 
   if (!product) return null;
 
-  const image = product.images?.[0] || "";
+  const image = getImageUrl(product.images?.[0]);
   const currentPrice = product.salePrice ?? product.price ?? 0;
   const originalPrice = product.price ?? currentPrice;
   const onSale = originalPrice > currentPrice;
@@ -25,23 +23,13 @@ function ProductCard({ product }) {
             loading="lazy"
           />
         </Link>
-        <button
-          type="button"
-          onClick={() => toggleFavorite(product.id)}
-          className={`absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-semibold ${
-            isFavorite(product.id)
-              ? "bg-rose-500 text-white"
-              : "bg-white/90 text-slate-700"
-          }`}
-        >
-          {isFavorite(product.id) ? "♥" : "♡"}
-        </button>
         {product.category && (
           <span className="absolute left-3 top-3 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white">
             {product.category}
           </span>
         )}
       </div>
+
       <div className="mt-4 flex flex-1 flex-col">
         <h3 className="text-base font-semibold text-slate-900">
           {product.name}

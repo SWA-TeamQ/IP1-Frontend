@@ -11,7 +11,8 @@ function HomePage() {
     let mounted = true;
     fetchProducts()
       .then((list) => {
-        if (mounted) setProducts(list.slice(0, 4));
+        const array = Array.isArray(list) ? list : [];
+        if (mounted) setProducts(array.slice(0, 4));
       })
       .finally(() => {
         if (mounted) setLoading(false);

@@ -19,7 +19,7 @@ function RegisterPage() {
   const updateField = (key, value) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setMessage({ type: "", text: "" });
 
@@ -36,14 +36,11 @@ function RegisterPage() {
       return;
     }
 
-    const result = register({
+    const result = await register({
       firstName: form.firstName,
       lastName: form.lastName,
       email: form.email,
-      phone: form.phone,
       password: form.password,
-      role: 'user',
-      createdAt: new Date().toISOString(),
     });
 
     if (!result.ok) {

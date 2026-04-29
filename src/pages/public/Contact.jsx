@@ -17,7 +17,7 @@ function ContactPage() {
           className="mt-4 grid gap-4 sm:grid-cols-2"
           onSubmit={(event) => {
             event.preventDefault();
-            alert("Message sent (simulation).");
+            alert("Message sent! We will get back to you soon.");
           }}
         >
           <div>

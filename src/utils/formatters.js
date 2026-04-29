@@ -1,3 +1,7 @@
+export function getImageUrl(path) {
+  return path || null;
+}
+
 export function formatPrice(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "0.00";

@@ -1,30 +1,15 @@
-import { storageGetJson, storageSetJson } from "./storage.js";
+const TOKEN_KEY = "token";
 
-const USERS_KEY = "users";
-const SESSION_KEY = "loggedInUser";
-
-export function getUsers() {
-  return storageGetJson(USERS_KEY, []);
+export function getToken() {
+  return localStorage.getItem(TOKEN_KEY);
 }
 
-export function saveUsers(users) {
-  storageSetJson(USERS_KEY, users);
+export function saveToken(token) {
+  localStorage.setItem(TOKEN_KEY, token);
 }
 
-export function getSession() {
-  return storageGetJson(SESSION_KEY, null);
-}
-
-export function saveSession(user) {
-  storageSetJson(SESSION_KEY, user);
-}
-
-export function clearSession() {
-  storageSetJson(SESSION_KEY, null);
-}
-
-export function hashPassword(password) {
-  return btoa(password) + "_" + password.length;
+export function clearToken() {
+  localStorage.removeItem(TOKEN_KEY);
 }
 
 export function isValidEmail(email) {
