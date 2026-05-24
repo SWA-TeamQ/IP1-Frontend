@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { isValidEmail } from "../utils/auth.js";
@@ -9,8 +9,9 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setMessage({ type: "", text: "" });
 
@@ -19,7 +20,10 @@ function LoginPage() {
       return;
     }
 
-    const result = login(email, password);
+    setLoading(true);
+    const result = await login(email, password);
+    setLoading(false);
+
     if (!result.ok) {
       setMessage({ type: "error", text: result.message });
       return;
@@ -64,6 +68,7 @@ function LoginPage() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
+            disabled={loading}
           />
         </div>
         <div>
@@ -76,13 +81,15 @@ function LoginPage() {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
+            disabled={loading}
           />
         </div>
         <button
           type="submit"
-          className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+          className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+          disabled={loading}
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
 

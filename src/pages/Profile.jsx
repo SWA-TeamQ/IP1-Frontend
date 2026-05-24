@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+﻿import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 
 function ProfilePage() {
@@ -21,7 +21,7 @@ function ProfilePage() {
           </Link>
           <Link
             to="/register"
-            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700"
+            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700"       
           >
             Register
           </Link>
@@ -29,6 +29,8 @@ function ProfilePage() {
       </div>
     );
   }
+
+  const fullName = user.fullName || `${user.firstName || ""} ${user.lastName || ""}`.trim() || "ShopLight Member";
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -42,7 +44,7 @@ function ProfilePage() {
       <div className="rounded-2xl border border-slate-200 bg-white p-6">
         <div className="text-sm text-slate-500">Full name</div>
         <div className="text-lg font-semibold text-slate-900">
-          {user.fullName || "ShopLight Member"}
+          {fullName}
         </div>
         <div className="mt-4 text-sm text-slate-500">Email</div>
         <div className="text-sm font-semibold text-slate-900">

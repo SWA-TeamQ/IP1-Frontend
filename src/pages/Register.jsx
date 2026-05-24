@@ -1,46 +1,55 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+﻿import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
-import { isValidEmail, isStrongPassword } from "../utils/auth.js";
+import { isValidEmail } from "../utils/auth.js";
 
 function RegisterPage() {
   const navigate = useNavigate();
   const { register } = useAuth();
-  const [form, setForm] = useState({
-    fullName: "",
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
     password: "",
     confirmPassword: "",
   });
+
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [loading, setLoading] = useState(false);
 
-  const updateField = (key, value) =>
-    setForm((prev) => ({ ...prev, [key]: value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setMessage({ type: "", text: "" });
 
-    if (!isValidEmail(form.email)) {
+    if (!isValidEmail(formData.email)) {
       setMessage({ type: "error", text: "Invalid email address." });
       return;
     }
-    if (!isStrongPassword(form.password)) {
-      setMessage({ type: "error", text: "Password is too weak." });
-      return;
-    }
-    if (form.password !== form.confirmPassword) {
+
+    if (formData.password !== formData.confirmPassword) {
       setMessage({ type: "error", text: "Passwords do not match." });
       return;
     }
 
-    const result = register({
-      fullName: form.fullName,
-      email: form.email,
-      phone: form.phone,
-      password: form.password,
+    if (formData.password.length < 6) {
+      setMessage({ type: "error", text: "Password must be at least 6 characters." });
+      return;
+    }
+
+    setLoading(true);
+    const result = await register({
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
     });
+    setLoading(false);
 
     if (!result.ok) {
       setMessage({ type: "error", text: result.message });
@@ -49,24 +58,17 @@ function RegisterPage() {
 
     setMessage({
       type: "success",
-      text: "Account created successfully. Redirecting to login...",
+      text: "Registration successful! Redirecting to login...",
     });
-    setTimeout(() => navigate("/login"), 1200);
+    setTimeout(() => navigate("/login"), 1500);
   };
 
   return (
     <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
       <div className="text-center">
         <div className="text-lg font-semibold text-slate-900">ShopLight</div>
-        <p className="mt-2 text-sm text-slate-500">
-          Create your shopping account
-        </p>
+        <p className="mt-2 text-sm text-slate-500">Create your account</p>
       </div>
-
-      <h1 className="mt-6 text-2xl font-semibold text-slate-900">
-        Create Account
-      </h1>
-      <p className="mt-2 text-sm text-slate-600">All fields are required</p>
 
       {message.text && (
         <div
@@ -81,77 +83,82 @@ function RegisterPage() {
       )}
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-        <div>
-          <label className="text-sm font-semibold text-slate-700">
-            Full Name
-          </label>
-          <input
-            className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-            value={form.fullName}
-            onChange={(event) => updateField("fullName", event.target.value)}
-            required
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm font-semibold text-slate-700">First Name</label>
+            <input
+              name="firstName"
+              type="text"
+              className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              disabled={loading}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-semibold text-slate-700">Last Name</label>
+            <input
+              name="lastName"
+              type="text"
+              className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+              disabled={loading}
+            />
+          </div>
         </div>
+
         <div>
-          <label className="text-sm font-semibold text-slate-700">Email</label>
+          <label className="text-sm font-semibold text-slate-700">Email Address</label>
           <input
+            name="email"
             type="email"
             className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-            value={form.email}
-            onChange={(event) => updateField("email", event.target.value)}
+            value={formData.email}
+            onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
+
         <div>
-          <label className="text-sm font-semibold text-slate-700">
-            Phone Number
-          </label>
+          <label className="text-sm font-semibold text-slate-700">Password</label>
           <input
-            type="tel"
-            className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-            value={form.phone}
-            onChange={(event) => updateField("phone", event.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="text-sm font-semibold text-slate-700">
-            Password
-          </label>
-          <input
+            name="password"
             type="password"
             className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-            value={form.password}
-            onChange={(event) => updateField("password", event.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             required
+            disabled={loading}
           />
-          <p className="mt-1 text-xs text-slate-500">
-            Min 8 chars, uppercase, lowercase & number
-          </p>
         </div>
+
         <div>
-          <label className="text-sm font-semibold text-slate-700">
-            Confirm Password
-          </label>
+          <label className="text-sm font-semibold text-slate-700">Confirm Password</label>
           <input
+            name="confirmPassword"
             type="password"
             className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-            value={form.confirmPassword}
-            onChange={(event) =>
-              updateField("confirmPassword", event.target.value)
-            }
+            value={formData.confirmPassword}
+            onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
+
         <button
           type="submit"
-          className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+          className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+          disabled={loading}
         >
-          Create Account
+          {loading ? "Creating account..." : "Register"}
         </button>
       </form>
 
-      <div className="mt-6 text-sm text-slate-600">
+      <div className="mt-6 text-center text-sm text-slate-600">
         Already have an account?{" "}
         <Link to="/login" className="font-semibold text-slate-900">
           Login

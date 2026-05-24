@@ -1,4 +1,4 @@
-import { apiClient } from "./api.js";
+﻿import { apiClient } from "./api.js";
 import { PRODUCTS } from "../data/products.js";
 
 const PRODUCTS_API_ENDPOINT = "/products";
@@ -8,11 +8,19 @@ let cache = [];
 function normalizeProduct(p) {
   return {
     ...p,
-    images: p.images ?? (p.image ? [p.image] : []),
-    details: p.details ?? {},
+    id: p.id ?? "",
     name: p.name ?? "",
     description: p.description ?? "",
-    id: p.id ?? "",
+    price: p.price ?? (p.priceCents ? p.priceCents / 100 : 0),
+    salePrice: p.salePrice ?? (p.salePriceCents ? p.salePriceCents / 100 : null),
+    images: p.images ?? (p.image ? [p.image] : []),
+    details: {
+      ...p.details,
+      category: p.category ?? p.details?.category ?? "",
+      rating: p.rating ?? p.details?.rating ?? 0,
+      reviewCount: p.reviewCount ?? p.details?.reviewCount ?? 0,
+    },
+    reviews: p.reviews ?? [],
   };
 }
 
@@ -20,7 +28,9 @@ export async function fetchProducts({ fresh = false } = {}) {
   if (cache.length > 0 && !fresh) return cache;
   try {
     const res = await apiClient.get(PRODUCTS_API_ENDPOINT);
-    cache = (res.data || []).map(normalizeProduct);
+    // res.data.data because the backend wraps success in { status, message, data }
+    const rawData = res.data?.data || res.data || [];
+    cache = rawData.map(normalizeProduct);
   } catch (err) {
     console.warn("fetchProducts failed, using local fallback:", err);
     cache = PRODUCTS.map(normalizeProduct);
@@ -29,8 +39,16 @@ export async function fetchProducts({ fresh = false } = {}) {
 }
 
 export async function getProductById(id) {
+  try {
+    const res = await apiClient.get(`${PRODUCTS_API_ENDPOINT}/${id}`);
+    const rawData = res.data?.data || res.data;
+    if (rawData) return normalizeProduct(rawData);
+  } catch (err) {
+    console.warn(`getProductById ${id} failed, searching local cache:`, err);
+  }
+  
   const list = await fetchProducts();
-  return list.find((p) => p.id === id);
+  return list.find((p) => String(p.id) === String(id));
 }
 
 export function getCategories(products) {
