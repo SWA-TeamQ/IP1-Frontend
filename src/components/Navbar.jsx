@@ -57,6 +57,13 @@ function Navbar() {
                 Contact
               </NavLink>
             </li>
+            {user?.role === "admin" && (
+              <li>
+                <NavLink to="/admin" className="text-sm font-bold text-blue-600 transition hover:text-blue-800">
+                  Admin
+                </NavLink>
+              </li>
+            )}
           </ul>
         </nav>
 

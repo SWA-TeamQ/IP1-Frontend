@@ -14,6 +14,13 @@ import RegisterPage from "./pages/Register.jsx";
 import ForgotPasswordPage from "./pages/ForgotPassword.jsx";
 import NotFoundPage from "./pages/NotFound.jsx";
 
+// Admin Imports
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AdminLayout from "./components/AdminLayout.jsx";
+import AdminDashboard from "./pages/Admin/Dashboard.jsx";
+import AdminProducts from "./pages/Admin/Products.jsx";
+import AdminOrders from "./pages/Admin/Orders.jsx";
+
 function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -27,10 +34,28 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={
+            <ProtectedRoute adminOnly>
+              <AdminLayout />
+            </ProtectedRoute>
+          }>
+            <Route index element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="orders" element={<AdminOrders />} />
+          </Route>
+
           <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
