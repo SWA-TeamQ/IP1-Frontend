@@ -1,30 +1,52 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useMemo, useState } from "react";
-import { storageGetJson, storageSetJson } from "../utils/storage.js";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useAuth } from "./AuthContext.jsx";
+import { apiClient } from "../services/api.js";
 
 const FavoritesContext = createContext(null);
-const STORAGE_KEY = "favorites";
-
-function loadFavorites() {
-  return new Set(storageGetJson(STORAGE_KEY, []));
-}
-
-function persistFavorites(set) {
-  storageSetJson(STORAGE_KEY, Array.from(set));
-}
 
 export function FavoritesProvider({ children }) {
-  const [favorites, setFavorites] = useState(loadFavorites());
+  const { user } = useAuth();
+  const [favorites, setFavorites] = useState(new Set());
 
-  const toggleFavorite = (id) => {
+  useEffect(() => {
+    if (user) {
+      fetchFavorites();
+    } else {
+      setFavorites(new Set());
+    }
+  }, [user]);
+
+  const fetchFavorites = async () => {
+    try {
+      const res = await apiClient.get("/favorites");
+      const ids = (res.data.data || []).map(p => p.id);
+      setFavorites(new Set(ids));
+    } catch (err) {
+      console.error("Failed to fetch favorites:", err);
+    }
+  };
+
+  const toggleFavorite = async (id) => {
     if (!id) return;
-    setFavorites((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      persistFavorites(next);
-      return next;
-    });
+    if (!user) {
+      // For guests, we could use localStorage, but let's stick to backend for now
+      return;
+    }
+
+    try {
+      const res = await apiClient.post(`/favorites/${id}`);
+      const isFavorited = res.data.data.favorited;
+      
+      setFavorites((prev) => {
+        const next = new Set(prev);
+        if (isFavorited) next.add(id);
+        else next.delete(id);
+        return next;
+      });
+    } catch (err) {
+      console.error("Failed to toggle favorite:", err);
+    }
   };
 
   const list = useMemo(() => Array.from(favorites), [favorites]);
