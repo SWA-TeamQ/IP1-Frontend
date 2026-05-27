@@ -15,8 +15,8 @@ import RegisterPage from "./pages/auth/Register.jsx";
 import ForgotPasswordPage from "./pages/auth/ForgotPassword.jsx";
 import NotFoundPage from "./pages/public/NotFound.jsx";
 
-import AdminDashboard from "./pages/admin/Dashboard.jsx";
-import ProductManagement from "./pages/admin/ProductManagement.jsx";
+import OrderManagement from "./pages/admin/OrderManagement.jsx";
+import ReviewManagement from "./pages/admin/ReviewManagement.jsx";
 
 function App() {
     return (
@@ -41,8 +41,8 @@ function App() {
             <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="products" element={<ProductManagement />} />
-                <Route path="orders" element={<div className="p-4 bg-white rounded-xl border border-slate-200">Orders Management (Coming Soon)</div>} />
-                <Route path="reviews" element={<div className="p-4 bg-white rounded-xl border border-slate-200">Reviews Management (Coming Soon)</div>} />
+                <Route path="orders" element={<OrderManagement />} />
+                <Route path="reviews" element={<ReviewManagement />} />
             </Route>
 
             {/* Fallback */}
