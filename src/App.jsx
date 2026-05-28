@@ -18,7 +18,7 @@ import NotFoundPage from "./pages/NotFound.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
 import AdminDashboard from "./pages/Admin/Dashboard.jsx";
-import AdminProducts from "./pages/Admin/Products.jsx";
+import AdminProducts from "./pages/Admin/AdminProducts.jsx";
 import AdminOrders from "./pages/Admin/Orders.jsx";
 
 function App() {

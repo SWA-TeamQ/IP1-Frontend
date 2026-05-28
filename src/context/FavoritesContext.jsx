@@ -8,16 +8,7 @@ const FavoritesContext = createContext(null);
 export function FavoritesProvider({ children }) {
   const { user } = useAuth();
   const [favorites, setFavorites] = useState(new Set());
-
-  useEffect(() => {
-    if (user) {
-      fetchFavorites();
-    } else {
-      setFavorites(new Set());
-    }
-  }, [user]);
-
-  const fetchFavorites = async () => {
+  async function fetchFavorites() {
     try {
       const res = await apiClient.get("/favorites");
       const ids = (res.data.data || []).map(p => p.id);
@@ -26,13 +17,23 @@ export function FavoritesProvider({ children }) {
       console.error("Failed to fetch favorites:", err);
     }
   };
+  
+  useEffect(() => {
+    if (user) {
+      fetchFavorites();
+    } else {
+      setFavorites(new Set());
+    }
+  }, [user]);
+
+
 
   const toggleFavorite = async (id) => {
     if (!id) return;
-    if (!user) {
-      // For guests, we could use localStorage, but let's stick to backend for now
-      return;
-    }
+if (!user) {
+  alert("Please log in to save your favorite products!");
+  return;
+}
 
     try {
       const res = await apiClient.post(`/favorites/${id}`);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchProducts } from "../../services/products.js";
 import { apiClient } from "../../services/api.js";
 import { useToast } from "../../context/ToastContext.jsx";
@@ -10,16 +10,22 @@ function AdminProducts() {
   const [editingProduct, setEditingProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // 1. Wrap loadProducts in useCallback to satisfy dependency rules
+  const loadProducts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await fetchProducts({ fresh: true });
+      setProducts(data);
+    } catch  {
+      addToast("Failed to fetch products", "error");
+    } finally {
+      setLoading(false);
+    }
+  }, [addToast]);
+
   useEffect(() => {
     loadProducts();
-  }, []);
-
-  const loadProducts = async () => {
-    setLoading(true);
-    const data = await fetchProducts({ fresh: true });
-    setProducts(data);
-    setLoading(false);
-  };
+  }, [loadProducts]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
@@ -27,7 +33,7 @@ function AdminProducts() {
       await apiClient.delete(`/products/${id}`);
       setProducts(products.filter((p) => p.id !== id));
       addToast("Product deleted successfully", "success");
-    } catch (err) {
+    } catch {
       addToast("Failed to delete product", "error");
     }
   };
@@ -35,12 +41,18 @@ function AdminProducts() {
   const handleSave = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+
+    // Get the raw value and ensure it is parsed as a number correctly
+    const rawStock = formData.get("stock_quantity");
+    const stockQuantity = parseInt(rawStock, 10);
+
     const productData = {
       name: formData.get("name"),
       description: formData.get("description"),
       price_cents: Math.round(parseFloat(formData.get("price")) * 100),
       category: formData.get("category"),
-      stock_quantity: parseInt(formData.get("stock_quantity")),
+      // Fallback to 0 if NaN, otherwise use the parsed value
+      stock_quantity: isNaN(stockQuantity) ? 0 : stockQuantity,
       images: [formData.get("image")],
     };
 
@@ -55,10 +67,11 @@ function AdminProducts() {
       setIsModalOpen(false);
       setEditingProduct(null);
       loadProducts();
-    } catch (err) {
+    } catch  {
       addToast("Failed to save product", "error");
     }
   };
+
 
   return (
     <div className="space-y-6">
@@ -90,9 +103,9 @@ function AdminProducts() {
             {products.map((p) => (
               <tr key={p.id}>
                 <td className="p-4 font-medium">{p.name}</td>
-                <td className="p-4">{p.details.category}</td>
-                <td className="p-4">${p.price.toFixed(2)}</td>
-                <td className="p-4">{p.stock_quantity || 0}</td>
+                <td className="p-4">{p.category}</td>
+                <td className="p-4">${(p.priceCents / 100).toFixed(2)}</td>
+                <td className="p-4">{p.stockQuantity || 0}</td>
                 <td className="p-4 space-x-2">
                   <button
                     onClick={() => {
